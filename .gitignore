@@ -1,0 +1,17 @@
+obj/
+bin/
+
+*.user
+.vs/
+
+**/Resources/Resource.designer.cs
+*.txt
+
+*.swp
+
+CLAUDE.md
+/.claude
+/build
+/.tmp
+/ReferenceProjects
+/.playwright-cli
