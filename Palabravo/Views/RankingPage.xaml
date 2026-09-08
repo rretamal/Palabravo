@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Palabravo.Views.RankingPage"
+             Title="Ranking">
+    <Grid RowDefinitions="Auto,*" Padding="20,18,20,14" MaximumWidthRequest="540">
+        <VerticalStackLayout Spacing="5" Margin="0,0,0,14">
+            <Label Text="Ranking diario" Style="{StaticResource PageTitle}" />
+            <Label Text="{Binding NextResetText}" TextColor="{StaticResource Muted}" FontSize="12" />
+        </VerticalStackLayout>
+
+        <RefreshView Grid.Row="1" Command="{Binding LoadCommand}" IsRefreshing="{Binding IsLoading}">
+            <ScrollView>
+                <VerticalStackLayout Spacing="12" Padding="0,0,0,18">
+                    <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource CoralSoft}" Padding="16"
+                            IsVisible="{Binding ShowMyPosition}">
+                        <Grid ColumnDefinitions="54,*,Auto" ColumnSpacing="12">
+                            <Border HeightRequest="48" WidthRequest="48" BackgroundColor="{StaticResource Coral}" Stroke="Transparent">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                                <Label Text="{Binding MyRank}" TextColor="White" FontFamily="OpenSansSemibold"
+                                       FontSize="14" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                                <Label Text="TU POSICIÓN" Style="{StaticResource Eyebrow}" TextColor="{StaticResource Coral}" />
+                                <Label Text="{Binding MyName}" FontFamily="OpenSansSemibold" FontSize="16" />
+                                <Label Text="{Binding MyResult}" FontSize="11" TextColor="{StaticResource Muted}" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2" Text="✦" FontSize="24" TextColor="{StaticResource Coral}"
+                                   VerticalTextAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <VerticalStackLayout IsVisible="{Binding HasEntries}" Spacing="8">
+                        <Grid ColumnDefinitions="50,*,Auto" Padding="10,0">
+                            <Label Text="POS." Style="{StaticResource Eyebrow}" />
+                            <Label Grid.Column="1" Text="JUGADOR" Style="{StaticResource Eyebrow}" />
+                            <Label Grid.Column="2" Text="RESULTADO" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="End" />
+                        </Grid>
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Entries}" Spacing="8">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BackgroundColor="{Binding BackgroundColor}" Stroke="{StaticResource Border}"
+                                            StrokeThickness="1" Padding="12,10">
+                                        <Border.StrokeShape><RoundRectangle CornerRadius="17" /></Border.StrokeShape>
+                                        <Grid ColumnDefinitions="46,*,Auto" ColumnSpacing="10">
+                                            <Label Text="{Binding Rank}" TextColor="{Binding RankColor}"
+                                                   FontFamily="LoraSemibold" FontSize="18"
+                                                   VerticalTextAlignment="Center" />
+                                            <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                                                <Label Text="{Binding Name}" FontFamily="OpenSansSemibold" FontSize="14"
+                                                       LineBreakMode="TailTruncation" />
+                                                <Label Text="{Binding Details}" FontSize="10" TextColor="{StaticResource Muted}" />
+                                            </VerticalStackLayout>
+                                            <Label Grid.Column="2" Text="{Binding MedalIcon}" FontSize="25"
+                                                   VerticalTextAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <Border Style="{StaticResource Card}" IsVisible="{Binding ShowEmpty}" Padding="22,30">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="♛" FontSize="45" TextColor="{StaticResource Mustard}" HorizontalTextAlignment="Center" />
+                            <Label Text="Sé el primero de hoy" FontFamily="LoraSemibold" FontSize="23"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Completa el reto diario y tu mejor resultado aparecerá aquí."
+                                   TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}" IsVisible="{Binding ShowError}" Padding="22,28">
+                        <VerticalStackLayout Spacing="9">
+                            <Label Text="☁" FontSize="42" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                            <Label Text="Ranking no disponible" FontFamily="LoraSemibold" FontSize="22"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Muted}"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Puedes seguir jugando; tu progreso permanece guardado en el dispositivo."
+                                   FontSize="11" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                            <Button Text="Intentar nuevamente" Command="{Binding LoadCommand}" Margin="0,8,0,0" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}"
+                                       Color="{StaticResource Coral}" HeightRequest="48" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

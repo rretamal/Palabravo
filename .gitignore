@@ -15,3 +15,10 @@ CLAUDE.md
 /.tmp
 /ReferenceProjects
 /.playwright-cli
+/.DS_Store
+/Web/node_modules/
+/Web/dist/
+/Web/api/node_modules/
+/Web/api/dist/
+/Web/api/local.settings.json
+/Web/.playwright-cli

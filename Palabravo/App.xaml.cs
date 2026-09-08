@@ -1,17 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+namespace Palabravo;
 
-namespace Palabravo
+public partial class App : Application
 {
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
-        }
+    private readonly AppShell _shell;
 
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
-        }
+    public App(AppShell shell)
+    {
+        InitializeComponent();
+        UserAppTheme = AppTheme.Light;
+        _shell = shell;
     }
+
+    protected override Window CreateWindow(IActivationState? activationState) => new(_shell);
 }

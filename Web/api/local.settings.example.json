@@ -1,0 +1,13 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "PLAYFAB_TITLE_ID": "153ECF",
+    "PLAYFAB_SECRET_KEY": "replace-me",
+    "RESEND_API_KEY": "replace-me",
+    "RESEND_FROM": "Palabravo <hello@palabravo.app>",
+    "PRIVACY_REQUEST_TO": "hello@palabravo.app",
+    "PUBLIC_SITE_URL": "http://localhost:4280"
+  }
+}

@@ -1,0 +1,272 @@
+[
+  {
+    "id": "puzzle-01", "order": 1, "contentVersion": 1, "rank": "novato", "title": "Primeras conexiones", "difficulty": "Fácil",
+    "groups": [
+      { "category": "Planetas", "hint": "Mira más allá de la Tierra.", "words": ["MARTE", "VENUS", "SATURNO", "NEPTUNO"] },
+      { "category": "Instrumentos de cuerda", "hint": "Suenan al pulsar o frotar cuerdas.", "words": ["GUITARRA", "VIOLÍN", "ARPA", "VIOLONCHELO"] },
+      { "category": "Cítricos", "hint": "Comparten un sabor fresco y ácido.", "words": ["LIMÓN", "NARANJA", "MANDARINA", "POMELO"] },
+      { "category": "Capitales sudamericanas", "hint": "Cuatro ciudades que son sede de gobierno.", "words": ["LIMA", "QUITO", "BOGOTÁ", "ASUNCIÓN"] }
+    ]
+  },
+  {
+    "id": "puzzle-02", "order": 2, "contentVersion": 1, "rank": "novato", "title": "Entre mares y tableros", "difficulty": "Fácil",
+    "groups": [
+      { "category": "Océanos", "hint": "Grandes extensiones de agua salada.", "words": ["PACÍFICO", "ATLÁNTICO", "ÍNDICO", "ÁRTICO"] },
+      { "category": "Metales", "hint": "Materiales presentes en herramientas y monedas.", "words": ["COBRE", "HIERRO", "PLATA", "ZINC"] },
+      { "category": "Tipos de pan", "hint": "Se encuentran en una panadería internacional.", "words": ["BAGUETTE", "PITA", "BRIOCHE", "CIABATTA"] },
+      { "category": "Piezas de ajedrez", "hint": "Se mueven sobre un tablero de 64 casillas.", "words": ["TORRE", "ALFIL", "CABALLO", "PEÓN"] }
+    ]
+  },
+  {
+    "id": "puzzle-03", "order": 3, "contentVersion": 1, "rank": "novato", "title": "Formas de cada día", "difficulty": "Fácil",
+    "groups": [
+      { "category": "Figuras geométricas", "hint": "Piensa en contornos básicos.", "words": ["TRIÁNGULO", "CUADRADO", "CÍRCULO", "RECTÁNGULO"] },
+      { "category": "Razas de perro", "hint": "Cuatro compañeros caninos.", "words": ["BEAGLE", "LABRADOR", "CANICHE", "PASTOR ALEMÁN"] },
+      { "category": "Meses", "hint": "Aparecen separados por tres meses en el calendario.", "words": ["ENERO", "ABRIL", "JULIO", "OCTUBRE"] },
+      { "category": "Colores", "hint": "Cuatro tonos muy conocidos.", "words": ["ROJO", "AZUL", "VERDE", "AMARILLO"] }
+    ]
+  },
+  {
+    "id": "puzzle-04", "order": 4, "contentVersion": 1, "rank": "novato", "title": "Sonidos y movimiento", "difficulty": "Fácil",
+    "groups": [
+      { "category": "Mamíferos", "hint": "Todos alimentan a sus crías de la misma manera.", "words": ["DELFÍN", "ELEFANTE", "JIRAFA", "BALLENA"] },
+      { "category": "Deportes", "hint": "Actividades que pueden ser competitivas.", "words": ["TENIS", "FÚTBOL", "NATACIÓN", "CICLISMO"] },
+      { "category": "Frutas", "hint": "Cuatro opciones para una ensalada dulce.", "words": ["MANZANA", "PERA", "UVA", "MANGO"] },
+      { "category": "Instrumentos musicales", "hint": "Todos producen música, aunque de maneras distintas.", "words": ["TROMPETA", "CLARINETE", "TAMBOR", "FLAUTA"] }
+    ]
+  },
+  {
+    "id": "puzzle-05", "order": 5, "contentVersion": 1, "rank": "novato", "title": "Objetos cercanos", "difficulty": "Fácil",
+    "groups": [
+      { "category": "Cocina", "hint": "Se usan para preparar o servir alimentos.", "words": ["CUCHARA", "SARTÉN", "CUCHILLO", "ESPÁTULA"] },
+      { "category": "Partes del cuerpo", "hint": "Son articulaciones o zonas de las extremidades.", "words": ["RODILLA", "CODO", "TOBILLO", "MUÑECA"] },
+      { "category": "Útiles escolares", "hint": "Podrían estar juntos en una mochila.", "words": ["CUADERNO", "LÁPIZ", "REGLA", "GOMA"] },
+      { "category": "Clima", "hint": "Fenómenos que cambian el aspecto del día.", "words": ["LLUVIA", "NIEVE", "VIENTO", "NIEBLA"] }
+    ]
+  },
+  {
+    "id": "puzzle-06", "order": 6, "contentVersion": 1, "rank": "agil", "title": "Brillo, ritmo y poder", "difficulty": "Media",
+    "groups": [
+      { "category": "Gemas", "hint": "Piedras apreciadas por su color y brillo.", "words": ["RUBÍ", "ZAFIRO", "ESMERALDA", "AMATISTA"] },
+      { "category": "Dioses griegos", "hint": "Busca nombres del Olimpo.", "words": ["ZEUS", "HERA", "ARES", "HERMES"] },
+      { "category": "Bailes", "hint": "Cuatro ritmos para moverse en pareja.", "words": ["TANGO", "SALSA", "BACHATA", "MERENGUE"] },
+      { "category": "Palos de baraja", "hint": "Forman las cuatro familias de una baraja francesa.", "words": ["CORAZONES", "DIAMANTES", "TRÉBOLES", "PICAS"] }
+    ]
+  },
+  {
+    "id": "puzzle-07", "order": 7, "contentVersion": 1, "rank": "agil", "title": "Vuelo y oficio", "difficulty": "Media",
+    "groups": [
+      { "category": "Aves", "hint": "Todas tienen alas y pico.", "words": ["ÁGUILA", "HALCÓN", "BÚHO", "CÓNDOR"] },
+      { "category": "Países", "hint": "Cuatro naciones de continentes distintos.", "words": ["CANADÁ", "CHILE", "JAPÓN", "BRASIL"] },
+      { "category": "Herramientas", "hint": "Podrían encontrarse en una caja de trabajo.", "words": ["MARTILLO", "DESTORNILLADOR", "ALICATE", "LLAVE INGLESA"] },
+      { "category": "Días de la semana", "hint": "Cuatro posiciones dentro de una semana.", "words": ["DOMINGO", "LUNES", "MIÉRCOLES", "VIERNES"] }
+    ]
+  },
+  {
+    "id": "puzzle-08", "order": 8, "contentVersion": 1, "rank": "agil", "title": "Rutas por tierra y cielo", "difficulty": "Media",
+    "groups": [
+      { "category": "Capitales europeas", "hint": "Ciudades que encabezan países de Europa.", "words": ["PARÍS", "ROMA", "MADRID", "LISBOA"] },
+      { "category": "Planetas interiores", "hint": "Orbitan antes del cinturón de asteroides.", "words": ["MERCURIO", "VENUS", "TIERRA", "MARTE"] },
+      { "category": "Árboles", "hint": "Todos tienen madera y raíces.", "words": ["ROBLE", "PINO", "ABETO", "CEDRO"] },
+      { "category": "Deportes", "hint": "Se practican con pelota, disco o raqueta.", "words": ["GOLF", "RUGBY", "HOCKEY", "TENIS"] }
+    ]
+  },
+  {
+    "id": "puzzle-09", "order": 9, "contentVersion": 1, "rank": "agil", "title": "Teclas, telas y voces", "difficulty": "Media",
+    "groups": [
+      { "category": "Hardware y accesorios de computador", "hint": "Se relacionan con un equipo informático.", "words": ["BATERÍA", "TECLADO", "MONITOR", "RATÓN"] },
+      { "category": "Ropa", "hint": "Son prendas de vestir.", "words": ["CAMISA", "PANTALÓN", "ABRIGO", "FALDA"] },
+      { "category": "Grandes felinos", "hint": "Cuatro cazadores de la familia de los gatos.", "words": ["LEÓN", "TIGRE", "JAGUAR", "LEOPARDO"] },
+      { "category": "Voces", "hint": "Registros usados para clasificar cantantes.", "words": ["SOPRANO", "CONTRALTO", "TENOR", "BAJO"] }
+    ]
+  },
+  {
+    "id": "puzzle-10", "order": 10, "contentVersion": 1, "rank": "agil", "title": "El engaño de Mercurio", "difficulty": "Media",
+    "groups": [
+      { "category": "Especias", "hint": "Dan aroma y sabor a una receta.", "words": ["CANELA", "COMINO", "ORÉGANO", "PAPRIKA"] },
+      { "category": "Planetas", "hint": "No todos los nombres planetarios pertenecen aquí.", "words": ["MARTE", "VENUS", "SATURNO", "JÚPITER"] },
+      { "category": "Ríos", "hint": "Grandes cursos de agua de distintos continentes.", "words": ["AMAZONAS", "NILO", "DANUBIO", "YANGTSÉ"] },
+      { "category": "Metales", "hint": "Uno de ellos también mira al cielo.", "words": ["PLATA", "COBRE", "ORO", "MERCURIO"] }
+    ]
+  },
+  {
+    "id": "puzzle-11", "order": 11, "contentVersion": 1, "rank": "ingenioso", "title": "Nombres con doble vida", "difficulty": "Media alta",
+    "groups": [
+      { "category": "Modelos de auto con nombre de animal", "hint": "Animales que también aparecen en carreteras.", "words": ["MUSTANG", "PANDA", "BEETLE", "IMPALA"] },
+      { "category": "Lenguajes de programación", "hint": "Sirven para escribir software.", "words": ["PYTHON", "RUBY", "SWIFT", "JAVA"] },
+      { "category": "Empresas tecnológicas", "hint": "Compañías conocidas del mundo digital.", "words": ["META", "ORACLE", "APPLE", "AMAZON"] },
+      { "category": "Planetas", "hint": "Cuatro vecinos del sistema solar.", "words": ["MARTE", "VENUS", "JÚPITER", "SATURNO"] }
+    ]
+  },
+  {
+    "id": "puzzle-12", "order": 12, "contentVersion": 1, "rank": "ingenioso", "title": "Sobre nuestras cabezas", "difficulty": "Media alta",
+    "groups": [
+      { "category": "Tipos de nubes", "hint": "Clasificaciones de formas visibles en el cielo.", "words": ["CIRRO", "CÚMULO", "ESTRATO", "NIMBO"] },
+      { "category": "Partes de una casa", "hint": "Elementos de una construcción doméstica.", "words": ["TECHO", "PUERTA", "VENTANA", "ESCALERA"] },
+      { "category": "Valores de baraja", "hint": "Figuras o valores presentes en los naipes.", "words": ["REY", "DAMA", "JOTA", "AS"] },
+      { "category": "Ingredientes comunes del guacamole", "hint": "Podrían terminar juntos en un mortero.", "words": ["AGUACATE", "TOMATE", "CEBOLLA", "LIMÓN"] }
+    ]
+  },
+  {
+    "id": "puzzle-13", "order": 13, "contentVersion": 1, "rank": "ingenioso", "title": "Mitos y constelaciones", "difficulty": "Media alta",
+    "groups": [
+      { "category": "Criaturas míticas", "hint": "Existen en leyendas, no en zoológicos.", "words": ["DRAGÓN", "UNICORNIO", "SIRENA", "FÉNIX"] },
+      { "category": "Frutos del bosque", "hint": "Pequeños frutos frecuentes en postres.", "words": ["FRESA", "MORA", "FRAMBUESA", "ARÁNDANO"] },
+      { "category": "Planetas", "hint": "Cuatro cuerpos que orbitan el Sol.", "words": ["MARTE", "VENUS", "SATURNO", "JÚPITER"] },
+      { "category": "Instrumentos de cuerda frotada", "hint": "Una familia que suele tocarse con arco.", "words": ["VIOLÍN", "VIOLA", "CHELO", "CONTRABAJO"] }
+    ]
+  },
+  {
+    "id": "puzzle-14", "order": 14, "contentVersion": 1, "rank": "ingenioso", "title": "Una palabra delante", "difficulty": "Media alta",
+    "groups": [
+      { "category": "AGUA ___", "hint": "Completa cuatro expresiones que empiezan con «agua».", "words": ["DULCE", "MINERAL", "POTABLE", "OXIGENADA"] },
+      { "category": "LUNA ___", "hint": "Completa cuatro expresiones que empiezan con «luna».", "words": ["LLENA", "NUEVA", "ROJA", "AZUL"] },
+      { "category": "CAFÉ ___", "hint": "Cuatro maneras de pedir o describir café.", "words": ["SOLO", "CORTADO", "LARGO", "IRLANDÉS"] },
+      { "category": "PAN ___", "hint": "Cuatro expresiones que empiezan con «pan».", "words": ["BLANCO", "INTEGRAL", "RALLADO", "PITA"] }
+    ]
+  },
+  {
+    "id": "puzzle-15", "order": 15, "contentVersion": 1, "rank": "ingenioso", "title": "Parejas inseparables", "difficulty": "Media alta",
+    "groups": [
+      { "category": "GATO ___", "hint": "Estas palabras pueden seguir a «gato».", "words": ["SIAMÉS", "MONTÉS", "HIDRÁULICO", "ENCERRADO"] },
+      { "category": "CARTA ___", "hint": "Estas palabras pueden seguir a «carta».", "words": ["MAGNA", "BLANCA", "NATAL", "ASTRAL"] },
+      { "category": "LLAVE ___", "hint": "Estas palabras pueden seguir a «llave».", "words": ["INGLESA", "MAESTRA", "ALLEN", "PASO"] },
+      { "category": "PUNTO ___", "hint": "Estas palabras pueden seguir a «punto».", "words": ["FINAL", "CIEGO", "MUERTO", "CARDINAL"] }
+    ]
+  },
+  {
+    "id": "puzzle-16", "order": 16, "contentVersion": 1, "rank": "experto", "title": "Todo cambia de color", "difficulty": "Difícil",
+    "groups": [
+      { "category": "___ DE ORO", "hint": "Cuatro expresiones terminan con el metal más premiado.", "words": ["BALÓN", "GLOBO", "EDAD", "FIEBRE"] },
+      { "category": "___ NEGRO/A", "hint": "Busca expresiones completadas por un color oscuro.", "words": ["AGUJERO", "MERCADO", "OVEJA", "CAJA"] },
+      { "category": "___ VERDE", "hint": "Cuatro expresiones comparten el color de la naturaleza.", "words": ["TÉ", "LUZ", "MAREA", "ZONA"] },
+      { "category": "___ ROJO/A", "hint": "Cuatro expresiones comparten un color intenso.", "words": ["ALFOMBRA", "TARJETA", "PLANETA", "ALERTA"] }
+    ]
+  },
+  {
+    "id": "puzzle-17", "order": 17, "contentVersion": 1, "rank": "experto", "title": "Del cuerpo al paisaje", "difficulty": "Difícil",
+    "groups": [
+      { "category": "Términos del cuerpo usados en geografía u objetos", "hint": "El cuerpo presta estas palabras a otras cosas.", "words": ["BOCA", "BRAZO", "CUELLO", "PIE"] },
+      { "category": "Partes de un libro", "hint": "Ayudan a organizar una obra escrita.", "words": ["PORTADA", "ÍNDICE", "CAPÍTULO", "PRÓLOGO"] },
+      { "category": "Acciones de cocina", "hint": "Verbos habituales al seguir una receta.", "words": ["BATIR", "HERVIR", "PICAR", "SOFREÍR"] },
+      { "category": "Fenómenos meteorológicos", "hint": "Pueden aparecer durante un cambio de tiempo.", "words": ["GRANIZO", "TRUENO", "RELÁMPAGO", "NIEBLA"] }
+    ]
+  },
+  {
+    "id": "puzzle-18", "order": 18, "contentVersion": 1, "rank": "experto", "title": "De pies a cabeza", "difficulty": "Difícil",
+    "groups": [
+      { "category": "CABEZA DE ___", "hint": "Cuatro expresiones comienzan con «cabeza de».", "words": ["AJO", "SERIE", "FAMILIA", "LISTA"] },
+      { "category": "OJO DE ___", "hint": "Cuatro expresiones comienzan con «ojo de».", "words": ["BUEY", "PEZ", "AGUJA", "CERRADURA"] },
+      { "category": "COLA DE ___", "hint": "Cuatro expresiones comienzan con «cola de».", "words": ["CABALLO", "COMETA", "PAVO", "RATÓN"] },
+      { "category": "PIE DE ___", "hint": "Cuatro expresiones comienzan con «pie de».", "words": ["PÁGINA", "CAMA", "FOTO", "MONTE"] }
+    ]
+  },
+  {
+    "id": "puzzle-19", "order": 19, "contentVersion": 1, "rank": "experto", "title": "Prefijos en acción", "difficulty": "Difícil",
+    "groups": [
+      { "category": "CONTRA___", "hint": "Añade el mismo prefijo de oposición.", "words": ["RELOJ", "ATAQUE", "GOLPE", "LUZ"] },
+      { "category": "SOBRE___", "hint": "Añade un prefijo que también indica exceso o posición superior.", "words": ["MESA", "DOSIS", "PESO", "NOMBRE"] },
+      { "category": "SUB___", "hint": "Añade el prefijo que sugiere estar debajo.", "words": ["SUELO", "MARINO", "TÍTULO", "CAMPEÓN"] },
+      { "category": "AUTO___", "hint": "Añade un prefijo que remite a uno mismo.", "words": ["ESTIMA", "RETRATO", "DEFENSA", "BIOGRAFÍA"] }
+    ]
+  },
+  {
+    "id": "puzzle-20", "order": 20, "contentVersion": 1, "rank": "experto", "title": "Medidas relativas", "difficulty": "Difícil",
+    "groups": [
+      { "category": "MEDIA ___", "hint": "Cuatro expresiones empiezan con «media».", "words": ["LUNA", "NARANJA", "DOCENA", "NOCHE"] },
+      { "category": "ALTA ___", "hint": "Cuatro expresiones empiezan con «alta».", "words": ["MAR", "TENSIÓN", "COSTURA", "FIDELIDAD"] },
+      { "category": "BAJO ___", "hint": "Cuatro expresiones empiezan con «bajo».", "words": ["CONSUMO", "PERFIL", "COSTO", "PRESIÓN"] },
+      { "category": "GRAN ___", "hint": "Cuatro expresiones empiezan con «gran».", "words": ["PREMIO", "HERMANO", "MAESTRO", "FINAL"] }
+    ]
+  },
+  {
+    "id": "puzzle-21", "order": 21, "contentVersion": 1, "rank": "maestro", "title": "Elementos encadenados", "difficulty": "Muy difícil",
+    "groups": [
+      { "category": "___ DE MESA", "hint": "Cuatro expresiones terminan en «de mesa».", "words": ["TENIS", "SAL", "JUEGO", "LÁMPARA"] },
+      { "category": "___ DE NIEVE", "hint": "Cuatro expresiones terminan en «de nieve».", "words": ["COPO", "HOMBRE", "TORMENTA", "BOLA"] },
+      { "category": "___ DE MAR", "hint": "Cuatro expresiones terminan en «de mar».", "words": ["ESTRELLA", "CABALLO", "LEÓN", "FONDO"] },
+      { "category": "___ DE FUEGO", "hint": "Cuatro expresiones terminan en «de fuego».", "words": ["PRUEBA", "BAUTISMO", "LÍNEA", "CORTINA"] }
+    ]
+  },
+  {
+    "id": "puzzle-22", "order": 22, "contentVersion": 1, "rank": "maestro", "title": "Una palabra, cuatro caminos", "difficulty": "Muy difícil",
+    "groups": [
+      { "category": "ESTRELLA ___", "hint": "Cuatro expresiones empiezan con «estrella».", "words": ["FUGAZ", "POLAR", "MARINA", "MICHELIN"] },
+      { "category": "CAJA ___", "hint": "Cuatro expresiones empiezan con «caja».", "words": ["FUERTE", "NEGRA", "CHICA", "REGISTRADORA"] },
+      { "category": "MANO ___", "hint": "Cuatro expresiones empiezan con «mano».", "words": ["DERECHA", "IZQUIERDA", "DURA", "INVISIBLE"] },
+      { "category": "LÍNEA ___", "hint": "Cuatro expresiones empiezan con «línea».", "words": ["RECTA", "ROJA", "AÉREA", "EDITORIAL"] }
+    ]
+  },
+  {
+    "id": "puzzle-23", "order": 23, "contentVersion": 1, "rank": "maestro", "title": "Palabras que se ensamblan", "difficulty": "Muy difícil",
+    "groups": [
+      { "category": "MICRO___", "hint": "Estas palabras aceptan un prefijo que significa pequeño.", "words": ["ONDAS", "CLIMA", "CHIP", "RELATO"] },
+      { "category": "TELE___", "hint": "Estas palabras aceptan un prefijo relacionado con la distancia.", "words": ["TRABAJO", "VISIÓN", "PATÍA", "MEDICINA"] },
+      { "category": "FOTO___", "hint": "Estas palabras aceptan un prefijo relacionado con luz o imagen.", "words": ["COPIA", "SÍNTESIS", "GRAFÍA", "MONTAJE"] },
+      { "category": "AUTO___", "hint": "Estas palabras aceptan un prefijo que remite a uno mismo.", "words": ["RETRATO", "MÓVIL", "ESTIMA", "DEFENSA"] }
+    ]
+  },
+  {
+    "id": "puzzle-24", "order": 24, "contentVersion": 1, "rank": "maestro", "title": "Expresiones de enlace", "difficulty": "Muy difícil",
+    "groups": [
+      { "category": "SIN ___", "hint": "Cuatro expresiones empiezan con «sin».", "words": ["DUDA", "EMBARGO", "QUERER", "MÁS"] },
+      { "category": "A ___", "hint": "Cuatro locuciones empiezan con la preposición «a».", "words": ["TIEMPO", "CIEGAS", "MEDIAS", "SOLAS"] },
+      { "category": "DE ___", "hint": "Cuatro locuciones empiezan con la preposición «de».", "words": ["REPENTE", "PRONTO", "NUEVO", "SOBRA"] },
+      { "category": "POR ___", "hint": "Cuatro locuciones empiezan con la preposición «por».", "words": ["FIN", "SUERTE", "SUPUESTO", "CIERTO"] }
+    ]
+  },
+  {
+    "id": "puzzle-25", "order": 25, "contentVersion": 1, "rank": "maestro", "title": "El ritmo de las locuciones", "difficulty": "Muy difícil",
+    "groups": [
+      { "category": "EN ___", "hint": "Cuatro locuciones empiezan con «en».", "words": ["SERIO", "VANO", "PIE", "MARCHA"] },
+      { "category": "AL ___", "hint": "Cuatro locuciones empiezan con «al».", "words": ["AZAR", "BORDE", "MANDO", "DÍA"] },
+      { "category": "DE ___", "hint": "Cuatro locuciones empiezan con «de».", "words": ["GOLPE", "MEMORIA", "MODA", "PASO"] },
+      { "category": "A ___", "hint": "Cuatro locuciones empiezan con «a».", "words": ["PROPÓSITO", "MENUDO", "DIARIO", "SALVO"] }
+    ]
+  },
+  {
+    "id": "puzzle-26", "order": 26, "contentVersion": 1, "rank": "granMaestro", "title": "Secretos de las letras", "difficulty": "Máxima",
+    "groups": [
+      { "category": "Palíndromos", "hint": "Se leen igual de izquierda a derecha que al revés.", "words": ["RADAR", "RECONOCER", "ANILINA", "SOMETEMOS"] },
+      { "category": "Contienen las cinco vocales", "hint": "Revisa qué vocales aparecen, no solo cómo suenan.", "words": ["MURCIÉLAGO", "EUFORIA", "ECUACIÓN", "AUTÉNTICO"] },
+      { "category": "Esdrújulas", "hint": "La sílaba tónica ocupa la antepenúltima posición.", "words": ["TELÉFONO", "MÚSICA", "BRÚJULA", "PÁJARO"] },
+      { "category": "Contienen Ñ", "hint": "Comparten una letra propia del alfabeto español.", "words": ["SUEÑO", "CAÑA", "OTOÑO", "MONTAÑA"] }
+    ]
+  },
+  {
+    "id": "puzzle-27", "order": 27, "contentVersion": 1, "rank": "granMaestro", "title": "Palabras con nombre propio", "difficulty": "Máxima",
+    "groups": [
+      { "category": "Colores usados como nombres", "hint": "También pueden aparecer en un documento de identidad.", "words": ["ROSA", "VIOLETA", "BLANCA", "CELESTE"] },
+      { "category": "Cielo y naturaleza usados como nombres", "hint": "La naturaleza inspira estos nombres propios.", "words": ["LUNA", "AURORA", "ESTRELLA", "SOL"] },
+      { "category": "Conceptos usados como nombres", "hint": "Ideas abstractas que también nombran personas.", "words": ["ESPERANZA", "FE", "PAZ", "VICTORIA"] },
+      { "category": "Nombres de asociación religiosa", "hint": "Comparten una conexión frecuente con la tradición cristiana.", "words": ["ÁNGEL", "JESÚS", "TRINIDAD", "ROSARIO"] }
+    ]
+  },
+  {
+    "id": "puzzle-28", "order": 28, "contentVersion": 1, "rank": "granMaestro", "title": "El final importa", "difficulty": "Máxima",
+    "groups": [
+      { "category": "Terminan en -ÓN", "hint": "Observa las últimas letras y la sílaba tónica.", "words": ["CAMALEÓN", "ACORDEÓN", "CINTURÓN", "TIBURÓN"] },
+      { "category": "Terminan en -AL", "hint": "Comparten exactamente las dos letras finales.", "words": ["HOSPITAL", "ANIMAL", "CRISTAL", "FESTIVAL"] },
+      { "category": "Terminan en -ERO", "hint": "Busca una terminación de tres letras.", "words": ["VIAJERO", "AGUJERO", "TABLERO", "PRIMERO"] },
+      { "category": "Terminan en -ISTA", "hint": "Comparten una terminación frecuente en profesiones y actividades.", "words": ["ARTISTA", "DENTISTA", "CICLISTA", "PIANISTA"] }
+    ]
+  },
+  {
+    "id": "puzzle-29", "order": 29, "contentVersion": 1, "rank": "granMaestro", "title": "Artes en escena", "difficulty": "Máxima",
+    "groups": [
+      { "category": "Ajedrez", "hint": "Términos de una partida sobre tablero.", "words": ["APERTURA", "JAQUE", "MATE", "GAMBITO"] },
+      { "category": "Teatro", "hint": "Palabras presentes antes y durante una representación.", "words": ["ESCENA", "ACTO", "TELÓN", "GUION"] },
+      { "category": "Poesía", "hint": "Elementos que construyen un poema.", "words": ["VERSO", "RIMA", "ESTROFA", "MÉTRICA"] },
+      { "category": "Música", "hint": "Conceptos que ordenan y describen sonidos.", "words": ["RITMO", "COMPÁS", "TONO", "MELODÍA"] }
+    ]
+  },
+  {
+    "id": "puzzle-30", "order": 30, "contentVersion": 1, "rank": "granMaestro", "title": "La conexión final", "difficulty": "Máxima",
+    "groups": [
+      { "category": "TIEMPO ___", "hint": "Cuatro expresiones empiezan con «tiempo».", "words": ["EXTRA", "REAL", "LIBRE", "MUERTO"] },
+      { "category": "FUEGO ___", "hint": "Cuatro expresiones empiezan con «fuego».", "words": ["AMIGO", "CRUZADO", "LENTO", "ARTIFICIAL"] },
+      { "category": "MODO ___", "hint": "Cuatro expresiones empiezan con «modo».", "words": ["AVIÓN", "OSCURO", "SEGURO", "INCÓGNITO"] },
+      { "category": "PUNTO ___", "hint": "Cuatro expresiones empiezan con «punto».", "words": ["CERO", "CLAVE", "DÉBIL", "ÁLGIDO"] }
+    ]
+  }
+]

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Palabravo.Views.ProfilePage"
+             Title="Perfil">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,22,20,30" Spacing="14" MaximumWidthRequest="520">
+            <Label Text="Perfil" Style="{StaticResource PageTitle}" />
+
+            <Border Stroke="Transparent" Padding="20" HeightRequest="150">
+                <Border.StrokeShape><RoundRectangle CornerRadius="22" /></Border.StrokeShape>
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="1,1">
+                        <GradientStop Color="#E95343" Offset="0" />
+                        <GradientStop Color="#F27C42" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid ColumnDefinitions="76,*,68" ColumnSpacing="14">
+                    <Border HeightRequest="72" WidthRequest="72" BackgroundColor="#18FFFFFF" Stroke="White" StrokeThickness="2">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="36" /></Border.StrokeShape>
+                        <Label Text="V" FontFamily="LoraSemibold" FontSize="34" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                        <Label Text="{Binding AccountName}" FontFamily="OpenSansSemibold" FontSize="20" TextColor="White" LineBreakMode="TailTruncation" />
+                        <Label Text="{Binding Rank, StringFormat='Rango {0}'}" FontSize="12" TextColor="#FFF4EF" />
+                        <ProgressBar Progress="{Binding RankProgress}" ProgressColor="{StaticResource Mustard}" BackgroundColor="#66FFFFFF" HeightRequest="7" />
+                        <Label Text="{Binding RankCaption}" FontSize="11" TextColor="White" />
+                    </VerticalStackLayout>
+                    <Border Grid.Column="2" BackgroundColor="#18FFFFFF" Stroke="#77FFFFFF" WidthRequest="64" HeightRequest="76">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="19" /></Border.StrokeShape>
+                        <VerticalStackLayout VerticalOptions="Center" Spacing="0">
+                            <Label Text="✦" FontSize="28" TextColor="{StaticResource Mustard}" HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding Rank}" FontSize="9" TextColor="White" HorizontalTextAlignment="Center" TextTransform="Uppercase" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid ColumnDefinitions="1*,1*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="3"><Label Text="{Binding CurrentStreak, StringFormat='🔥  {0}'}" FontFamily="OpenSansSemibold" FontSize="23" /><Label Text="RACHA ACTUAL" Style="{StaticResource Eyebrow}" /></VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="3"><Label Text="{Binding BestStreak, StringFormat='♛  {0}'}" FontFamily="OpenSansSemibold" FontSize="23" /><Label Text="MEJOR RACHA" Style="{StaticResource Eyebrow}" /></VerticalStackLayout>
+                </Border>
+                <Border Grid.Row="1" Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="3"><Label Text="{Binding Resolved, StringFormat='✓  {0}'}" FontFamily="OpenSansSemibold" FontSize="23" TextColor="{StaticResource Success}" /><Label Text="RESUELTOS" Style="{StaticResource Eyebrow}" /></VerticalStackLayout>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="3"><Label Text="{Binding Perfect, StringFormat='◎  {0}'}" FontFamily="OpenSansSemibold" FontSize="23" TextColor="{StaticResource Sage}" /><Label Text="SIN ERRORES" Style="{StaticResource Eyebrow}" /></VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <Label Text="MEDALLERO" Style="{StaticResource Eyebrow}" Margin="2,8,0,0" />
+            <Grid ColumnDefinitions="1*,1*,1*" ColumnSpacing="9">
+                <Border Style="{StaticResource Card}" Padding="12">
+                    <VerticalStackLayout Spacing="3"><Label Text="🥇" FontSize="34" HorizontalTextAlignment="Center" /><Label Text="{Binding Gold}" FontFamily="OpenSansSemibold" FontSize="22" HorizontalTextAlignment="Center" /><Label Text="ORO" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource Card}" Padding="12">
+                    <VerticalStackLayout Spacing="3"><Label Text="🥈" FontSize="34" HorizontalTextAlignment="Center" /><Label Text="{Binding Silver}" FontFamily="OpenSansSemibold" FontSize="22" HorizontalTextAlignment="Center" /><Label Text="PLATA" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}" Padding="12">
+                    <VerticalStackLayout Spacing="3"><Label Text="🥉" FontSize="34" HorizontalTextAlignment="Center" /><Label Text="{Binding Bronze}" FontFamily="OpenSansSemibold" FontSize="22" HorizontalTextAlignment="Center" /><Label Text="BRONCE" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <Border Style="{StaticResource Card}">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                    <Label Text="♪" FontSize="26" TextColor="{StaticResource Coral}" VerticalTextAlignment="Center" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Sonidos de celebración" FontFamily="OpenSansSemibold" />
+                        <Label Text="Un toque breve al encontrar conexiones" FontSize="11" TextColor="{StaticResource Muted}" />
+                    </VerticalStackLayout>
+                    <Switch Grid.Column="2" IsToggled="{Binding SoundEnabled}" OnColor="{StaticResource Coral}" VerticalOptions="Center"
+                            SemanticProperties.Description="Activar sonidos de celebración" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource SageSoft}" Stroke="#A7D5CA">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Text="♢" FontSize="32" TextColor="{StaticResource Sage}" VerticalTextAlignment="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="8">
+                        <Label Text="Protege tu cuenta" FontFamily="OpenSansSemibold" />
+                        <Label Text="{Binding AccountCaption}" FontSize="12" TextColor="{StaticResource Muted}" />
+                        <Button Text="{Binding GoogleButtonText}"
+                                Command="{Binding ContinueWithGoogleCommand}"
+                                IsVisible="{Binding CanUseGooglePlayGames}"
+                                MinimumHeightRequest="48"
+                                FontSize="13" />
+                        <ActivityIndicator IsRunning="{Binding IsAccountBusy}"
+                                           IsVisible="{Binding IsAccountBusy}"
+                                           Color="{StaticResource Sage}" />
+                        <Label Text="{Binding AccountMessage}"
+                               FontSize="12"
+                               TextColor="{StaticResource Muted}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}" Stroke="#F0B9AF">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Text="⌫" FontSize="30" TextColor="{StaticResource Coral}" VerticalTextAlignment="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="8">
+                        <Label Text="Tus datos" FontFamily="OpenSansSemibold" />
+                        <Label Text="Puedes eliminar tu cuenta de Palabravo, el ranking, las vinculaciones y todo el progreso guardado en este dispositivo."
+                               FontSize="12"
+                               TextColor="{StaticResource Muted}" />
+                        <Button x:Name="DeleteAccountButton"
+                                Text="Eliminar cuenta y datos"
+                                Clicked="OnDeleteAccountClicked"
+                                IsEnabled="{Binding IsAccountIdle}"
+                                MinimumHeightRequest="48"
+                                BackgroundColor="Transparent"
+                                BorderColor="{StaticResource Coral}"
+                                BorderWidth="1"
+                                TextColor="{StaticResource Coral}"
+                                FontSize="13" />
+                        <Button Text="Abrir página de eliminación"
+                                Command="{Binding OpenDeletionPageCommand}"
+                                IsEnabled="{Binding IsAccountIdle}"
+                                MinimumHeightRequest="44"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Muted}"
+                                FontSize="12" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

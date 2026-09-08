@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Palabravo.Views.HomePage"
+             Title="Inicio">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,18,20,28" Spacing="14" MaximumWidthRequest="520">
+            <Grid HeightRequest="340">
+                <BoxView Color="#F8DDBA" CornerRadius="50" HeightRequest="120" WidthRequest="150"
+                         HorizontalOptions="End" VerticalOptions="Start" TranslationX="45" TranslationY="-45" />
+                <BoxView Color="#DDEFE9" CornerRadius="18" HeightRequest="38" WidthRequest="38"
+                         HorizontalOptions="Start" VerticalOptions="Center" Rotation="28" TranslationX="-18" />
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="3" ZIndex="2">
+                    <Label Text="PALABRAVO" FontFamily="OpenSansSemibold" FontSize="31"
+                           CharacterSpacing="2" TextColor="{StaticResource Coral}" HorizontalTextAlignment="Center" />
+                    <Label Text="Descubre conexiones. Domina las palabras."
+                           TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                    <Image Source="palabravo_mascot.png" HeightRequest="255" Margin="0,3,0,0"
+                           Aspect="AspectFit" SemanticProperties.Description="Mascota de Palabravo" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <Border Stroke="Transparent" Padding="20" HeightRequest="104">
+                <Border.StrokeShape><RoundRectangle CornerRadius="22" /></Border.StrokeShape>
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="1,1">
+                        <GradientStop Color="#EB5B43" Offset="0" />
+                        <GradientStop Color="#F27C4B" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding PlayDailyCommand}" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="12">
+                    <Border BackgroundColor="#33FFFFFF" Stroke="Transparent" HeightRequest="52" WidthRequest="52">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                        <Label Text="▣" FontSize="28" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="RETO DIARIO" Style="{StaticResource Eyebrow}" TextColor="White" />
+                        <Label Text="{Binding DailyTitle}" FontFamily="OpenSansSemibold" FontSize="20" TextColor="White" LineBreakMode="TailTruncation" />
+                        <Label Text="{Binding DailyDifficulty}" FontSize="11" TextColor="#FDEDE9" LineBreakMode="TailTruncation" />
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2" Text="›" FontSize="34" TextColor="White" VerticalTextAlignment="Center" />
+                </Grid>
+            </Border>
+
+            <Grid ColumnDefinitions="1*,1*" ColumnSpacing="12">
+                <Border Style="{StaticResource Card}">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Label Text="🔥" FontSize="26" VerticalTextAlignment="Center" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="0">
+                            <Label Text="RACHA ACTUAL" Style="{StaticResource Eyebrow}" />
+                            <Label Text="{Binding StreakText}" FontFamily="OpenSansSemibold" FontSize="27" />
+                            <Label Text="{Binding StreakCaption}" FontSize="11" TextColor="{StaticResource Muted}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource Card}">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Label Text="✦" FontSize="27" TextColor="{StaticResource Mustard}" VerticalTextAlignment="Center" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="0">
+                            <Label Text="RANGO" Style="{StaticResource Eyebrow}" />
+                            <Label Text="{Binding RankText}" FontFamily="OpenSansSemibold" FontSize="22" />
+                            <Label Text="Camino a Ágil" FontSize="11" TextColor="{StaticResource Muted}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="TU PROGRESO" Style="{StaticResource Eyebrow}" />
+                            <Label Text="{Binding NextChallengeText}" FontFamily="OpenSansSemibold" FontSize="16" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1" Text="{Binding ProgressText}" FontSize="12" TextColor="{StaticResource Coral}" VerticalTextAlignment="Center" />
+                    </Grid>
+                    <ProgressBar Progress="{Binding RankProgress}" ProgressColor="{StaticResource Coral}" BackgroundColor="{StaticResource Border}" HeightRequest="7" />
+                    <Button Text="Continuar el camino" Command="{Binding PlayNextCommand}" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

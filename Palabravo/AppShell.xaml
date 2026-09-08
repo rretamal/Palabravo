@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="Palabravo.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Palabravo"
-    Title="Palabravo">
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+<Shell x:Class="Palabravo.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       FlyoutBehavior="Disabled"
+       Title="Palabravo">
+    <TabBar Route="main" Shell.NavBarIsVisible="False">
+        <ShellContent x:Name="HomeContent" Title="Inicio" Route="home" Icon="nav_home.png" />
+        <ShellContent x:Name="ChallengesContent" Title="Retos" Route="challenges" Icon="nav_challenges.png" />
+        <ShellContent x:Name="RankingContent" Title="Ranking" Route="ranking" Icon="nav_ranking.png" />
+        <ShellContent x:Name="ProfileContent" Title="Perfil" Route="profile" Icon="nav_profile.png" />
+    </TabBar>
 </Shell>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Palabravo.Views.ResultPage"
+             Shell.TabBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="24,20,24,30" Spacing="13" MaximumWidthRequest="500">
+            <Border x:Name="ShareCard" BackgroundColor="{StaticResource Cream}" Stroke="{StaticResource Coral}"
+                    StrokeThickness="1" Padding="18,16">
+                <Border.StrokeShape><RoundRectangle CornerRadius="24" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Border HeightRequest="40" WidthRequest="40" BackgroundColor="{StaticResource Coral}" Stroke="Transparent">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                            <Label Text="P" FontFamily="LoraSemibold" FontSize="24" TextColor="White"
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="-1" VerticalOptions="Center">
+                            <Label Text="PALABRAVO" FontFamily="OpenSansSemibold" FontSize="20" TextColor="{StaticResource Coral}" CharacterSpacing="1.5" />
+                            <Label Text="CUATRO GRUPOS · DIECISÉIS PALABRAS" Style="{StaticResource Eyebrow}" FontSize="8" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label x:Name="ResultEyebrow" Text="{Binding Eyebrow}" Style="{StaticResource Eyebrow}" TextColor="{StaticResource Coral}" HorizontalTextAlignment="Center" />
+                    <Label x:Name="ResultTitle" Text="{Binding Title}" Style="{StaticResource EditorialTitle}" HorizontalTextAlignment="Center" />
+                    <Label Text="{Binding ShareHeadline}" FontFamily="OpenSansSemibold" FontSize="13"
+                           TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                    <Grid x:Name="CelebrationStage" HeightRequest="215">
+                        <Border x:Name="CelebrationHalo" HeightRequest="175" WidthRequest="175" BackgroundColor="{StaticResource MustardSoft}" Stroke="Transparent"
+                                HorizontalOptions="Center" VerticalOptions="Center" Opacity="0.75">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="88" /></Border.StrokeShape>
+                        </Border>
+                        <Label x:Name="ConfettiLeft" Text="✦" FontSize="25" TextColor="{StaticResource Mustard}" HorizontalOptions="Start" VerticalOptions="Start" Margin="24,26,0,0" />
+                        <Label x:Name="ConfettiRight" Text="●" FontSize="17" TextColor="{StaticResource Sage}" HorizontalOptions="End" VerticalOptions="Start" Margin="0,62,32,0" />
+                        <Label x:Name="ConfettiBottom" Text="◆" FontSize="14" TextColor="{StaticResource Coral}" HorizontalOptions="End" VerticalOptions="End" Margin="0,0,54,20" />
+                        <Image x:Name="CelebrationImage" Source="palabravo_celebration.png" HeightRequest="215" Aspect="AspectFit" SemanticProperties.Description="Mascota celebrando el resultado" />
+                    </Grid>
+                    <Label x:Name="MedalIcon" Text="{Binding MedalIcon}" FontSize="42" HorizontalTextAlignment="Center" />
+                    <Label x:Name="MedalText" Text="{Binding MedalText}" FontFamily="OpenSansSemibold" FontSize="19" HorizontalTextAlignment="Center" />
+
+                    <Grid x:Name="ResultStats" ColumnDefinitions="1*,1*,1*" ColumnSpacing="8">
+                        <Border Style="{StaticResource Card}" Padding="10"><VerticalStackLayout><Label Text="{Binding Errors}" FontFamily="OpenSansSemibold" FontSize="21" HorizontalTextAlignment="Center" /><Label Text="ERRORES" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout></Border>
+                        <Border Grid.Column="1" Style="{StaticResource Card}" Padding="10"><VerticalStackLayout><Label Text="{Binding Hints}" FontFamily="OpenSansSemibold" FontSize="21" HorizontalTextAlignment="Center" /><Label Text="PISTAS" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout></Border>
+                        <Border Grid.Column="2" Style="{StaticResource Card}" Padding="10"><VerticalStackLayout><Label Text="{Binding Time}" FontFamily="OpenSansSemibold" FontSize="21" HorizontalTextAlignment="Center" /><Label Text="TIEMPO" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout></Border>
+                    </Grid>
+
+                    <Border BackgroundColor="{StaticResource Coral}" Stroke="Transparent" Padding="14,11">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="¿Puedes superar mi resultado?" FontFamily="OpenSansSemibold" FontSize="15"
+                                   TextColor="White" HorizontalTextAlignment="Center" />
+                            <Label Text="Instala Palabravo en Google Play" FontSize="10" TextColor="#FFF1EC"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="play.google.com/store/apps/details?id=com.palabravo.app" FontSize="7"
+                                   TextColor="#FFF1EC" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border x:Name="RankUpCard" IsVisible="{Binding IsRankUp}" BackgroundColor="{Binding RankUpBackgroundColor}"
+                    Stroke="{Binding RankUpColor}" StrokeThickness="1" Padding="16,13">
+                <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Text="{Binding RankUpIcon}" FontSize="34" TextColor="{Binding RankUpColor}" VerticalTextAlignment="Center" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="{Binding RankUpTitle}" FontFamily="LoraSemibold" FontSize="20" TextColor="{Binding RankUpColor}" />
+                        <Label Text="{Binding RankUpText}" FontSize="11" TextColor="{StaticResource Muted}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <Button Text="Ver solución" Command="{Binding ShowSolutionCommand}" IsVisible="{Binding ShowSolutionButton}"
+                    BackgroundColor="{StaticResource Surface}" TextColor="{StaticResource Coral}"
+                    BorderColor="{StaticResource Coral}" BorderWidth="1" />
+
+            <VerticalStackLayout IsVisible="{Binding SolutionVisible}" Spacing="7" Margin="0,8,0,4">
+                <Label Text="LAS CONEXIONES" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding SolutionGroups}" Spacing="7">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{Binding BackgroundColor}" Stroke="Transparent" Padding="12,9">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding Category}" FontFamily="OpenSansSemibold" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding Words}" FontSize="10" TextColor="{StaticResource Muted}"
+                                           HorizontalTextAlignment="Center" LineBreakMode="WordWrap" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <Button Text="Retar a un amigo" Clicked="OnChallengeFriendClicked" IsVisible="{Binding IsSuccess}"
+                    SemanticProperties.Description="Compartir este reto con un amigo sin revelar la solución" />
+            <Button Text="Jugar otra vez" Command="{Binding ReplayCommand}" BackgroundColor="{StaticResource Surface}" TextColor="{StaticResource Coral}" BorderColor="{StaticResource Coral}" BorderWidth="1" />
+            <Button Text="Volver al inicio" Command="{Binding GoHomeCommand}" BackgroundColor="Transparent" TextColor="{StaticResource Muted}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

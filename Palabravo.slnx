@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="Palabravo.Core/Palabravo.Core.csproj" />
+  <Project Path="Palabravo.Tests/Palabravo.Tests.csproj" />
   <Project Path="Palabravo/Palabravo.csproj" />
 </Solution>
