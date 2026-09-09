@@ -1,13 +1,17 @@
 {
   "routes": [
     {
+      "route": "/.well-known/apple-app-site-association",
+      "headers": { "Content-Type": "application/json" }
+    },
+    {
       "route": "/api/*",
       "allowedRoles": ["anonymous"]
     }
   ],
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/api/*", "/assets/*", "*.css", "*.js", "*.json", "*.ico", "*.png", "*.webp"]
+    "exclude": ["/api/*", "/assets/*", "/.well-known/*", "/app-ads.txt", "*.css", "*.js", "*.json", "*.ico", "*.png", "*.webp"]
   },
   "globalHeaders": {
     "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",

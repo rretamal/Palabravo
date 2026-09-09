@@ -18,6 +18,7 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<FirebaseCrashlyticsUploadSymbolsEnabled Condition="!Exists('Platforms/iOS/GoogleService-Info.plist')">False</FirebaseCrashlyticsUploadSymbolsEnabled>
 
 		<!-- Enable XAML source generation for faster build times and improved performance.
 		     This generates C# code from XAML at compile time instead of runtime inflation.
@@ -67,13 +68,23 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.90" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
 		<PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
 	</ItemGroup>
 
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' Or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+		<PackageReference Include="Plugin.AdMob" Version="10.0.90" />
+		<PackageReference Include="Plugin.Firebase.Analytics" Version="4.0.0" />
+		<PackageReference Include="Plugin.Firebase.RemoteConfig" Version="4.0.0" />
+		<PackageReference Include="Plugin.Firebase.Crashlytics" Version="4.0.0" />
+	</ItemGroup>
+
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
 		<PackageReference Include="Xamarin.GooglePlayServices.Games.V2" Version="121.0.0.4" />
+		<PackageReference Include="Xamarin.Android.Google.BillingClient" Version="8.1.0" />
+		<!-- Keep the entire Measurement family on the generation required by AdMob. -->
+		<PackageReference Include="Xamarin.Firebase.Analytics" Version="123.2.0.1" />
 		<!-- Keep the Google binding on the AndroidX generation already used by MAUI 10. -->
 		<PackageReference Include="Xamarin.AndroidX.Activity.Ktx" Version="1.13.0.1" />
 		<PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.6.0.1" />
@@ -86,6 +97,16 @@
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" Version="2.11.0.1" />
 		<PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx" Version="1.5.0.1" />
 	</ItemGroup>
+
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+		<NativeReference Include="$(IntermediateOutputPath)storekit/libPalabravoStore.a">
+			<Kind>Static</Kind><ForceLoad>true</ForceLoad><SmartLink>false</SmartLink>
+			<Frameworks>StoreKit Foundation</Frameworks><LinkWithSwiftSystemLibraries>true</LinkWithSwiftSystemLibraries>
+		</NativeReference>
+	</ItemGroup>
+	<Target Name="BuildPalabravoStoreKit" BeforeTargets="ResolveNativeReferences" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+		<Exec Command="sh &quot;$(MSBuildProjectDirectory)/Platforms/iOS/StoreKit/build.sh&quot; &quot;$(IntermediateOutputPath)storekit&quot; &quot;$(RuntimeIdentifier)&quot;" />
+	</Target>
 
 	<!-- Xamarin.GooglePlayServices 121.0.0.4 currently contributes each downloaded AAR twice. -->
 	<Target Name="DeduplicateGooglePlayServicesAars"
@@ -102,6 +123,13 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Palabravo.Core\Palabravo.Core.csproj" />
+		<EmbeddedResource Include="monetization.json" />
+	</ItemGroup>
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' And Exists('Platforms/Android/google-services.json')">
+		<GoogleServicesJson Include="Platforms/Android/google-services.json" />
+	</ItemGroup>
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' And Exists('Platforms/iOS/GoogleService-Info.plist')">
+		<BundleResource Include="Platforms/iOS/GoogleService-Info.plist" LogicalName="GoogleService-Info.plist" />
 	</ItemGroup>
 
 </Project>

@@ -111,7 +111,7 @@ public partial class ResultViewModel(GameCoordinator coordinator) : ObservableOb
         var label = result.Mode == PuzzleMode.Daily
             ? $"el reto diario del {result.PlayedOn:dd/MM}"
             : $"«{result.PuzzleTitle}»";
-        return $"🟧 PALABRAVO · Te reto a resolver {label}\n\n{ShareResultText}\n\n¿Puedes encontrar las cuatro conexiones?\n\n📲 Instálalo aquí:\n{AndroidInstallUrl}";
+        return $"🟧 PALABRAVO · Te reto a resolver {label}\n\n{ShareResultText}\n\n¿Puedes encontrar las cuatro conexiones?\n\n{Core.Services.ReferralLink.Build(result.PuzzleId)}\nCódigo de reto: {result.PuzzleId}";
     }
 
     public Task ShareTextAsync() => Share.Default.RequestAsync(

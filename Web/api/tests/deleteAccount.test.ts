@@ -4,6 +4,25 @@ import { processAccountDeletion } from '../src/lib/deleteAccount.js'
 const environment = { PLAYFAB_TITLE_ID: '153ECF', PLAYFAB_SECRET_KEY: 'server-secret' }
 
 describe('authenticated account deletion', () => {
+  it('removes related data before invalidating the PlayFab session', async () => {
+    const cleanup = vi.fn(async (player: string) => {
+      expect(player).toBe('PF-123')
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+    })
+    const fetchMock = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(JSON.stringify({ data: { PlayFabId: 'PF-123' } }), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ data: { JobReceiptId: 'job' } }), { status: 200 }))
+    expect((await processAccountDeletion('Bearer ticket', environment, fetchMock, cleanup)).status).toBe(202)
+    expect(cleanup).toHaveBeenCalledOnce()
+  })
+
+  it('keeps the session valid for a retry if related cleanup fails', async () => {
+    const fetchMock = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(JSON.stringify({ data: { PlayFabId: 'PF-123' } }), { status: 200 }))
+    const result = await processAccountDeletion('Bearer ticket', environment, fetchMock, async () => { throw new Error('storage unavailable') })
+    expect(result.status).toBe(503)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
   it('validates the ticket and queues deletion', async () => {
     const fetchMock = vi.fn<typeof fetch>()
       .mockResolvedValueOnce(new Response(JSON.stringify({ data: { PlayFabId: 'PF-123' } }), { status: 200 }))

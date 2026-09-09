@@ -3,13 +3,17 @@ using CommunityToolkit.Mvvm.Input;
 using Palabravo.Core.Models;
 using Palabravo.Core.Services;
 using Palabravo.Services;
+using Palabravo.Core.Monetization;
+using Palabravo.Services.Monetization;
 
 namespace Palabravo.ViewModels;
 
 public partial class ProfileViewModel(
     ProgressService progress,
     IPlayerAccountService accountService,
-    CelebrationEffectsService effects) : ObservableObject
+    CelebrationEffectsService effects,
+    IMonetizationService monetization,
+    MonetizationOfferPresenter offers) : ObservableObject
 {
     [ObservableProperty] private string accountName = "Invitado";
     [ObservableProperty] private string accountCaption = "Protege tu progreso y conserva tu lugar en el ranking.";
@@ -31,9 +35,36 @@ public partial class ProfileViewModel(
     [ObservableProperty] private bool soundEnabled = effects.SoundEnabled;
 
     public bool IsAccountIdle => !IsAccountBusy;
+    public bool MonetizationEnabled => monetization.IsEnabled;
+    [ObservableProperty] private bool analyticsEnabled = Preferences.Default.Get("analytics_consent", false);
+
+    [RelayCommand(CanExecute = nameof(IsAccountIdle))] private Task RemoveAdsAsync() => RunMonetizationActionAsync(offers.ShowAsync);
+    [RelayCommand(CanExecute = nameof(IsAccountIdle))] private Task PrivacyOptionsAsync() => RunMonetizationActionAsync(monetization.ShowPrivacyOptionsAsync);
+    [RelayCommand(CanExecute = nameof(IsAccountIdle))] private Task RestorePurchasesAsync() => RunMonetizationActionAsync(async () =>
+    {
+        var restored = await monetization.RestoreAsync();
+        await Shell.Current.DisplayAlertAsync("Restaurar compra", restored
+            ? monetization.OwnsRemoveAds ? "Tu compra sin anuncios está activa." : "No encontramos una compra en esta tienda."
+            : "No pudimos consultar la tienda. Tus beneficios ya confirmados se conservan.", "Cerrar");
+    });
+    private async Task RunMonetizationActionAsync(Func<Task> action)
+    {
+        if (IsAccountBusy) return;
+        IsAccountBusy = true;
+        try { await action(); }
+        catch { await Shell.Current.DisplayAlertAsync("Servicio no disponible", "No pudimos completar la acción. Puedes seguir jugando e intentarlo más tarde.", "Cerrar"); }
+        finally { IsAccountBusy = false; }
+    }
+    partial void OnAnalyticsEnabledChanged(bool value)
+    {
+#if ANDROID || IOS
+        FirebaseAdapter.SetCollection(value);
+#endif
+    }
 
     public async Task RefreshAsync()
     {
+        AnalyticsEnabled = Preferences.Default.Get("analytics_consent", false);
         ApplyAccount(accountService.GetSnapshot());
         var player = await progress.LoadAsync();
         var rankProgress = player.RankProgress;
@@ -94,6 +125,11 @@ public partial class ProfileViewModel(
                 return result;
 
             await progress.ResetAsync();
+            await monetization.ClearPersonalDataAsync();
+#if ANDROID || IOS
+            await FirebaseAdapter.ClearLocalDataAsync();
+#endif
+            AnalyticsEnabled = false;
             effects.ResetPreferences();
             AccountName = "Cuenta eliminada";
             AccountCaption = "La solicitud fue aceptada.";
@@ -138,5 +174,8 @@ public partial class ProfileViewModel(
     {
         OnPropertyChanged(nameof(IsAccountIdle));
         ContinueWithGoogleCommand.NotifyCanExecuteChanged();
+        RemoveAdsCommand.NotifyCanExecuteChanged();
+        PrivacyOptionsCommand.NotifyCanExecuteChanged();
+        RestorePurchasesCommand.NotifyCanExecuteChanged();
     }
 }

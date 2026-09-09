@@ -41,12 +41,14 @@ public sealed record GameResult(
 
 public sealed class GameState
 {
+    public string AttemptId { get; init; } = Guid.NewGuid().ToString("N");
     public required PuzzleDefinition Puzzle { get; init; }
     public required PuzzleMode Mode { get; init; }
     public required DateOnly PlayedOn { get; init; }
     public List<string> RemainingWords { get; } = [];
     public HashSet<string> SelectedWords { get; } = new(StringComparer.OrdinalIgnoreCase);
     public List<PuzzleGroup> SolvedGroups { get; } = [];
+    public HashSet<string> RevealedHints { get; } = [];
     public int Errors { get; internal set; }
     public int HintsUsed { get; internal set; }
     public bool SolutionRequested { get; internal set; }

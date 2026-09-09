@@ -18,15 +18,20 @@ public sealed class AccountDeletionGateway : IAccountDeletionGateway
     public const string PublicDeletionPage = "https://palabravo.app/eliminar-datos";
     private static readonly Uri Endpoint = new("https://palabravo.app/api/account/delete");
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
-    private readonly HttpClient _client = new() { Timeout = TimeSpan.FromSeconds(12) };
+    private readonly HttpClient _client = new() { Timeout = TimeSpan.FromSeconds(60) };
 
     public async Task<AccountDeletionGatewayResult> RequestAsync(
         string sessionTicket,
         CancellationToken cancellationToken = default)
     {
+        string[] analyticsInstanceIds = [];
+#if ANDROID || IOS
+        analyticsInstanceIds = await Monetization.FirebaseAdapter.CaptureInstanceIdsAsync();
+        Monetization.FirebaseAdapter.SetCollection(false);
+#endif
         using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint)
         {
-            Content = JsonContent.Create(new { })
+            Content = JsonContent.Create(new { analyticsInstanceIds })
         };
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", sessionTicket);
 

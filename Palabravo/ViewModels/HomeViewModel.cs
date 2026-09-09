@@ -40,6 +40,17 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
     }
 
     [RelayCommand]
+    private async Task OpenChallengeCodeAsync()
+    {
+        var code = await Shell.Current.DisplayPromptAsync("Reto de un amigo", "Ingresa el código del reto (por ejemplo, 07).", "Abrir", "Cancelar", maxLength: 20);
+        if (code is null) return;
+        var id = ReferralLink.PuzzleFromCode(code);
+        if (id is null) { await Shell.Current.DisplayAlertAsync("Código no válido", "Ingresa un código de reto entre 01 y 30.", "Cerrar"); return; }
+        await Shell.Current.GoToAsync(nameof(Views.GamePage), new Dictionary<string, object>
+        { ["puzzleId"] = id, ["mode"] = "Challenge", ["referred"] = true });
+    }
+
+    [RelayCommand]
     private Task PlayDailyAsync() => Shell.Current.GoToAsync(nameof(Views.GamePage), new Dictionary<string, object>
     {
         ["puzzleId"] = "daily",

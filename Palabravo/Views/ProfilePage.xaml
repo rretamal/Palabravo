@@ -97,6 +97,18 @@
                 </Grid>
             </Border>
 
+            <Border Style="{StaticResource Card}" IsVisible="{Binding MonetizationEnabled}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Palabravo sin anuncios" FontFamily="OpenSansSemibold" />
+                    <Label Text="Compra única con tres pistas diarias incluidas. Consulta el precio y los beneficios." FontSize="12" />
+                    <Button Text="Ver beneficios y precio" Command="{Binding RemoveAdsCommand}" />
+                    <Button Text="Restaurar compra" Command="{Binding RestorePurchasesCommand}" />
+                    <Button Text="Opciones de privacidad de anuncios" Command="{Binding PrivacyOptionsCommand}" />
+                    <Label Text="Compartir estadísticas de uso para mejorar Palabravo (opcional)" FontSize="12" />
+                    <Switch IsToggled="{Binding AnalyticsEnabled}" SemanticProperties.Description="Permitir estadísticas de uso" />
+                </VerticalStackLayout>
+            </Border>
+
             <Border Style="{StaticResource Card}" Stroke="#F0B9AF">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                     <Label Text="⌫" FontSize="30" TextColor="{StaticResource Coral}" VerticalTextAlignment="Start" />

@@ -135,7 +135,7 @@ public sealed class PlayFabLeaderboardService(
         catch
         {
             return new PlayerAccountDeletionResult(false,
-                "No pudimos conectar con el servicio de eliminación. Tus datos siguen intactos.");
+                "No pudimos completar la solicitud de eliminación. Puedes reintentarlo.");
         }
     }
 
@@ -197,6 +197,8 @@ public sealed class PlayFabLeaderboardService(
             return new LeaderboardSnapshot(false, FriendlyError(exception), [], null, null);
         }
     }
+
+    public async Task<string> GetSessionTicketAsync() => (await GetSessionAsync()).SessionTicket;
 
     private async Task<PlayFabSession> GetSessionAsync()
     {

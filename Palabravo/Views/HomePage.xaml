@@ -81,6 +81,7 @@
                     <Button Text="Continuar el camino" Command="{Binding PlayNextCommand}" />
                 </VerticalStackLayout>
             </Border>
+            <Button Text="Tengo un código de reto" Command="{Binding OpenChallengeCodeCommand}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

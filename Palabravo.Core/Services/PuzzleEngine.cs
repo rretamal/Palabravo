@@ -9,15 +9,18 @@ public sealed class PuzzleEngine
 
     private readonly Random _random;
     private readonly Stopwatch _stopwatch = new();
+    private int _pauseDepth;
 
     public PuzzleEngine(Random? random = null) => _random = random ?? Random.Shared;
 
     public GameState? State { get; private set; }
     public TimeSpan Elapsed => _stopwatch.Elapsed;
+    public bool IsTiming => _stopwatch.IsRunning;
 
     public GameState Start(PuzzleDefinition puzzle, PuzzleMode mode, DateOnly playedOn)
     {
         ValidatePuzzle(puzzle);
+        _pauseDepth = 0;
         _stopwatch.Restart();
         State = new GameState { Puzzle = puzzle, Mode = mode, PlayedOn = playedOn };
         State.RemainingWords.AddRange(puzzle.Groups.SelectMany(x => x.Words));
@@ -73,17 +76,41 @@ public sealed class PuzzleEngine
         return new SubmissionOutcome(SubmissionKind.Won, match);
     }
 
+    public bool HasUsefulHint => State is { IsFinished: false, HintsUsed: < 2 } state &&
+        state.Puzzle.Groups.Any(x => !state.SolvedGroups.Contains(x) &&
+            !string.IsNullOrWhiteSpace(x.Hint) && !state.RevealedHints.Contains(x.Hint));
+
+    public IDisposable Pause()
+    {
+        _pauseDepth++;
+        _stopwatch.Stop();
+        return new PauseScope(this);
+    }
+
+    private sealed class PauseScope(PuzzleEngine engine) : IDisposable
+    {
+        private bool disposed;
+        public void Dispose()
+        {
+            if (disposed) return;
+            disposed = true;
+            if (--engine._pauseDepth == 0 && engine.State is { IsFinished: false }) engine._stopwatch.Start();
+        }
+    }
+
     public string? UseHint()
     {
         var state = RequireState();
-        if (state.IsFinished || state.HintsUsed >= 2)
+        if (!HasUsefulHint)
             return null;
 
-        var group = state.Puzzle.Groups.FirstOrDefault(x => !state.SolvedGroups.Contains(x));
+        var group = state.Puzzle.Groups.FirstOrDefault(x => !state.SolvedGroups.Contains(x) &&
+            !string.IsNullOrWhiteSpace(x.Hint) && !state.RevealedHints.Contains(x.Hint));
         if (group is null)
             return null;
 
         state.HintsUsed++;
+        state.RevealedHints.Add(group.Hint);
         return group.Hint;
     }
 

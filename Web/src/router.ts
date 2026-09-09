@@ -2,6 +2,7 @@ import type { RouteRecordRaw, RouterScrollBehavior } from 'vue-router'
 import LandingPage from './views/LandingPage.vue'
 import LegalPage from './views/LegalPage.vue'
 import DeleteDataPage from './views/DeleteDataPage.vue'
+import ChallengeReferralPage from './views/ChallengeReferralPage.vue'
 
 const meta = (
   locale: 'es' | 'en',
@@ -19,6 +20,8 @@ export const scrollBehavior: RouterScrollBehavior = (to, _from, savedPosition) =
 }
 
 export const routes: RouteRecordRaw[] = [
+  { path: '/reto/:id', component: ChallengeReferralPage,
+    meta: meta('es', 'Un reto para ti — Palabravo', 'Resuelve el mismo reto que tu amigo.', '/', '/en') },
   {
     path: '/', component: LandingPage,
     meta: meta('es', 'Palabravo — Conecta palabras en español', 'Encuentra conexiones entre palabras en español, completa retos diarios y avanza por seis rangos.', '/', '/en'),

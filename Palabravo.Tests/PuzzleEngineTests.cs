@@ -6,6 +6,18 @@ namespace Palabravo.Tests;
 public sealed class PuzzleEngineTests
 {
     [Fact]
+    public void Two_hints_reveal_different_information()
+    {
+        var engine = StartedEngine();
+        var first = engine.UseHint();
+        var second = engine.UseHint();
+        Assert.NotNull(first);
+        Assert.NotNull(second);
+        Assert.NotEqual(first, second);
+        Assert.Equal(2, engine.State!.RevealedHints.Count);
+    }
+
+    [Fact]
     public void Correct_group_is_removed_and_recorded()
     {
         var engine = StartedEngine();

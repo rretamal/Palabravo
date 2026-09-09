@@ -4,13 +4,19 @@ using CommunityToolkit.Mvvm.Input;
 using Palabravo.Core.Models;
 using Palabravo.Core.Services;
 using Palabravo.Services;
+using Palabravo.Core.Monetization;
+using Palabravo.Services.Monetization;
 
 namespace Palabravo.ViewModels;
 
 public partial class GameViewModel(
     GameCoordinator coordinator,
     ProgressService progress,
-    ILeaderboardService leaderboard) : ObservableObject
+    ILeaderboardService leaderboard,
+    IMonetizationService monetization,
+    IMonetizationTelemetry telemetry,
+    MonetizationOfferPresenter offers,
+    GameplayActivity activity) : ObservableObject
 {
     private static readonly string[] GroupColors = ["#FCE4DE", "#FFF0C8", "#DDEFE9", "#E5E9F5"];
 
@@ -26,13 +32,16 @@ public partial class GameViewModel(
     [ObservableProperty] private string statusMessage = "Selecciona cuatro palabras relacionadas";
     [ObservableProperty] private bool canSubmit;
     [ObservableProperty] private bool isBusy;
+    [ObservableProperty] private bool isGameplayActive;
+    partial void OnIsGameplayActiveChanged(bool value) => SubmitCommand.NotifyCanExecuteChanged();
 
-    public async Task LoadAsync(string puzzleId, string modeText)
+    public async Task LoadAsync(string puzzleId, string modeText, bool referred = false)
     {
         if (!Enum.TryParse<PuzzleMode>(modeText, true, out var mode))
             mode = PuzzleMode.Challenge;
 
-        await coordinator.StartAsync(puzzleId, mode);
+        await coordinator.StartAsync(puzzleId, mode, referred);
+        activity.Touch();
         RefreshFromEngine();
 
         var state = await progress.LoadAsync();
@@ -58,6 +67,8 @@ public partial class GameViewModel(
     [RelayCommand]
     private void ToggleWord(WordTileViewModel tile)
     {
+        if (IsBusy || !IsGameplayActive) return;
+        activity.Touch();
         if (!coordinator.Engine.ToggleWord(tile.Word))
             return;
 
@@ -68,7 +79,7 @@ public partial class GameViewModel(
         SubmitCommand.NotifyCanExecuteChanged();
     }
 
-    private bool CanSubmitGroup() => CanSubmit && !IsBusy;
+    private bool CanSubmitGroup() => CanSubmit && !IsBusy && IsGameplayActive;
 
     [RelayCommand(CanExecute = nameof(CanSubmitGroup))]
     private async Task SubmitAsync()
@@ -107,6 +118,8 @@ public partial class GameViewModel(
     [RelayCommand]
     private void Shuffle()
     {
+        if (IsBusy || !IsGameplayActive) return;
+        activity.Touch();
         coordinator.Engine.Shuffle();
         RebuildCollections();
         StatusMessage = "Palabras mezcladas";
@@ -115,8 +128,21 @@ public partial class GameViewModel(
     [RelayCommand]
     private async Task HintAsync()
     {
-        var action = await Shell.Current.DisplayActionSheetAsync(
-            "Ayudas", "Cancelar", null, "Usar una pista", "Ver solución");
+        if (IsBusy || !IsGameplayActive) return;
+        IsBusy = true;
+        SubmitCommand.NotifyCanExecuteChanged();
+        using var pause = activity.Pause();
+        try
+        {
+        var offer = monetization.GetHintOffer(coordinator.Engine.HasUsefulHint);
+        var options = monetization.IsEnabled
+            ? new[] { offer.Label, "Ver solución", "Palabravo sin anuncios" }
+            : new[] { offer.Label, "Ver solución" };
+        var sheet = Shell.Current.DisplayActionSheetAsync("Ayudas", "Cancelar", null, options);
+        if (offer.Source == HintSource.Advertisement)
+            telemetry.Track("reward_offer_view", new Dictionary<string, object> { ["offer_id"] = offer.OfferId, ["placement_id"] = "hint", ["reward_type"] = "partial_hint" });
+        var action = await sheet;
+        if (action == "Palabravo sin anuncios") { await offers.ShowAsync(); return; }
 
         if (action == "Ver solución")
         {
@@ -132,18 +158,30 @@ public partial class GameViewModel(
             return;
         }
 
-        if (action != "Usar una pista")
+        if (action != offer.Label)
             return;
 
-        var hint = coordinator.Engine.UseHint();
+        string? hint = null;
+        if (await monetization.AcceptHintAsync(offer))
+            monetization.ConsumeHint(coordinator.Engine.State!.AttemptId, () => (hint = coordinator.Engine.UseHint()) is not null);
         if (hint is null)
         {
-            await Shell.Current.DisplayAlertAsync("Sin pistas", "Ya utilizaste las dos pistas de este reto.", "Cerrar");
+            await Shell.Current.DisplayAlertAsync("Pista no disponible", coordinator.Engine.HasUsefulHint
+                ? "No hay una pista disponible ahora. Puedes seguir jugando o reintentar más tarde."
+                : "Ya utilizaste las pistas disponibles para este reto.", "Cerrar");
             return;
         }
 
         UpdateHeader();
         await Shell.Current.DisplayAlertAsync("Una pista", hint, "Seguir jugando");
+        monetization.ConfirmHintDisplayed();
+        }
+        finally
+        {
+            IsBusy = false;
+            SubmitCommand.NotifyCanExecuteChanged();
+            activity.Touch();
+        }
     }
 
     private async Task FinishGameAsync()
@@ -153,6 +191,7 @@ public partial class GameViewModel(
         coordinator.SetProgressUpdate(progressUpdate);
         if (result.IsSuccess && result.Mode == PuzzleMode.Daily)
             _ = leaderboard.SubmitDailyResultAsync(result);
+        await monetization.CompleteAttemptAsync(coordinator.Engine.State!.AttemptId, result.IsSuccess);
         await Shell.Current.GoToAsync(nameof(Views.ResultPage));
     }
 

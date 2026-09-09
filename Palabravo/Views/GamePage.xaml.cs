@@ -8,16 +8,18 @@ public partial class GamePage : ContentPage, IQueryAttributable
     private readonly GameViewModel _viewModel;
     private readonly GameCoordinator _coordinator;
     private readonly CelebrationEffectsService _effects;
+    private readonly Core.Services.GameplayActivity _activity;
 
     public GamePage(
         GameViewModel viewModel,
         GameCoordinator coordinator,
-        CelebrationEffectsService effects)
+        CelebrationEffectsService effects, Core.Services.GameplayActivity activity)
     {
         InitializeComponent();
         BindingContext = _viewModel = viewModel;
         _coordinator = coordinator;
         _effects = effects;
+        _activity = activity;
         _viewModel.SubmissionFeedbackRequested += OnSubmissionFeedbackRequested;
     }
 
@@ -25,15 +27,27 @@ public partial class GamePage : ContentPage, IQueryAttributable
     {
         var puzzleId = query.TryGetValue("puzzleId", out var puzzle) ? puzzle?.ToString() ?? "puzzle-01" : "puzzle-01";
         var mode = query.TryGetValue("mode", out var value) ? value?.ToString() ?? "Challenge" : "Challenge";
-        _ = _viewModel.LoadAsync(puzzleId, mode);
+        var referred = query.TryGetValue("referred", out var referral) && referral is true;
+        _ = _viewModel.LoadAsync(puzzleId, mode, referred);
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        _activity.Changed += OnActivityChanged;
+        _activity.SetVisible(true);
         if (_coordinator.Engine.State is { IsFinished: false })
             _viewModel.RefreshFromEngine();
     }
+
+    protected override void OnDisappearing()
+    {
+        _activity.SetVisible(false);
+        _activity.Changed -= OnActivityChanged;
+        base.OnDisappearing();
+    }
+
+    private void OnActivityChanged(bool active) => _viewModel.IsGameplayActive = active;
 
     private async void OnBackClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("..");
 

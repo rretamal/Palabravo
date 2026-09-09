@@ -2,6 +2,8 @@
 
 Fecha: 6 de septiembre de 2026. Estado: plan previo al lanzamiento; no hay datos reales de producción. Los precios, límites y experimentos son hipótesis iniciales.
 
+Actualización de alcance, 9 de septiembre: BigQuery y Looker Studio quedan para una etapa posterior. El lanzamiento utiliza los reportes de AdMob, Firebase Analytics, Google Play y App Store; no requiere un tablero externo ni exportación a BigQuery.
+
 ## 1. Decisión de negocio
 
 Lanzar gratis con los 30 retos actuales, pistas mediante anuncios voluntarios, intersticiales moderados y una compra única «Palabravo sin anuncios» con precio de referencia US$2,99, localizado por la tienda. No incorporar suscripción, monedas, battle pass ni skins al lanzamiento.
@@ -119,6 +121,6 @@ Si suben ingresos por sesión pero cae el ingreso por adquirido o la retención,
 - [ ] Compra, cancelación, estado pendiente, restauración y derecho sin anuncios verificados.
 - [ ] Ingresos automáticos y manuales no se duplican.
 - [ ] Configuración inválida no rompe el juego y existe apagado remoto.
-- [ ] Tablero disponible antes de recibir usuarios reales.
+- [ ] Reportes de AdMob, Firebase Analytics y ambas tiendas verificados; BigQuery y Looker Studio quedan para después.
 
 Este documento es una especificación propuesta, no una integración ya ejecutada.

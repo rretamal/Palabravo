@@ -22,3 +22,7 @@ CLAUDE.md
 /Web/api/dist/
 /Web/api/local.settings.json
 /Web/.playwright-cli
+/Palabravo/Platforms/Android/google-services.json
+/Palabravo/Platforms/iOS/GoogleService-Info.plist
+/Web/public/.well-known/
+/Web/public/app-ads.txt

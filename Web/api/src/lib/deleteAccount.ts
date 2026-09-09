@@ -13,6 +13,7 @@ export async function processAccountDeletion(
   authorization: string | null | undefined,
   environment: Environment = process.env,
   fetchImpl: typeof fetch = fetch,
+  deleteRelatedData: (playerId: string) => Promise<void> = async () => {},
 ): Promise<ApiResult> {
   const sessionTicket = bearerToken(authorization)
   if (!sessionTicket) return errorResult(401, 'authentication_required')
@@ -32,6 +33,10 @@ export async function processAccountDeletion(
     const playerEnvelope = await playerResponse.json() as PlayFabEnvelope<{ PlayFabId?: string }>
     const playFabId = playerEnvelope.data?.PlayFabId
     if (!playFabId) return errorResult(401, 'invalid_session')
+
+    // Complete related cleanup before invalidating the session, so a transient
+    // provider failure can be retried with the same authenticated account.
+    await deleteRelatedData(playFabId)
 
     const deletionResponse = await fetchImpl(`https://${titleId}.playfabapi.com/Admin/DeleteMasterPlayerAccount`, {
       method: 'POST',
