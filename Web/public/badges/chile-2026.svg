@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title">
+  <title id="title">Badge Chile 2026</title>
+  <circle cx="120" cy="120" r="108" fill="#fff7e8" stroke="#e6a51d" stroke-width="8"/>
+  <path fill="#fff" d="M45 55h150v65H45z"/><path fill="#d52b1e" d="M45 120h150v65H45z"/><path fill="#0039a6" d="M45 55h62v65H45z"/>
+  <path fill="#fff" d="m76 68 6 18h19L86 97l6 18-16-11-16 11 6-18-15-11h19z"/>
+  <text x="120" y="216" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="20" fill="#3b332b">CHILE 2026</text>
+</svg>

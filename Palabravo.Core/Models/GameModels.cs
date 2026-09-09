@@ -11,7 +11,8 @@ public enum Medal
 public enum PuzzleMode
 {
     Challenge,
-    Daily
+    Daily,
+    Weekly
 }
 
 public enum SubmissionKind

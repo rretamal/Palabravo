@@ -129,7 +129,7 @@ Características:
 
 - mismo puzzle para todos ese día;
 - una oportunidad clara de volver diariamente;
-- ranking diario/semanal;
+- ranking semanal;
 - resultado compartible sin spoilers;
 - posibilidad de comparar desempeño.
 

@@ -69,9 +69,12 @@ public sealed class ProgressService(IProgressStore store, IClock clock)
         if (!result.IsSuccess)
             return Unchanged(previousRank);
 
-        var key = result.Mode == PuzzleMode.Daily
-            ? $"daily:{result.PlayedOn:yyyy-MM-dd}"
-            : $"challenge:{result.PuzzleId}";
+        var key = result.Mode switch
+        {
+            PuzzleMode.Daily => $"daily:{result.PlayedOn:yyyy-MM-dd}",
+            PuzzleMode.Weekly => $"weekly:{result.PuzzleId}",
+            _ => $"challenge:{result.PuzzleId}"
+        };
 
         if (Current.Completions.TryGetValue(key, out var existing))
         {
@@ -105,6 +108,23 @@ public sealed class ProgressService(IProgressStore store, IClock clock)
         var rankChanged = result.Mode == PuzzleMode.Challenge && previousRank.Tier != currentRank.Tier;
         return new ProgressUpdate(true, false, previousRank, currentRank, rankChanged,
             result.Mode == PuzzleMode.Challenge && Current.RankProgress.IsPathComplete);
+    }
+
+    public async Task<bool> EarnSpecialBadgeAsync(WeeklyBadgeDefinition badge)
+    {
+        await LoadAsync();
+        if (Current.SpecialBadges.Any(item => string.Equals(item.Id, badge.Id, StringComparison.OrdinalIgnoreCase)))
+            return false;
+
+        Current.SpecialBadges.Add(new SpecialBadgeRecord
+        {
+            Id = badge.Id,
+            Name = badge.Name,
+            Icon = badge.Icon,
+            EarnedAt = DateTimeOffset.UtcNow
+        });
+        await SaveAsync();
+        return true;
     }
 
     private static ProgressUpdate Unchanged(RankDefinition rank) =>

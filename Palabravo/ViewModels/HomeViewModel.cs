@@ -2,12 +2,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Palabravo.Core.Models;
 using Palabravo.Core.Services;
+using Palabravo.Services;
 
 namespace Palabravo.ViewModels;
 
-public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService progress, IClock clock) : ObservableObject
+public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService progress, IClock clock,
+    WeeklyChallengeService weeklyChallenges, Palabravo.Core.Monetization.IMonetizationTelemetry telemetry) : ObservableObject
 {
     private string _nextPuzzleId = "puzzle-01";
+    private string? _weeklyId;
+    private bool weeklyShownTracked;
 
     [ObservableProperty] private string dailyTitle = "Reto diario";
     [ObservableProperty] private string dailyDifficulty = "Preparando tu reto…";
@@ -17,6 +21,11 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
     [ObservableProperty] private string progressText = "0 de 5 retos";
     [ObservableProperty] private double rankProgress;
     [ObservableProperty] private string nextChallengeText = "Comenzar el camino";
+    [ObservableProperty] private bool hasWeekly;
+    [ObservableProperty] private string weeklyFlag = "✦";
+    [ObservableProperty] private string weeklyTitle = "Reto de la semana";
+    [ObservableProperty] private string weeklySubtitle = string.Empty;
+    [ObservableProperty] private string weeklyEndsText = string.Empty;
 
     public async Task RefreshAsync()
     {
@@ -37,6 +46,23 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
         var next = all.FirstOrDefault(x => !state.Completions.ContainsKey($"challenge:{x.Id}")) ?? all[^1];
         _nextPuzzleId = next.Id;
         NextChallengeText = rankProgress.IsPathComplete ? "Repetir el reto 30" : $"Reto {next.Order}: {next.Title}";
+
+        var weekly = await weeklyChallenges.GetCurrentAsync();
+        HasWeekly = weekly is not null;
+        if (weekly is not null)
+        {
+            _weeklyId = weekly.Id;
+            WeeklyFlag = weekly.Flag;
+            WeeklyTitle = weekly.Title;
+            WeeklySubtitle = weekly.Subtitle;
+            var days = Math.Max(1, (int)Math.Ceiling((weekly.EndsAt - DateTimeOffset.UtcNow).TotalDays));
+            WeeklyEndsText = days == 1 ? "Termina mañana" : $"Termina en {days} días";
+            if (!weeklyShownTracked)
+            {
+                weeklyShownTracked = true;
+                telemetry.Track("weekly_shown", new Dictionary<string, object> { ["weekly_id"] = weekly.Id });
+            }
+        }
     }
 
     [RelayCommand]
@@ -56,6 +82,14 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
         ["puzzleId"] = "daily",
         ["mode"] = PuzzleMode.Daily.ToString()
     });
+
+    [RelayCommand]
+    private Task PlayWeeklyAsync() => _weeklyId is null ? Task.CompletedTask :
+        Shell.Current.GoToAsync(nameof(Views.GamePage), new Dictionary<string, object>
+        {
+            ["puzzleId"] = _weeklyId,
+            ["mode"] = PuzzleMode.Weekly.ToString()
+        });
 
     [RelayCommand]
     private Task PlayNextAsync() => Shell.Current.GoToAsync(nameof(Views.GamePage), new Dictionary<string, object>

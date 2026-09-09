@@ -21,7 +21,18 @@ public static class ProgressJson
         {
             var progress = JsonSerializer.Deserialize<PlayerProgress>(json, Options);
             if (progress?.SchemaVersion == PlayerProgress.CurrentSchemaVersion)
+            {
+                progress.SpecialBadges ??= [];
                 return progress;
+            }
+
+            if (progress?.SchemaVersion == 2)
+            {
+                progress.SchemaVersion = PlayerProgress.CurrentSchemaVersion;
+                progress.SpecialBadges ??= [];
+                migrated = true;
+                return progress;
+            }
 
             // El catálogo definitivo reemplaza los retos 2 y 3 del prototipo. La
             // migración conserva el onboarding, pero reinicia todo progreso jugable.

@@ -64,6 +64,8 @@
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+		<!-- The deployed weekly JSON is also the offline fallback bundled with the app. -->
+		<MauiAsset Include="..\Web\public\content\weekly.json" LogicalName="weekly.json" />
 	</ItemGroup>
 
 	<ItemGroup>

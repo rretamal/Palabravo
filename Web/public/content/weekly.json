@@ -1,0 +1,49 @@
+{
+  "id": "chile-18-2026",
+  "title": "Especial Chile",
+  "subtitle": "¿Cuánto sabes de Fiestas Patrias?",
+  "country": "CL",
+  "flag": "🇨🇱",
+  "startsAt": "2026-09-07T00:00:00Z",
+  "endsAt": "2026-09-21T00:00:00Z",
+  "puzzle": {
+    "id": "weekly-cl-001",
+    "order": 0,
+    "contentVersion": 1,
+    "rank": "novato",
+    "title": "Fiestas Patrias",
+    "difficulty": "Especial",
+    "groups": [
+      {
+        "category": "En una fonda",
+        "hint": "Tradiciones que animan una celebración dieciochera.",
+        "words": ["Cueca", "Fonda", "Ramada", "Volantín"]
+      },
+      {
+        "category": "Sabores chilenos",
+        "hint": "Platos y preparaciones populares de Chile.",
+        "words": ["Empanada", "Completo", "Sopaipilla", "Choclo"]
+      },
+      {
+        "category": "Geografía de Chile",
+        "hint": "Paisajes y regiones naturales del país.",
+        "words": ["Andes", "Atacama", "Patagonia", "Pacífico"]
+      },
+      {
+        "category": "Palabras muy chilenas",
+        "hint": "Expresiones habituales en una conversación chilena.",
+        "words": ["Pololo", "Cachai", "Bacán", "Al tiro"]
+      }
+    ]
+  },
+  "badge": {
+    "id": "chile-2026",
+    "name": "Chile 2026",
+    "icon": "🇨🇱",
+    "imageUrl": "https://palabravo.app/badges/chile-2026.svg"
+  },
+  "share": {
+    "title": "Especial Chile 🇨🇱",
+    "message": "Completé el reto de Chile en Palabravo. ¿Puedes superarme?"
+  }
+}

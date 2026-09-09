@@ -5,6 +5,7 @@ using Palabravo.Core.Services;
 using Palabravo.Services;
 using Palabravo.Core.Monetization;
 using Palabravo.Services.Monetization;
+using System.Collections.ObjectModel;
 
 namespace Palabravo.ViewModels;
 
@@ -15,6 +16,7 @@ public partial class ProfileViewModel(
     IMonetizationService monetization,
     MonetizationOfferPresenter offers) : ObservableObject
 {
+    public ObservableCollection<SpecialBadgeViewModel> SpecialBadges { get; } = [];
     [ObservableProperty] private string accountName = "Invitado";
     [ObservableProperty] private string accountCaption = "Protege tu progreso y conserva tu lugar en el ranking.";
     [ObservableProperty] private bool canUseGooglePlayGames;
@@ -32,6 +34,7 @@ public partial class ProfileViewModel(
     [ObservableProperty] private string gold = "0";
     [ObservableProperty] private string silver = "0";
     [ObservableProperty] private string bronze = "0";
+    [ObservableProperty] private bool hasSpecialBadges;
     [ObservableProperty] private bool soundEnabled = effects.SoundEnabled;
 
     public bool IsAccountIdle => !IsAccountBusy;
@@ -89,6 +92,11 @@ public partial class ProfileViewModel(
         Gold = Count(player, Medal.Gold);
         Silver = Count(player, Medal.Silver);
         Bronze = Count(player, Medal.Bronze);
+        SpecialBadges.Clear();
+        foreach (var badge in player.SpecialBadges.OrderByDescending(item => item.EarnedAt))
+            SpecialBadges.Add(new SpecialBadgeViewModel(badge.Icon, badge.Name,
+                badge.EarnedAt.ToLocalTime().ToString("dd/MM/yyyy")));
+        HasSpecialBadges = SpecialBadges.Count > 0;
     }
 
     [RelayCommand(CanExecute = nameof(CanContinueWithGoogle))]
@@ -179,3 +187,5 @@ public partial class ProfileViewModel(
         RestorePurchasesCommand.NotifyCanExecuteChanged();
     }
 }
+
+public sealed record SpecialBadgeViewModel(string Icon, string Name, string EarnedOn);

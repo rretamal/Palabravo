@@ -3,6 +3,8 @@ import LandingPage from './views/LandingPage.vue'
 import LegalPage from './views/LegalPage.vue'
 import DeleteDataPage from './views/DeleteDataPage.vue'
 import ChallengeReferralPage from './views/ChallengeReferralPage.vue'
+import WeeklyPage from './views/WeeklyPage.vue'
+import WeeklyChallengePage from './views/WeeklyChallengePage.vue'
 
 const meta = (
   locale: 'es' | 'en',
@@ -20,6 +22,10 @@ export const scrollBehavior: RouterScrollBehavior = (to, _from, savedPosition) =
 }
 
 export const routes: RouteRecordRaw[] = [
+  { path: '/semanal', component: WeeklyPage,
+    meta: meta('es', 'Reto de la semana — Palabravo', 'Juega el evento semanal de Palabravo.', '/semanal', '/semanal') },
+  { path: '/challenge/:token', component: WeeklyChallengePage,
+    meta: meta('es', 'Te desafiaron — Palabravo', 'Supera el resultado de tu amigo en el reto semanal.', '/challenge/:token', '/challenge/:token') },
   { path: '/reto/:id', component: ChallengeReferralPage,
     meta: meta('es', 'Un reto para ti — Palabravo', 'Resuelve el mismo reto que tu amigo.', '/', '/en') },
   {

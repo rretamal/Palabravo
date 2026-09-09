@@ -12,13 +12,14 @@ namespace Palabravo.ViewModels;
 public partial class GameViewModel(
     GameCoordinator coordinator,
     ProgressService progress,
-    ILeaderboardService leaderboard,
     IMonetizationService monetization,
     IMonetizationTelemetry telemetry,
     MonetizationOfferPresenter offers,
-    GameplayActivity activity) : ObservableObject
+    GameplayActivity activity,
+    WeeklyChallengeService weeklyChallenges) : ObservableObject
 {
     private static readonly string[] GroupColors = ["#FCE4DE", "#FFF0C8", "#DDEFE9", "#E5E9F5"];
+    private bool referredAttempt;
 
     public ObservableCollection<WordTileViewModel> Words { get; } = [];
     public ObservableCollection<SolvedGroupViewModel> SolvedGroups { get; } = [];
@@ -40,9 +41,13 @@ public partial class GameViewModel(
         if (!Enum.TryParse<PuzzleMode>(modeText, true, out var mode))
             mode = PuzzleMode.Challenge;
 
+        referredAttempt = referred;
         await coordinator.StartAsync(puzzleId, mode, referred);
         activity.Touch();
         RefreshFromEngine();
+        if (mode == PuzzleMode.Weekly)
+            telemetry.Track(referred ? "challenge_started" : "weekly_started",
+                new Dictionary<string, object> { ["weekly_id"] = coordinator.CurrentWeekly?.Id ?? puzzleId });
 
         var state = await progress.LoadAsync();
         if (!state.TutorialSeen)
@@ -58,7 +63,12 @@ public partial class GameViewModel(
         if (state is null)
             return;
 
-        Title = state.Mode == PuzzleMode.Daily ? "Reto diario" : $"Reto {state.Puzzle.Order}";
+        Title = state.Mode switch
+        {
+            PuzzleMode.Daily => "Reto diario",
+            PuzzleMode.Weekly => $"{coordinator.CurrentWeekly?.Flag} Reto semanal",
+            _ => $"Reto {state.Puzzle.Order}"
+        };
         Subtitle = state.Puzzle.Title;
         StatusMessage = "Selecciona cuatro palabras relacionadas";
         RebuildCollections();
@@ -189,8 +199,17 @@ public partial class GameViewModel(
         var result = coordinator.Finish();
         var progressUpdate = await progress.RecordCompletionAsync(result);
         coordinator.SetProgressUpdate(progressUpdate);
-        if (result.IsSuccess && result.Mode == PuzzleMode.Daily)
-            _ = leaderboard.SubmitDailyResultAsync(result);
+        if (result.IsSuccess && result.Mode == PuzzleMode.Weekly && coordinator.CurrentWeekly is { } weekly)
+        {
+            var earned = await progress.EarnSpecialBadgeAsync(weekly.Badge);
+            telemetry.Track("weekly_completed", new Dictionary<string, object> { ["weekly_id"] = weekly.Id });
+            if (referredAttempt)
+                telemetry.Track("challenge_completed", new Dictionary<string, object> { ["weekly_id"] = weekly.Id });
+            if (earned)
+                telemetry.Track("badge_earned", new Dictionary<string, object>
+                    { ["weekly_id"] = weekly.Id, ["badge_id"] = weekly.Badge.Id });
+            _ = weeklyChallenges.SubmitResultAsync(weekly, result);
+        }
         await monetization.CompleteAttemptAsync(coordinator.Engine.State!.AttemptId, result.IsSuccess);
         await Shell.Current.GoToAsync(nameof(Views.ResultPage));
     }

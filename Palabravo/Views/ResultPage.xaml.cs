@@ -91,27 +91,39 @@ public partial class ResultPage : ContentPage
 
     private async void OnChallengeFriendClicked(object? sender, EventArgs e)
     {
+        string? shareText = null;
         try
         {
+            shareText = await _viewModel.BuildShareTextAsync();
 #if ANDROID
             if (ShareCard.Handler?.PlatformView is Android.Views.View nativeCard)
             {
-                var screenshot = await Screenshot.Default.CaptureAsync(nativeCard);
-                if (screenshot is null)
-                    throw new InvalidOperationException("No fue posible crear la tarjeta para compartir.");
-                var path = Path.Combine(FileSystem.CacheDirectory, "palabravo-reto.png");
-                await using (var output = File.Create(path))
-                    await screenshot.CopyToAsync(output, ScreenshotFormat.Png, 100);
+                WinnerActions.IsVisible = false;
+                try
+                {
+                    // Let the card reflow so action controls are not baked into the shared image.
+                    await Task.Delay(50);
+                    var screenshot = await Screenshot.Default.CaptureAsync(nativeCard);
+                    if (screenshot is null)
+                        throw new InvalidOperationException("No fue posible crear la tarjeta para compartir.");
+                    var path = Path.Combine(FileSystem.CacheDirectory, "palabravo-reto.png");
+                    await using (var output = File.Create(path))
+                        await screenshot.CopyToAsync(output, ScreenshotFormat.Png, 100);
 
-                ShareBrandedCardOnAndroid(path, _viewModel.BuildShareText());
-                return;
+                    ShareBrandedCardOnAndroid(path, shareText);
+                    return;
+                }
+                finally
+                {
+                    WinnerActions.IsVisible = _viewModel.IsSuccess;
+                }
             }
 #endif
-            await _viewModel.ShareTextAsync();
+            await _viewModel.ShareTextAsync(shareText);
         }
         catch
         {
-            await _viewModel.ShareTextAsync();
+            await _viewModel.ShareTextAsync(shareText);
         }
     }
 

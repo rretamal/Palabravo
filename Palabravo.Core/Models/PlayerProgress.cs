@@ -2,7 +2,7 @@ namespace Palabravo.Core.Models;
 
 public sealed class PlayerProgress
 {
-    public const int CurrentSchemaVersion = 2;
+    public const int CurrentSchemaVersion = 3;
 
     public int SchemaVersion { get; set; } = CurrentSchemaVersion;
     public bool TutorialSeen { get; set; }
@@ -10,6 +10,7 @@ public sealed class PlayerProgress
     public int BestStreak { get; set; }
     public DateOnly? LastCompletedDate { get; set; }
     public Dictionary<string, CompletionRecord> Completions { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    public List<SpecialBadgeRecord> SpecialBadges { get; set; } = [];
 
     public int TotalResolved => Completions.Count;
     public int PerfectResolved => Completions.Values.Count(x => x.Errors == 0 && x.HintsUsed == 0);
@@ -18,6 +19,14 @@ public sealed class PlayerProgress
     public RankProgressSnapshot RankProgress => RankCatalog.ForCompleted(FixedChallengesCompleted);
     public RankTier RankTier => RankProgress.Definition.Tier;
     public string Rank => RankProgress.Definition.Name;
+}
+
+public sealed class SpecialBadgeRecord
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Icon { get; set; } = "✦";
+    public DateTimeOffset EarnedAt { get; set; }
 }
 
 public sealed class CompletionRecord

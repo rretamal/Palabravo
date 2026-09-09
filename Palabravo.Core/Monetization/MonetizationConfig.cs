@@ -11,7 +11,7 @@ public sealed record MonetizationConfig
     [JsonPropertyName("interstitial_enabled")] public bool InterstitialEnabled { get; init; } = true;
     [JsonPropertyName("rewarded_enabled")] public bool RewardedEnabled { get; init; } = true;
     [JsonPropertyName("interstitial_every_completed")] public int EveryCompleted { get; init; } = 3;
-    [JsonPropertyName("interstitial_grace_completed")] public int GraceCompleted { get; init; } = 3;
+    [JsonPropertyName("interstitial_grace_completed")] public int GraceCompleted { get; init; } = 2;
     [JsonPropertyName("min_active_seconds_between_ads")] public int MinActiveSeconds { get; init; } = 300;
     [JsonPropertyName("max_interstitials_per_session")] public int MaxPerSession { get; init; } = 2;
     [JsonPropertyName("first_referred_attempt_ad_free")] public bool FirstReferredAdFree { get; init; } = true;
@@ -19,7 +19,7 @@ public sealed record MonetizationConfig
     [JsonPropertyName("experiment_enabled")] public bool ExperimentEnabled { get; init; }
 
     public bool IsValid => !string.IsNullOrWhiteSpace(Version) && Version.Length <= 64 &&
-        EveryCompleted is >= 3 and <= 30 && GraceCompleted is >= 3 and <= 100 &&
+        EveryCompleted is >= 3 and <= 30 && GraceCompleted is >= 2 and <= 100 &&
         MinActiveSeconds is >= 300 and <= 3600 && MaxPerSession is >= 0 and <= 2 &&
         RemoveAdsProductId == ProductId;
 

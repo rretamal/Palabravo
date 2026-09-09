@@ -6,7 +6,7 @@ La monetización permanece desactivada en `Palabravo/monetization.json` hasta co
 
 ## Implementación
 
-- Reglas y persistencia local independientes del progreso: bienvenida, cupo diario, recompensas idempotentes, oportunidades 6/9/12, 300 segundos activos y máximo dos intersticiales por sesión.
+- Reglas y persistencia local independientes del progreso: bienvenida, cupo diario, recompensas idempotentes, oportunidades 3/6/9, 300 segundos activos y máximo dos intersticiales por sesión.
 - Pistas distintas y parciales; una recompensa cuya pantalla no se confirmó se recupera en el siguiente intento.
 - Pausas compartidas entre intentos para consentimiento, anuncios, modales y segundo plano. Iniciar otro reto durante una pausa no activa su cronómetro.
 - Adaptadores de AdMob, UMP, Firebase, Google Play Billing y StoreKit 2; verificación y restauración mediante API autenticada con PlayFab.
@@ -28,7 +28,7 @@ La monetización permanece desactivada en `Palabravo/monetization.json` hasta co
 2. Conectar Firebase para `com.palabravo.app`. Descargar `google-services.json` a `Palabravo/Platforms/Android/` y `GoogleService-Info.plist` a `Palabravo/Platforms/iOS/`. Estos archivos se excluyen de Git.
 3. Configurar mensajes UMP y opciones de privacidad. Analytics y Crashlytics se habilitan únicamente con la preferencia opcional del usuario. Declarar en las tiendas los datos que recopila la versión finalmente probada.
 4. Crear el producto no consumible `palabravo_remove_ads` en ambas tiendas, con precio localizado de referencia US$2,99. Beneficios permanentes: ningún anuncio, tres pistas por día UTC no acumulables y máximo dos pistas por intento. Restauración dentro de cada tienda.
-5. Crear `PalabravoPurchases` en Azure Table Storage y configurar las variables de `Web/api/local.settings.example.json` como secretos de ejecución. Las Functions no crean infraestructura automáticamente.
+5. Crear `PalabravoPurchases` y `PalabravoWeekly` en Azure Table Storage y configurar las variables de `Web/api/local.settings.example.json` como secretos de ejecución. Ambas usan `PURCHASE_STORAGE_CONNECTION`; las Functions no crean infraestructura automáticamente.
 6. Separar sandbox y producción mediante `PURCHASE_ENVIRONMENT`. Configurar credenciales de Google Play y Apple, certificados raíz oficiales de Apple y permisos de acceso al producto. Nunca registrar tokens de compra ni cabeceras de autorización.
 7. Configurar Apple Server Notifications en `/api/purchases/notifications/apple` y Google RTDN mediante Pub/Sub push autenticado hacia `/api/purchases/notifications/google`, con audiencia exacta y correo de cuenta de servicio autorizado.
 8. Para el borrado histórico de Analytics, configurar `ANALYTICS_PROPERTY_ID` y `ANALYTICS_SERVICE_ACCOUNT_JSON`, habilitar Analytics Admin API y conceder a esa cuenta los permisos necesarios sobre la propiedad. No necesita BigQuery. El endpoint de borrado solicita primero el procesamiento de Analytics y limpia las referencias Azure, antes de invalidar la sesión PlayFab. Si falla, el usuario puede reintentar.
@@ -49,7 +49,7 @@ Las consultas de `monetizacion_tablero.sql` se conservan como material futuro. N
 
 - UMP requerido/no requerido, denegación, cambios de privacidad, ausencia de red e inventario.
 - Anuncios de prueba: impresión, cierre, recompensa, callbacks duplicados/desordenados, interrupción del proceso y entrega única.
-- Intersticiales en 6/9/12, cooldown activo, límite de sesión, intento referido y apagado remoto.
+- Intersticiales en 3/6/9, cooldown activo, límite de sesión, intento referido y apagado remoto.
 - Compra, cancelación, pendiente, aprobación posterior, restauración, reinstalación, devolución y cero solicitudes de anuncios después de la compra.
 - Entrega y reintentos de notificaciones de ambas tiendas, permisos Azure y solicitud de borrado de Analytics.
 - Enlaces universales/App Links con firma de distribución y los informes nativos del proveedor.

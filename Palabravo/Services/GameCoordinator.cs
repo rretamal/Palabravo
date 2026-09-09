@@ -4,18 +4,26 @@ using Palabravo.Core.Monetization;
 
 namespace Palabravo.Services;
 
-public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMonetizationService monetization, GameplayActivity activity)
+public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMonetizationService monetization,
+    GameplayActivity activity, WeeklyChallengeService weeklyChallenges)
 {
     public PuzzleEngine Engine { get; private set; } = new();
     public GameResult? LastResult { get; private set; }
     public ProgressUpdate? LastProgressUpdate { get; private set; }
+    public WeeklyChallengeDefinition? CurrentWeekly { get; private set; }
 
     public async Task StartAsync(string puzzleId, PuzzleMode mode, bool referred = false)
     {
         var playedOn = mode == PuzzleMode.Daily ? clock.UtcToday : clock.Today;
-        var puzzle = mode == PuzzleMode.Daily
-            ? await puzzles.GetDailyAsync(playedOn)
-            : await puzzles.GetByIdAsync(puzzleId) ?? throw new InvalidOperationException("Reto no encontrado.");
+        CurrentWeekly = mode == PuzzleMode.Weekly
+            ? await weeklyChallenges.GetByIdAsync(puzzleId) ?? throw new InvalidOperationException("El reto semanal ya no está disponible.")
+            : null;
+        var puzzle = mode switch
+        {
+            PuzzleMode.Daily => await puzzles.GetDailyAsync(playedOn),
+            PuzzleMode.Weekly => CurrentWeekly!.Puzzle,
+            _ => await puzzles.GetByIdAsync(puzzleId) ?? throw new InvalidOperationException("Reto no encontrado.")
+        };
 
         Engine = new PuzzleEngine();
         Engine.Start(puzzle, mode, playedOn);

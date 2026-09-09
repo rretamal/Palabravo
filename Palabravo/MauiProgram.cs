@@ -96,6 +96,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPuzzleRepository, JsonPuzzleRepository>();
         builder.Services.AddSingleton<IProgressStore, PreferencesProgressStore>();
         builder.Services.AddSingleton<ProgressService>();
+        builder.Services.AddSingleton<WeeklyChallengeService>();
         builder.Services.AddSingleton<GameCoordinator>();
         builder.Services.AddSingleton<ReferralService>();
         builder.Services.AddSingleton<CelebrationEffectsService>();

@@ -40,7 +40,7 @@ public sealed class MonetizationTests
         Assert.Equal(2, f.Store.State.DailyHintsUsed);
     }
     [Fact]
-    public async Task Interstitials_start_at_six_and_are_limited_to_two_per_session()
+    public async Task Interstitials_start_at_three_and_are_limited_to_two_per_session()
     {
         var f = await Fixture.Create();
         for (var i = 1; i <= 12; i++)
@@ -49,7 +49,7 @@ public sealed class MonetizationTests
             f.Advance(301);
             await f.Service.CompleteAttemptAsync($"a{i}", true);
             await f.Service.CompleteAttemptAsync($"a{i}", true);
-            Assert.Equal(i < 6 ? 0 : i < 9 ? 1 : 2, f.Ads.Shown);
+            Assert.Equal(i < 3 ? 0 : i < 6 ? 1 : 2, f.Ads.Shown);
         }
         Assert.Equal(12, f.Store.State.CompletedAttempts);
     }

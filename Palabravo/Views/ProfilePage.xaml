@@ -64,6 +64,26 @@
                 </Border>
             </Grid>
 
+            <VerticalStackLayout IsVisible="{Binding HasSpecialBadges}" Spacing="9">
+                <Label Text="ESPECIALES" Style="{StaticResource Eyebrow}" Margin="2,8,0,0" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding SpecialBadges}" Spacing="8">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource MustardSoft}" Stroke="#E6C66E">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Label Text="{Binding Icon}" FontSize="32" VerticalTextAlignment="Center" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                                        <Label Text="{Binding Name}" FontFamily="OpenSansSemibold" FontSize="16" />
+                                        <Label Text="Badge semanal completado" FontSize="10" TextColor="{StaticResource Muted}" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2" Text="{Binding EarnedOn}" FontSize="10" TextColor="{StaticResource Muted}" VerticalTextAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
             <Border Style="{StaticResource Card}">
                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
                     <Label Text="♪" FontSize="26" TextColor="{StaticResource Coral}" VerticalTextAlignment="Center" />

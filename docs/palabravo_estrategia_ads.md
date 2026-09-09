@@ -8,7 +8,7 @@ Actualización de alcance, 9 de septiembre: BigQuery y Looker Studio quedan para
 
 Lanzar gratis con los 30 retos actuales, pistas mediante anuncios voluntarios, intersticiales moderados y una compra única «Palabravo sin anuncios» con precio de referencia US$2,99, localizado por la tienda. No incorporar suscripción, monedas, battle pass ni skins al lanzamiento.
 
-Optimizar el ingreso acumulado por jugador conservando la retención, no el número de anuncios por sesión. La compra elimina todos los anuncios; propuesta inicial: incluye 3 pistas gratuitas diarias. Este beneficio debe comunicarse antes de pagar y conservarse para quienes compraron; no reducirlo mediante configuración remota. Reintentar y avanzar no requieren anuncios.
+Optimizar el ingreso acumulado por jugador conservando la retención, no el número de anuncios por sesión. La compra elimina todos los anuncios; propuesta inicial: incluye 3 pistas gratuitas diarias. Este beneficio debe comunicarse antes de pagar y conservarse para quienes compraron; no reducirlo mediante configuración remota. Reintentar y avanzar no requieren anuncios. Los 30 retos pueden completarse el mismo día, sin bloqueos temporales ni anuncios obligatorios para desbloquear niveles.
 
 Los packs premium serían una decisión posterior. La compra sin anuncios no implica automáticamente futuros packs de pago; si se incorporan, comunicarlo claramente.
 
@@ -18,7 +18,7 @@ Los packs premium serían una decisión posterior. La compra sin anuncios no imp
 | --- | --- |
 | Pistas | Algunas pistas gratuitas de introducción; después, oferta voluntaria con recompensa explícita. |
 | Recompensado | Un video por una pista parcial, solo tras aceptación. No resolver todo el tablero. |
-| Intersticial | Oportunidad cada 3 retos completados; no al completar el tercero de la primera experiencia: primera oportunidad a partir del sexto. |
+| Intersticial | Oportunidad cada 3 retos completados; primera oportunidad al completar el tercero, sujeta al tiempo mínimo y al límite por sesión. |
 | Separación | Al menos 300 segundos de juego activo desde el último anuncio mostrado, también si fue recompensado. |
 | Límite | Máximo 2 intersticiales por sesión. Sesión: reinicio después de 30 minutos en segundo plano/inactividad. Persistir contadores para que reiniciar el proceso no eluda los límites. |
 | Ubicación | Transición natural al finalizar un reto, antes de habilitar la acción de continuar. Nunca durante selección de palabras. |
@@ -41,7 +41,7 @@ Centralizar decisiones en un servicio de monetización, con adaptadores para anu
   "interstitial_enabled": true,
   "rewarded_enabled": true,
   "interstitial_every_completed": 3,
-  "interstitial_grace_completed": 3,
+  "interstitial_grace_completed": 2,
   "min_active_seconds_between_ads": 300,
   "max_interstitials_per_session": 2,
   "first_referred_attempt_ad_free": true,

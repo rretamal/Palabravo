@@ -1,5 +1,6 @@
 import { GoogleAuth } from 'google-auth-library'
 import { AzurePurchaseRepository } from './purchaseRepository.js'
+import { AzureWeeklyRepository } from './weeklyRepository.js'
 
 export function parseAnalyticsIds(body: unknown): string[] {
   if (!body || typeof body !== 'object') return []
@@ -21,5 +22,8 @@ export async function deleteMonetizationData(playerId: string, analyticsIds: str
       await client.request({ url: `https://analyticsadmin.googleapis.com/v1alpha/properties/${propertyId}:submitUserDeletion`, method: 'POST', data: { appInstanceId: id }, timeout: 10_000 })
   }
   if (process.env.PURCHASE_ENVIRONMENT || process.env.PURCHASE_STORAGE_CONNECTION)
+  {
     await new AzurePurchaseRepository().removePlayer(playerId)
+    await new AzureWeeklyRepository().removePlayer(playerId)
+  }
 }

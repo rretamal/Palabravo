@@ -19,5 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="../Palabravo/Resources/Raw/puzzles.json" Link="puzzles.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Web/public/content/weekly.json" Link="weekly.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

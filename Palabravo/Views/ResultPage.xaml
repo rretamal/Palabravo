@@ -38,6 +38,24 @@
                     <Label x:Name="MedalIcon" Text="{Binding MedalIcon}" FontSize="42" HorizontalTextAlignment="Center" />
                     <Label x:Name="MedalText" Text="{Binding MedalText}" FontFamily="OpenSansSemibold" FontSize="19" HorizontalTextAlignment="Center" />
 
+                    <Border IsVisible="{Binding IsWeekly}" BackgroundColor="{StaticResource MustardSoft}" Stroke="#E6C66E" Padding="12,9">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <Label Text="{Binding SpecialBadgeIcon}" FontSize="28" VerticalTextAlignment="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
+                                <Label Text="ESPECIAL CONSEGUIDO" Style="{StaticResource Eyebrow}" TextColor="#A46D00" />
+                                <Label Text="{Binding SpecialBadgeText}" FontFamily="OpenSansSemibold" FontSize="14" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <Grid IsVisible="{Binding IsWeekly}" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="3" HorizontalOptions="Center">
+                        <Label Text="🟧🟧🟧🟧" Grid.Row="0" CharacterSpacing="2" />
+                        <Label Text="🟨🟨🟨🟨" Grid.Row="1" CharacterSpacing="2" />
+                        <Label Text="🟩🟩🟩🟩" Grid.Row="2" CharacterSpacing="2" />
+                        <Label Text="🟦🟦🟦🟦" Grid.Row="3" CharacterSpacing="2" />
+                    </Grid>
+
                     <Grid x:Name="ResultStats" ColumnDefinitions="1*,1*,1*" ColumnSpacing="8">
                         <Border Style="{StaticResource Card}" Padding="10"><VerticalStackLayout><Label Text="{Binding Errors}" FontFamily="OpenSansSemibold" FontSize="21" HorizontalTextAlignment="Center" /><Label Text="ERRORES" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout></Border>
                         <Border Grid.Column="1" Style="{StaticResource Card}" Padding="10"><VerticalStackLayout><Label Text="{Binding Hints}" FontFamily="OpenSansSemibold" FontSize="21" HorizontalTextAlignment="Center" /><Label Text="PISTAS" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout></Border>
@@ -55,6 +73,18 @@
                                    TextColor="#FFF1EC" HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
                     </Border>
+
+                    <Grid x:Name="WinnerActions" IsVisible="{Binding IsSuccess}"
+                          ColumnDefinitions="*,*" ColumnSpacing="9" Margin="0,2,0,0">
+                        <Button Text="Continuar" Command="{Binding GoHomeCommand}" />
+                        <Button Grid.Column="1" Text="Retar" Clicked="OnChallengeFriendClicked"
+                                BackgroundColor="{StaticResource Surface}" TextColor="{StaticResource Coral}"
+                                BorderColor="{StaticResource Coral}" BorderWidth="1"
+                                SemanticProperties.Description="Compartir este reto con un amigo sin revelar la solución" />
+                    </Grid>
+                    <Button Text="Ver ranking semanal" Command="{Binding GoRankingCommand}"
+                            IsVisible="{Binding IsWeekly}" BackgroundColor="{StaticResource Mustard}"
+                            TextColor="{StaticResource Ink}" />
                 </VerticalStackLayout>
             </Border>
 
@@ -92,10 +122,9 @@
                 </VerticalStackLayout>
             </VerticalStackLayout>
 
-            <Button Text="Retar a un amigo" Clicked="OnChallengeFriendClicked" IsVisible="{Binding IsSuccess}"
-                    SemanticProperties.Description="Compartir este reto con un amigo sin revelar la solución" />
             <Button Text="Jugar otra vez" Command="{Binding ReplayCommand}" BackgroundColor="{StaticResource Surface}" TextColor="{StaticResource Coral}" BorderColor="{StaticResource Coral}" BorderWidth="1" />
-            <Button Text="Volver al inicio" Command="{Binding GoHomeCommand}" BackgroundColor="Transparent" TextColor="{StaticResource Muted}" />
+            <Button Text="Volver al inicio" Command="{Binding GoHomeCommand}" IsVisible="{Binding IsFailure}"
+                    BackgroundColor="Transparent" TextColor="{StaticResource Muted}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

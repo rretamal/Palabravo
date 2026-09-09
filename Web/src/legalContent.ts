@@ -25,7 +25,7 @@ export const legalDocuments: Record<Locale, Record<LegalKind, LegalDocument>> = 
         { title: 'Responsable y contacto', paragraphs: ['Palabravo es ofrecido por R. Retamal, Santiago, Chile. Para consultas de privacidad puedes escribir a hello@palabravo.app.'] },
         { title: 'Datos que tratamos', items: [
           'Un identificador aleatorio de PlayFab y un alias generado para crear la cuenta invitada y mostrar el ranking.',
-          'Resultados del reto diario, puntajes y nombre visible necesarios para operar el ranking.',
+          'Resultados del reto semanal, puntajes y nombre visible necesarios para operar el ranking.',
           'Si eliges vincular Google Play Games: el código de autenticación temporal y la identidad de jugador que Google permite asociar con Palabravo.',
           'Progreso, medallas, rachas, tutorial y preferencias guardados localmente en tu dispositivo.',
           'Si solicitas borrado por la web: correo de contacto, identificador proporcionado, detalles opcionales y fecha de la solicitud.',

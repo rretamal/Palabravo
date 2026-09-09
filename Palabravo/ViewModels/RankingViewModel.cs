@@ -7,7 +7,7 @@ using Palabravo.Services;
 
 namespace Palabravo.ViewModels;
 
-public partial class RankingViewModel(ILeaderboardService leaderboard) : ObservableObject
+public partial class RankingViewModel(WeeklyChallengeService weeklyChallenges, ProgressService progress) : ObservableObject
 {
     public ObservableCollection<RankingEntryViewModel> Entries { get; } = [];
 
@@ -17,10 +17,13 @@ public partial class RankingViewModel(ILeaderboardService leaderboard) : Observa
     [ObservableProperty] private bool showError;
     [ObservableProperty] private bool showMyPosition;
     [ObservableProperty] private string errorMessage = string.Empty;
-    [ObservableProperty] private string nextResetText = "Se reinicia diariamente";
+    [ObservableProperty] private string nextResetText = "Se renueva semanalmente";
     [ObservableProperty] private string myRank = "—";
     [ObservableProperty] private string myName = "Aún no participas";
-    [ObservableProperty] private string myResult = "Completa el reto diario para aparecer";
+    [ObservableProperty] private string myResult = "Completa el reto semanal para aparecer";
+    [ObservableProperty] private string heading = "Ranking semanal";
+    [ObservableProperty] private string emptyTitle = "Sé el primero esta semana";
+    [ObservableProperty] private string emptyText = "Completa el reto semanal y tu mejor resultado aparecerá aquí.";
 
     [RelayCommand]
     public async Task LoadAsync()
@@ -29,47 +32,60 @@ public partial class RankingViewModel(ILeaderboardService leaderboard) : Observa
         ShowError = false;
         ShowEmpty = false;
 
-        var snapshot = await leaderboard.GetDailyAsync();
+        var weekly = await weeklyChallenges.GetCurrentAsync();
+        if (weekly is null)
+        {
+            Entries.Clear();
+            HasEntries = false;
+            ShowMyPosition = false;
+            ShowError = true;
+            ErrorMessage = "No hay un reto semanal activo en este momento.";
+            IsLoading = false;
+            return;
+        }
+
+        Heading = $"{weekly.Flag} Ranking semanal";
+        var savedProgress = await progress.LoadAsync();
+        if (savedProgress.Completions.TryGetValue($"weekly:{weekly.Puzzle.Id}", out var completion))
+            weeklyChallenges.QueueStoredResult(weekly, completion);
+        await LoadWeeklyAsync(weekly);
+        IsLoading = false;
+    }
+
+    private async Task LoadWeeklyAsync(WeeklyChallengeDefinition weekly)
+    {
+        var snapshot = await weeklyChallenges.GetRankingAsync(weekly.Id);
         Entries.Clear();
         foreach (var entry in snapshot.Entries)
-            Entries.Add(ToViewModel(entry));
-
+            Entries.Add(ToViewModel(entry.Rank, entry.Name, entry.Score, entry.IsCurrentPlayer));
         HasEntries = Entries.Count > 0;
         ShowEmpty = snapshot.IsAvailable && !HasEntries;
         ShowError = !snapshot.IsAvailable;
         ErrorMessage = snapshot.Error ?? string.Empty;
-        NextResetText = snapshot.NextReset is { } reset
-            ? $"Reinicia {FormatReset(reset.ToLocalTime())}"
-            : "Se reinicia diariamente";
-
+        NextResetText = $"Termina {FormatReset(weekly.EndsAt.ToLocalTime())}";
         ShowMyPosition = snapshot.CurrentPlayer is not null;
         if (snapshot.CurrentPlayer is { } current)
         {
-            var details = LeaderboardScore.Decode(current.Score);
             MyRank = $"#{current.Rank}";
             MyName = current.Name;
-            MyResult = FormatDetails(details);
+            MyResult = $"{FormatDetails(LeaderboardScore.Decode(current.Score))} · Top {snapshot.Percentile}%";
         }
         else
         {
-            MyRank = "—";
-            MyName = "Aún no participas";
-            MyResult = "Completa el reto diario para aparecer";
+            MyRank = "—"; MyName = "Aún no participas"; MyResult = "Completa el reto semanal para aparecer";
         }
-
-        IsLoading = false;
     }
 
-    private static RankingEntryViewModel ToViewModel(LeaderboardEntry entry)
+    private static RankingEntryViewModel ToViewModel(int rank, string name, long score, bool isCurrentPlayer)
     {
-        var details = LeaderboardScore.Decode(entry.Score);
+        var details = LeaderboardScore.Decode(score);
         return new RankingEntryViewModel(
-            $"#{entry.Rank}",
-            entry.Name,
+            $"#{rank}",
+            name,
             MedalIcon(details.Medal),
             FormatDetails(details),
-            entry.IsCurrentPlayer ? "#FCE4DE" : "#FFFDFC",
-            entry.Rank <= 3 ? "#EB5B43" : "#6D6964");
+            isCurrentPlayer ? "#FCE4DE" : "#FFFDFC",
+            rank <= 3 ? "#EB5B43" : "#6D6964");
     }
 
     private static string FormatDetails(LeaderboardScoreDetails details) =>

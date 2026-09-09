@@ -12,5 +12,5 @@ if (process.env.MONETIZATION_RELEASE === 'true' && (!validFingerprint || !validT
   throw new Error('Configure ANDROID_CERT_SHA256, APPLE_TEAM_ID and ADMOB_PUBLISHER_ID before a monetization release.')
 mkdirSync(`${publicPath}/.well-known`, { recursive: true })
 writeFileSync(`${publicPath}/.well-known/assetlinks.json`, JSON.stringify(validFingerprint ? [{ relation: ['delegate_permission/common.handle_all_urls'], target: { namespace: 'android_app', package_name: 'com.palabravo.app', sha256_cert_fingerprints: [fingerprint] } }] : []))
-writeFileSync(`${publicPath}/.well-known/apple-app-site-association`, JSON.stringify({ applinks: { details: validTeam ? [{ appIDs: [`${team}.com.palabravo.app`], components: [{ '/': '/reto/*' }] }] : [] } }))
+writeFileSync(`${publicPath}/.well-known/apple-app-site-association`, JSON.stringify({ applinks: { details: validTeam ? [{ appIDs: [`${team}.com.palabravo.app`], components: [{ '/': '/reto/*' }, { '/': '/challenge/*' }, { '/': '/semanal' }] }] : [] } }))
 writeFileSync(`${publicPath}/app-ads.txt`, validPublisher ? `google.com, ${publisher}, DIRECT, f08c47fec0942fa0\n` : '')

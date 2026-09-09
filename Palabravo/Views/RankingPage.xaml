@@ -5,7 +5,7 @@
              Title="Ranking">
     <Grid RowDefinitions="Auto,*" Padding="20,18,20,14" MaximumWidthRequest="540">
         <VerticalStackLayout Spacing="5" Margin="0,0,0,14">
-            <Label Text="Ranking diario" Style="{StaticResource PageTitle}" />
+            <Label Text="{Binding Heading}" Style="{StaticResource PageTitle}" />
             <Label Text="{Binding NextResetText}" TextColor="{StaticResource Muted}" FontSize="12" />
         </VerticalStackLayout>
 
@@ -63,9 +63,9 @@
                     <Border Style="{StaticResource Card}" IsVisible="{Binding ShowEmpty}" Padding="22,30">
                         <VerticalStackLayout Spacing="8">
                             <Label Text="♛" FontSize="45" TextColor="{StaticResource Mustard}" HorizontalTextAlignment="Center" />
-                            <Label Text="Sé el primero de hoy" FontFamily="LoraSemibold" FontSize="23"
+                            <Label Text="{Binding EmptyTitle}" FontFamily="LoraSemibold" FontSize="23"
                                    HorizontalTextAlignment="Center" />
-                            <Label Text="Completa el reto diario y tu mejor resultado aparecerá aquí."
+                            <Label Text="{Binding EmptyText}"
                                    TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
                     </Border>
