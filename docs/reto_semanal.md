@@ -28,3 +28,7 @@ Los IDs de jugador se transforman en un hash antes de persistirse. No se guardan
 - Ranking: `GET /api/weekly/{weeklyId}/ranking`
 
 Antes de publicar se deben probar los App Links/Universal Links con las firmas de distribución, crear `PalabravoWeekly` y desplegar juntos el sitio y sus Functions. Si la API social no está disponible, el puzzle y el badge siguen funcionando; compartir utiliza `/semanal` como respaldo.
+
+## Chile entre líneas
+
+El reto combina nombres de preparaciones, una palabra común que completa ciudades, expresiones incompletas y dobles sentidos. Conserva la selección de cuatro fichas, con instrucciones propias y una explicación visible al resolver cada grupo. No incorpora todavía pantallas de trivia ni ordenar letras. Se usan nuevos IDs de evento y puzzle para separar resultados del tablero anterior.

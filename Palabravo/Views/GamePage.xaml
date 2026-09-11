@@ -31,7 +31,7 @@
 
         <VerticalStackLayout Grid.Row="2" Spacing="7">
             <Label Text="Cuatro grupos.&#10;Dieciséis palabras." Style="{StaticResource EditorialTitle}" />
-            <Label Text="Encuentra cuatro conjuntos de cuatro palabras relacionadas." TextColor="{StaticResource Muted}" FontSize="13" />
+            <Label Text="{Binding Instructions}" TextColor="{StaticResource Muted}" FontSize="13" />
             <VerticalStackLayout x:Name="SolvedGroupsPanel" BindableLayout.ItemsSource="{Binding SolvedGroups}" Spacing="6">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
@@ -40,6 +40,7 @@
                             <VerticalStackLayout Spacing="1">
                                 <Label Text="{Binding Category}" FontFamily="OpenSansSemibold" HorizontalTextAlignment="Center" />
                                 <Label Text="{Binding Words}" FontSize="10" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                                <Label Text="{Binding Explanation}" FontSize="12" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Center" />
                             </VerticalStackLayout>
                         </Border>
                     </DataTemplate>

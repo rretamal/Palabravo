@@ -1,40 +1,65 @@
 {
-  "id": "chile-18-2026",
+  "id": "chile-conexiones-2026",
   "title": "Especial Chile",
-  "subtitle": "¿Cuánto sabes de Fiestas Patrias?",
+  "subtitle": "Combina palabras y descubre conexiones chilenas",
   "country": "CL",
   "flag": "🇨🇱",
   "startsAt": "2026-09-07T00:00:00Z",
   "endsAt": "2026-09-21T00:00:00Z",
   "puzzle": {
-    "id": "weekly-cl-001",
+    "id": "weekly-cl-002",
     "order": 0,
     "contentVersion": 1,
     "rank": "novato",
-    "title": "Fiestas Patrias",
+    "title": "Chile entre líneas",
     "difficulty": "Especial",
     "groups": [
       {
-        "category": "En una fonda",
-        "hint": "Tradiciones que animan una celebración dieciochera.",
-        "words": ["Cueca", "Fonda", "Ramada", "Volantín"]
+        "category": "Sabores con apellido",
+        "hint": "Completa mentalmente el nombre de cada preparación.",
+        "words": [
+          "Pastel",
+          "Empanada",
+          "Mote",
+          "Pan"
+        ],
+        "explanation": "Pastel de choclo, empanada de pino, mote con huesillo y pan de Pascua: la conexión está en el nombre completo."
       },
       {
-        "category": "Sabores chilenos",
-        "hint": "Platos y preparaciones populares de Chile.",
-        "words": ["Empanada", "Completo", "Sopaipilla", "Choclo"]
+        "category": "Una palabra antes: Puerto",
+        "hint": "Prueba añadir la misma palabra delante de estos nombres.",
+        "words": [
+          "Montt",
+          "Varas",
+          "Natales",
+          "Aysén"
+        ],
+        "explanation": "Puerto Montt, Puerto Varas, Puerto Natales y Puerto Aysén. Una misma palabra convierte las cuatro piezas en nombres de ciudades chilenas."
       },
       {
-        "category": "Geografía de Chile",
-        "hint": "Paisajes y regiones naturales del país.",
-        "words": ["Andes", "Atacama", "Patagonia", "Pacífico"]
+        "category": "Una palabra antes: al",
+        "hint": "Son fragmentos de expresiones cotidianas. ¿Qué palabra falta?",
+        "words": [
+          "Tiro",
+          "Lote",
+          "Seco",
+          "Callo"
+        ],
+        "explanation": "Al tiro: de inmediato. Al lote: sin orden ni cuidado. Al seco: de un trago. Al callo: justo en el punto."
       },
       {
-        "category": "Palabras muy chilenas",
-        "hint": "Expresiones habituales en una conversación chilena.",
-        "words": ["Pololo", "Cachai", "Bacán", "Al tiro"]
+        "category": "Animales que describen personas",
+        "hint": "Piensa en cómo se usan estas palabras al hablar de alguien.",
+        "words": [
+          "Gallo",
+          "Pavo",
+          "Choro",
+          "Loco"
+        ],
+        "explanation": "Además de sus sentidos literales, aparecen al hablar de personas: un gallo, alguien pavo, alguien choro o alguien loco. El sentido depende del contexto; no son usos exclusivos de Chile."
       }
-    ]
+    ],
+    "instructions": "Selecciona cuatro palabras que compartan una conexión. Algunas completan nombres o expresiones; otras esconden un doble sentido."
   },
   "badge": {
     "id": "chile-2026",

@@ -30,6 +30,7 @@ public partial class GameViewModel(
     [ObservableProperty] private string attemptDots = "● ● ●";
     [ObservableProperty] private string errorText = $"0 / {PuzzleEngine.MaxErrors}";
     [ObservableProperty] private string hintText = "2 pistas";
+    [ObservableProperty] private string instructions = string.Empty;
     [ObservableProperty] private string statusMessage = "Selecciona cuatro palabras relacionadas";
     [ObservableProperty] private bool canSubmit;
     [ObservableProperty] private bool isBusy;
@@ -70,6 +71,7 @@ public partial class GameViewModel(
             _ => $"Reto {state.Puzzle.Order}"
         };
         Subtitle = state.Puzzle.Title;
+        Instructions = state.Puzzle.Instructions;
         StatusMessage = "Selecciona cuatro palabras relacionadas";
         RebuildCollections();
     }
@@ -229,7 +231,7 @@ public partial class GameViewModel(
         {
             var group = state.SolvedGroups[i];
             SolvedGroups.Add(new SolvedGroupViewModel(group.Category,
-                string.Join(" · ", group.Words), GroupColors[i % GroupColors.Length]));
+                string.Join(" · ", group.Words), group.Explanation, GroupColors[i % GroupColors.Length]));
         }
 
         CanSubmit = state.SelectedWords.Count == 4;
@@ -274,4 +276,4 @@ public partial class WordTileViewModel(string word, bool isSelected) : Observabl
     }
 }
 
-public sealed record SolvedGroupViewModel(string Category, string Words, string BackgroundColor);
+public sealed record SolvedGroupViewModel(string Category, string Words, string Explanation, string BackgroundColor);
