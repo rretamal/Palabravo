@@ -19,6 +19,7 @@ public sealed class PlayerProgress
     public RankProgressSnapshot RankProgress => RankCatalog.ForCompleted(FixedChallengesCompleted);
     public RankTier RankTier => RankProgress.Definition.Tier;
     public string Rank => RankProgress.Definition.Name;
+    public bool HasCompletedWeekly(string puzzleId) => Completions.ContainsKey($"weekly:{puzzleId}");
 }
 
 public sealed class SpecialBadgeRecord
@@ -26,6 +27,7 @@ public sealed class SpecialBadgeRecord
     public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Icon { get; set; } = "✦";
+    public string? ImageUrl { get; set; }
     public DateTimeOffset EarnedAt { get; set; }
 }
 

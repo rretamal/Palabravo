@@ -57,7 +57,10 @@
                 <Grid ColumnDefinitions="58,*,Auto" ColumnSpacing="12">
                     <Border HeightRequest="54" WidthRequest="54" BackgroundColor="#FFFDFC" Stroke="#E6A51D">
                         <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
-                        <Label Text="{Binding WeeklyFlag}" FontSize="29" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                        <Grid>
+                            <Label Text="{Binding WeeklyFlag}" FontSize="29" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                            <Image Source="{Binding WeeklyBadgeImageSource}" HeightRequest="48" WidthRequest="48" Aspect="AspectFit" />
+                        </Grid>
                     </Border>
                     <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
                         <Label Text="RETO DE LA SEMANA" Style="{StaticResource Eyebrow}" TextColor="#A46D00" />

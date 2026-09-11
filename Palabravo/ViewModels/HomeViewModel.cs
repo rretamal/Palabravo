@@ -23,6 +23,7 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
     [ObservableProperty] private string nextChallengeText = "Comenzar el camino";
     [ObservableProperty] private bool hasWeekly;
     [ObservableProperty] private string weeklyFlag = "✦";
+    [ObservableProperty] private string? weeklyBadgeImageSource;
     [ObservableProperty] private string weeklyTitle = "Reto de la semana";
     [ObservableProperty] private string weeklySubtitle = string.Empty;
     [ObservableProperty] private string weeklyEndsText = string.Empty;
@@ -48,11 +49,12 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
         NextChallengeText = rankProgress.IsPathComplete ? "Repetir el reto 30" : $"Reto {next.Order}: {next.Title}";
 
         var weekly = await weeklyChallenges.GetCurrentAsync();
-        HasWeekly = weekly is not null;
-        if (weekly is not null)
+        HasWeekly = weekly is not null && !state.HasCompletedWeekly(weekly.Puzzle.Id);
+        _weeklyId = HasWeekly ? weekly?.Id : null;
+        if (weekly is not null && HasWeekly)
         {
-            _weeklyId = weekly.Id;
             WeeklyFlag = weekly.Flag;
+            WeeklyBadgeImageSource = weekly.Badge.ImageUrl;
             WeeklyTitle = weekly.Title;
             WeeklySubtitle = weekly.Subtitle;
             var days = Math.Max(1, (int)Math.Ceiling((weekly.EndsAt - DateTimeOffset.UtcNow).TotalDays));

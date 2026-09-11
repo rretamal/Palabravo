@@ -36,6 +36,7 @@ public partial class ResultViewModel(GameCoordinator coordinator, WeeklyChalleng
     [ObservableProperty] private string shareResultText = string.Empty;
     [ObservableProperty] private bool isWeekly;
     [ObservableProperty] private string specialBadgeIcon = "✦";
+    [ObservableProperty] private string? specialBadgeImageSource;
     [ObservableProperty] private string specialBadgeText = string.Empty;
 
     public void Refresh()
@@ -74,6 +75,7 @@ public partial class ResultViewModel(GameCoordinator coordinator, WeeklyChalleng
             ? $"Reto diario · {result.PlayedOn:dd/MM}"
             : result.Mode == PuzzleMode.Weekly ? coordinator.CurrentWeekly?.Title ?? result.PuzzleTitle : result.PuzzleTitle;
         SpecialBadgeIcon = coordinator.CurrentWeekly?.Badge.Icon ?? "✦";
+        SpecialBadgeImageSource = coordinator.CurrentWeekly?.Badge.ImageUrl;
         SpecialBadgeText = coordinator.CurrentWeekly is { } weekly ? $"Badge {weekly.Badge.Name}" : string.Empty;
         ShareResultText = $"{MedalIcon} {result.Errors} errores · {result.HintsUsed} pistas · {Time}";
         SolutionVisible = result.IsSuccess || result.SolutionRequested;

@@ -71,7 +71,10 @@
                         <DataTemplate>
                             <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource MustardSoft}" Stroke="#E6C66E">
                                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                                    <Label Text="{Binding Icon}" FontSize="32" VerticalTextAlignment="Center" />
+                                    <Grid HeightRequest="48" WidthRequest="48">
+                                        <Label Text="{Binding Icon}" FontSize="32" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                        <Image Source="{Binding ImageUrl}" Aspect="AspectFit" />
+                                    </Grid>
                                     <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
                                         <Label Text="{Binding Name}" FontFamily="OpenSansSemibold" FontSize="16" />
                                         <Label Text="Badge semanal completado" FontSize="10" TextColor="{StaticResource Muted}" />

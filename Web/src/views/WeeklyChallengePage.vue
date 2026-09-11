@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 
 type Invite = { token: string; weeklyId: string; challenger: string; score: number; timeSeconds: number; mistakes: number; medal: string }
 type Weekly = { id: string; title: string; subtitle: string; flag: string }
+type WeeklyCatalog = { challenges: Weekly[] }
 const route = useRoute()
 const invite = ref<Invite | null>(null)
 const weekly = ref<Weekly | null>(null)
@@ -22,8 +23,9 @@ onMounted(async () => {
     ])
     if (!inviteResponse.ok || !weeklyResponse.ok) throw new Error()
     invite.value = await inviteResponse.json() as Invite
-    weekly.value = await weeklyResponse.json() as Weekly
-    if (invite.value.weeklyId !== weekly.value.id) throw new Error()
+    const catalog = await weeklyResponse.json() as WeeklyCatalog
+    weekly.value = catalog.challenges.find(item => item.id === invite.value?.weeklyId) ?? null
+    if (!weekly.value) throw new Error()
   } catch { invite.value = null; weekly.value = null; failed.value = true }
 })
 </script>

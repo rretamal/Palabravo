@@ -16,6 +16,10 @@ public sealed class WeeklyChallengeTests
         Assert.True(weekly.IsActive(DateTimeOffset.Parse("2026-09-09T12:00:00Z")));
         Assert.False(weekly.IsActive(weekly.EndsAt));
         Assert.Equal(16, weekly.Puzzle.Groups.SelectMany(group => group.Words).Count());
+        Assert.Equal(4, weekly.FinalQuestions.Count);
+        Assert.All(weekly.FinalQuestions, question =>
+            Assert.Contains(question.Answer, question.Options, StringComparer.OrdinalIgnoreCase));
+        Assert.Single(weekly.FinalQuestions, question => !string.IsNullOrWhiteSpace(question.ImageSource));
     }
 
     [Fact]
@@ -35,6 +39,7 @@ public sealed class WeeklyChallengeTests
         Assert.Equal(0, service.Current.FixedChallengesCompleted);
         Assert.Single(service.Current.SpecialBadges);
         Assert.Contains($"weekly:{weekly.Puzzle.Id}", service.Current.Completions.Keys);
+        Assert.True(service.Current.HasCompletedWeekly(weekly.Puzzle.Id));
     }
 
     [Fact]
@@ -58,7 +63,7 @@ public sealed class WeeklyChallengeTests
         var path = Path.Combine(AppContext.BaseDirectory, "weekly.json");
         var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
         options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-        return JsonSerializer.Deserialize<WeeklyChallengeDefinition>(File.ReadAllText(path), options)!;
+        return JsonSerializer.Deserialize<WeeklyChallengeCatalog>(File.ReadAllText(path), options)!.Challenges.Single();
     }
 
     private sealed class MemoryStore : IProgressStore

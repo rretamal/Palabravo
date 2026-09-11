@@ -19,7 +19,7 @@
         <Border Grid.Row="1" Style="{StaticResource Card}" Padding="14,10">
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                 <VerticalStackLayout Spacing="1">
-                    <Label Text="INTENTOS" Style="{StaticResource Eyebrow}" />
+                    <Label Text="{Binding HeaderCaption}" Style="{StaticResource Eyebrow}" />
                     <Label Text="{Binding AttemptDots}" FontSize="18" CharacterSpacing="3" TextColor="{StaticResource Coral}" />
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Column="1" Spacing="1">
@@ -29,8 +29,9 @@
             </Grid>
         </Border>
 
-        <VerticalStackLayout Grid.Row="2" Spacing="7">
-            <Label Text="Cuatro grupos.&#10;Dieciséis palabras." Style="{StaticResource EditorialTitle}" />
+        <VerticalStackLayout Grid.Row="2" Spacing="7" IsVisible="{Binding IsConnectionsVisible}">
+            <Label Text="{Binding ConnectionsEyebrow}" Style="{StaticResource Eyebrow}" TextColor="{StaticResource Coral}" />
+            <Label Text="Descubre las conexiones" Style="{StaticResource EditorialTitle}" />
             <Label Text="{Binding Instructions}" TextColor="{StaticResource Muted}" FontSize="13" />
             <VerticalStackLayout x:Name="SolvedGroupsPanel" BindableLayout.ItemsSource="{Binding SolvedGroups}" Spacing="6">
                 <BindableLayout.ItemTemplate>
@@ -48,14 +49,15 @@
             </VerticalStackLayout>
         </VerticalStackLayout>
 
-        <CollectionView x:Name="WordsCollection" Grid.Row="3" ItemsSource="{Binding Words}" SelectionMode="None" VerticalOptions="Fill">
+        <CollectionView x:Name="WordsCollection" Grid.Row="3" ItemsSource="{Binding Words}" SelectionMode="None" VerticalOptions="Fill" IsVisible="{Binding IsConnectionsVisible}">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="4" VerticalItemSpacing="6" HorizontalItemSpacing="6" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border BackgroundColor="{Binding BackgroundColor}" Stroke="{StaticResource Border}" StrokeThickness="1" MinimumHeightRequest="64" Padding="4" Margin="0,1">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="13" /></Border.StrokeShape>
+                        <Border.StrokeShape><RoundRectangle CornerRadius="19" /></Border.StrokeShape>
+                        <Border.Shadow><Shadow Brush="#18000000" Offset="0,2" Radius="5" Opacity="0.16" /></Border.Shadow>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleWordCommand}" CommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
@@ -68,7 +70,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <VerticalStackLayout Grid.Row="4" Spacing="9">
+        <VerticalStackLayout Grid.Row="4" Spacing="9" IsVisible="{Binding IsConnectionsVisible}">
             <Button Text="Comprobar grupo" Command="{Binding SubmitCommand}" IsEnabled="{Binding CanSubmit}" />
             <Grid ColumnDefinitions="80,*,80" ColumnSpacing="10">
                 <Button Text="💡" Command="{Binding HintCommand}" BackgroundColor="{StaticResource Surface}" TextColor="{StaticResource Ink}" BorderColor="{StaticResource Border}" BorderWidth="1" />
@@ -77,5 +79,31 @@
             </Grid>
             <Label Text="{Binding HintText}" FontSize="10" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
+
+        <Border Grid.Row="2" Grid.RowSpan="3" IsVisible="{Binding IsWeeklyQuizVisible}"
+                Style="{StaticResource Card}" Padding="22" VerticalOptions="Center">
+            <VerticalStackLayout Spacing="16">
+                <Label Text="RONDA FINAL" Style="{StaticResource Eyebrow}" TextColor="{StaticResource Coral}" HorizontalTextAlignment="Center" />
+                <Label Text="{Binding QuizProgress}" FontSize="12" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                <Border IsVisible="{Binding HasQuizImage}" Stroke="{StaticResource Border}" StrokeThickness="1"
+                        HeightRequest="190" Padding="0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                    <Image Source="{Binding QuizImageSource}" Aspect="AspectFill"
+                           SemanticProperties.Description="Imagen para reconocer en la pregunta cultural" />
+                </Border>
+                <Label Text="{Binding QuizPrompt}" Style="{StaticResource EditorialTitle}" FontSize="25" HorizontalTextAlignment="Center" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding QuizOptions}" Spacing="9">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Button Text="{Binding Text}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectQuizAnswerCommand}"
+                                    CommandParameter="{Binding .}" BackgroundColor="{StaticResource Surface}"
+                                    TextColor="{StaticResource Ink}" BorderColor="{StaticResource Coral}" BorderWidth="1" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+                <Label Text="{Binding QuizFeedback}" FontSize="12" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </Border>
     </Grid>
 </ContentPage>

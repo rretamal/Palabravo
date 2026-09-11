@@ -121,6 +121,7 @@ public sealed class ProgressService(IProgressStore store, IClock clock)
             Id = badge.Id,
             Name = badge.Name,
             Icon = badge.Icon,
+            ImageUrl = badge.ImageUrl,
             EarnedAt = DateTimeOffset.UtcNow
         });
         await SaveAsync();

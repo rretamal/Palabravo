@@ -33,9 +33,14 @@ public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMo
         LastProgressUpdate = null;
     }
 
-    public GameResult Finish()
+    public GameResult Finish(int additionalErrors = 0, TimeSpan additionalElapsed = default)
     {
-        LastResult = Engine.CreateResult();
+        var result = Engine.CreateResult();
+        var errors = result.Errors + Math.Max(0, additionalErrors);
+        var medal = !result.IsSuccess ? Medal.None : errors == 0 && result.HintsUsed == 0
+            ? Medal.Gold
+            : errors <= 1 && result.HintsUsed <= 1 ? Medal.Silver : Medal.Bronze;
+        LastResult = result with { Errors = errors, Medal = medal, Elapsed = result.Elapsed + additionalElapsed };
         return LastResult;
     }
 

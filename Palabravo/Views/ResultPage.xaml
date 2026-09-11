@@ -41,7 +41,10 @@
                     <Border IsVisible="{Binding IsWeekly}" BackgroundColor="{StaticResource MustardSoft}" Stroke="#E6C66E" Padding="12,9">
                         <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
-                            <Label Text="{Binding SpecialBadgeIcon}" FontSize="28" VerticalTextAlignment="Center" />
+                            <Grid HeightRequest="48" WidthRequest="48">
+                                <Label Text="{Binding SpecialBadgeIcon}" FontSize="28" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                <Image Source="{Binding SpecialBadgeImageSource}" Aspect="AspectFit" />
+                            </Grid>
                             <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
                                 <Label Text="ESPECIAL CONSEGUIDO" Style="{StaticResource Eyebrow}" TextColor="#A46D00" />
                                 <Label Text="{Binding SpecialBadgeText}" FontFamily="OpenSansSemibold" FontSize="14" />
@@ -49,12 +52,9 @@
                         </Grid>
                     </Border>
 
-                    <Grid IsVisible="{Binding IsWeekly}" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="3" HorizontalOptions="Center">
-                        <Label Text="🟧🟧🟧🟧" Grid.Row="0" CharacterSpacing="2" />
-                        <Label Text="🟨🟨🟨🟨" Grid.Row="1" CharacterSpacing="2" />
-                        <Label Text="🟩🟩🟩🟩" Grid.Row="2" CharacterSpacing="2" />
-                        <Label Text="🟦🟦🟦🟦" Grid.Row="3" CharacterSpacing="2" />
-                    </Grid>
+                    <Image IsVisible="{Binding IsWeekly}" Source="{Binding SpecialBadgeImageSource}"
+                           HeightRequest="132" WidthRequest="132" Aspect="AspectFit"
+                           SemanticProperties.Description="Medalla del reto especial completado" />
 
                     <Grid x:Name="ResultStats" ColumnDefinitions="1*,1*,1*" ColumnSpacing="8">
                         <Border Style="{StaticResource Card}" Padding="10"><VerticalStackLayout><Label Text="{Binding Errors}" FontFamily="OpenSansSemibold" FontSize="21" HorizontalTextAlignment="Center" /><Label Text="ERRORES" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout></Border>

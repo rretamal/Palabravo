@@ -1,10 +1,10 @@
 # Reto semanal: operación
 
-La app y el sitio usan `Web/public/content/weekly.json` como fuente administrable. Ese mismo archivo se incluye en el binario como respaldo sin conexión. Al publicar el sitio, la app consulta `https://palabravo.app/content/weekly.json`, conserva la última versión válida y solo muestra el evento entre `startsAt` (incluido) y `endsAt` (excluido), en UTC.
+La app y el sitio usan `Web/public/content/weekly.json` como catálogo administrable. Puede contener varios especiales programados en `challenges`. Ese mismo archivo se incluye en el binario como respaldo sin conexión. Al publicar el sitio, la app consulta `https://palabravo.app/content/weekly.json`, conserva la última versión válida y elige el evento vigente entre `startsAt` (incluido) y `endsAt` (excluido), en UTC. Para publicar otro reto no hace falta desplegar la app: se agrega su definición y se publican el JSON y sus imágenes en el portal.
 
 El ranking visible en la app es semanal y recibe solamente resultados completados desde el reto semanal, para que todas las personas compitan con el mismo tablero. Antes de llamar a la API, la app guarda localmente el mejor resultado pendiente y vuelve a enviarlo al abrir el ranking. Una interrupción o una API temporalmente indisponible no pierde el resultado.
 
-Para cambiar el evento se editan sus metadatos, las cuatro conexiones, el badge y los textos de compartir. Cada evento y cada puzzle deben tener IDs nuevos y estables. El puzzle debe contener exactamente cuatro grupos de cuatro palabras únicas. Las imágenes remotas deben usar HTTPS.
+Para agregar un evento se editan sus metadatos, las cuatro conexiones, la trivia, la medalla y los textos de compartir. Cada evento y cada puzzle deben tener IDs nuevos y estables. El puzzle debe contener exactamente cuatro grupos de cuatro palabras únicas. `badge.imageUrl` y las imágenes opcionales de las preguntas deben publicarse con HTTPS.
 
 ## Azure Table
 
@@ -31,4 +31,6 @@ Antes de publicar se deben probar los App Links/Universal Links con las firmas d
 
 ## Chile entre líneas
 
-El reto combina nombres de preparaciones, una palabra común que completa ciudades, expresiones incompletas y dobles sentidos. Conserva la selección de cuatro fichas, con instrucciones propias y una explicación visible al resolver cada grupo. No incorpora todavía pantallas de trivia ni ordenar letras. Se usan nuevos IDs de evento y puzzle para separar resultados del tablero anterior.
+El reto tiene dos fases. Primero combina nombres de preparaciones, una palabra común que completa ciudades, expresiones incompletas y dobles sentidos. Después presenta cuatro preguntas culturales basadas en las conexiones descubiertas; una de ellas exige reconocer los palafitos de Castro en una imagen. Solo al superar ambas fases se registra la finalización, se publica el resultado y se entrega el badge.
+
+Una vez completado, el especial deja de aparecer en el inicio. Puede volver a abrirse mediante un enlace de desafío mientras el evento siga activo.

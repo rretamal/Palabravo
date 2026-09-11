@@ -94,7 +94,7 @@ public partial class ProfileViewModel(
         Bronze = Count(player, Medal.Bronze);
         SpecialBadges.Clear();
         foreach (var badge in player.SpecialBadges.OrderByDescending(item => item.EarnedAt))
-            SpecialBadges.Add(new SpecialBadgeViewModel(badge.Icon, badge.Name,
+            SpecialBadges.Add(new SpecialBadgeViewModel(badge.Icon, badge.ImageUrl, badge.Name,
                 badge.EarnedAt.ToLocalTime().ToString("dd/MM/yyyy")));
         HasSpecialBadges = SpecialBadges.Count > 0;
     }
@@ -188,4 +188,4 @@ public partial class ProfileViewModel(
     }
 }
 
-public sealed record SpecialBadgeViewModel(string Icon, string Name, string EarnedOn);
+public sealed record SpecialBadgeViewModel(string Icon, string? ImageUrl, string Name, string EarnedOn);

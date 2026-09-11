@@ -2,6 +2,12 @@ using System.Text.RegularExpressions;
 
 namespace Palabravo.Core.Models;
 
+public sealed class WeeklyChallengeCatalog
+{
+    public int Version { get; set; } = 1;
+    public List<WeeklyChallengeDefinition> Challenges { get; set; } = [];
+}
+
 public sealed class WeeklyChallengeDefinition
 {
     public string Id { get; set; } = string.Empty;
@@ -12,10 +18,20 @@ public sealed class WeeklyChallengeDefinition
     public DateTimeOffset StartsAt { get; set; }
     public DateTimeOffset EndsAt { get; set; }
     public PuzzleDefinition Puzzle { get; set; } = new();
+    public List<WeeklyQuestionDefinition> FinalQuestions { get; set; } = [];
     public WeeklyBadgeDefinition Badge { get; set; } = new();
     public WeeklyShareDefinition Share { get; set; } = new();
 
     public bool IsActive(DateTimeOffset now) => StartsAt <= now && now < EndsAt;
+}
+
+public sealed class WeeklyQuestionDefinition
+{
+    public string Prompt { get; set; } = string.Empty;
+    public string? ImageSource { get; set; }
+    public List<string> Options { get; set; } = [];
+    public string Answer { get; set; } = string.Empty;
+    public string Explanation { get; set; } = string.Empty;
 }
 
 public sealed class WeeklyBadgeDefinition
@@ -50,6 +66,14 @@ public static partial class WeeklyChallengeValidator
             || weekly.Puzzle.Groups.SelectMany(group => group.Words)
                 .Distinct(StringComparer.OrdinalIgnoreCase).Count() != 16)
             throw new InvalidDataException("El puzzle semanal debe contener cuatro grupos y dieciséis palabras únicas.");
+        if (weekly.FinalQuestions.Count is < 2 or > 5
+            || weekly.FinalQuestions.Any(question => string.IsNullOrWhiteSpace(question.Prompt)
+                || question.Options.Count != 4 || question.Options.Any(string.IsNullOrWhiteSpace)
+                || question.Options.Distinct(StringComparer.OrdinalIgnoreCase).Count() != 4
+                || !question.Options.Contains(question.Answer, StringComparer.OrdinalIgnoreCase)
+                || string.IsNullOrWhiteSpace(question.Explanation)
+                || question.ImageSource is { Length: > 0 } source && !SafeImageSource(source)))
+            throw new InvalidDataException("La ronda final debe contener entre dos y cinco preguntas válidas.");
         if (!SafeId().IsMatch(weekly.Badge.Id) || string.IsNullOrWhiteSpace(weekly.Badge.Name)
             || string.IsNullOrWhiteSpace(weekly.Badge.Icon) || string.IsNullOrWhiteSpace(weekly.Share.Title)
             || string.IsNullOrWhiteSpace(weekly.Share.Message))
@@ -63,4 +87,8 @@ public static partial class WeeklyChallengeValidator
     private static partial Regex SafeId();
     [GeneratedRegex("^[A-Z]{2}$")]
     private static partial Regex Country();
+
+    private static bool SafeImageSource(string source) =>
+        Regex.IsMatch(source, "^[a-z0-9_]+\\.png$")
+        || Uri.TryCreate(source, UriKind.Absolute, out var uri) && uri.Scheme == Uri.UriSchemeHttps;
 }

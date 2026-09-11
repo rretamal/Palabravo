@@ -6,6 +6,7 @@ using Palabravo.Core.Services;
 using Palabravo.Services;
 using Palabravo.Core.Monetization;
 using Palabravo.Services.Monetization;
+using System.Diagnostics;
 
 namespace Palabravo.ViewModels;
 
@@ -20,9 +21,13 @@ public partial class GameViewModel(
 {
     private static readonly string[] GroupColors = ["#FCE4DE", "#FFF0C8", "#DDEFE9", "#E5E9F5"];
     private bool referredAttempt;
+    private int weeklyQuestionIndex;
+    private int weeklyQuizErrors;
+    private readonly Stopwatch weeklyQuizStopwatch = new();
 
     public ObservableCollection<WordTileViewModel> Words { get; } = [];
     public ObservableCollection<SolvedGroupViewModel> SolvedGroups { get; } = [];
+    public ObservableCollection<QuizOptionViewModel> QuizOptions { get; } = [];
     public event EventHandler<SubmissionFeedbackEventArgs>? SubmissionFeedbackRequested;
 
     [ObservableProperty] private string title = "Reto";
@@ -30,11 +35,20 @@ public partial class GameViewModel(
     [ObservableProperty] private string attemptDots = "● ● ●";
     [ObservableProperty] private string errorText = $"0 / {PuzzleEngine.MaxErrors}";
     [ObservableProperty] private string hintText = "2 pistas";
+    [ObservableProperty] private string headerCaption = "INTENTOS";
+    [ObservableProperty] private string connectionsEyebrow = "CUATRO GRUPOS · DIECISÉIS PALABRAS";
     [ObservableProperty] private string instructions = string.Empty;
     [ObservableProperty] private string statusMessage = "Selecciona cuatro palabras relacionadas";
     [ObservableProperty] private bool canSubmit;
     [ObservableProperty] private bool isBusy;
     [ObservableProperty] private bool isGameplayActive;
+    [ObservableProperty] private bool isConnectionsVisible = true;
+    [ObservableProperty] private bool isWeeklyQuizVisible;
+    [ObservableProperty] private string quizProgress = string.Empty;
+    [ObservableProperty] private string quizPrompt = string.Empty;
+    [ObservableProperty] private string quizFeedback = string.Empty;
+    [ObservableProperty] private string? quizImageSource;
+    [ObservableProperty] private bool hasQuizImage;
     partial void OnIsGameplayActiveChanged(bool value) => SubmitCommand.NotifyCanExecuteChanged();
 
     public async Task LoadAsync(string puzzleId, string modeText, bool referred = false)
@@ -43,6 +57,12 @@ public partial class GameViewModel(
             mode = PuzzleMode.Challenge;
 
         referredAttempt = referred;
+        weeklyQuestionIndex = 0;
+        weeklyQuizErrors = 0;
+        weeklyQuizStopwatch.Reset();
+        IsConnectionsVisible = true;
+        IsWeeklyQuizVisible = false;
+        HeaderCaption = "INTENTOS";
         await coordinator.StartAsync(puzzleId, mode, referred);
         activity.Touch();
         RefreshFromEngine();
@@ -71,7 +91,13 @@ public partial class GameViewModel(
             _ => $"Reto {state.Puzzle.Order}"
         };
         Subtitle = state.Puzzle.Title;
+        ConnectionsEyebrow = state.Mode == PuzzleMode.Weekly
+            ? "FASE 1 DE 2 · CONEXIONES"
+            : "CUATRO GRUPOS · DIECISÉIS PALABRAS";
         Instructions = state.Puzzle.Instructions;
+        IsConnectionsVisible = true;
+        IsWeeklyQuizVisible = false;
+        HeaderCaption = "INTENTOS";
         StatusMessage = "Selecciona cuatro palabras relacionadas";
         RebuildCollections();
     }
@@ -114,17 +140,87 @@ public partial class GameViewModel(
         }
 
         RebuildCollections();
+        var startsQuiz = outcome.Kind == SubmissionKind.Won
+            && coordinator.CurrentWeekly?.FinalQuestions.Count > 0;
         SubmissionFeedbackRequested?.Invoke(this, new SubmissionFeedbackEventArgs(
             outcome.Kind is SubmissionKind.Correct or SubmissionKind.Won,
-            outcome.Kind is SubmissionKind.Won));
+            outcome.Kind is SubmissionKind.Won && !startsQuiz));
         IsBusy = false;
         SubmitCommand.NotifyCanExecuteChanged();
 
-        if (outcome.Kind is SubmissionKind.Won or SubmissionKind.Lost)
+        if (startsQuiz)
+        {
+            await Task.Delay(450);
+            StartWeeklyQuiz();
+        }
+        else if (outcome.Kind is SubmissionKind.Won or SubmissionKind.Lost)
         {
             await Task.Delay(450);
             await FinishGameAsync();
         }
+    }
+
+    private void StartWeeklyQuiz()
+    {
+        IsConnectionsVisible = false;
+        IsWeeklyQuizVisible = true;
+        HeaderCaption = "FASE 2 DE 2";
+        AttemptDots = "✓ CONEXIONES";
+        ErrorText = (coordinator.Engine.State?.Errors ?? 0).ToString();
+        weeklyQuizStopwatch.Restart();
+        ShowWeeklyQuestion();
+    }
+
+    private void ShowWeeklyQuestion()
+    {
+        var questions = coordinator.CurrentWeekly?.FinalQuestions;
+        if (questions is null || weeklyQuestionIndex >= questions.Count)
+            return;
+
+        var question = questions[weeklyQuestionIndex];
+        QuizProgress = $"PREGUNTA {weeklyQuestionIndex + 1} DE {questions.Count}";
+        QuizPrompt = question.Prompt;
+        QuizImageSource = question.ImageSource;
+        HasQuizImage = !string.IsNullOrWhiteSpace(question.ImageSource);
+        QuizFeedback = "Elige una respuesta";
+        QuizOptions.Clear();
+        foreach (var option in question.Options)
+            QuizOptions.Add(new QuizOptionViewModel(option));
+    }
+
+    [RelayCommand]
+    private async Task SelectQuizAnswerAsync(QuizOptionViewModel option)
+    {
+        if (IsBusy || !IsWeeklyQuizVisible || coordinator.CurrentWeekly is not { } weekly)
+            return;
+
+        IsBusy = true;
+        var question = weekly.FinalQuestions[weeklyQuestionIndex];
+        if (!string.Equals(option.Text, question.Answer, StringComparison.OrdinalIgnoreCase))
+        {
+            weeklyQuizErrors++;
+            ErrorText = ((coordinator.Engine.State?.Errors ?? 0) + weeklyQuizErrors).ToString();
+            QuizFeedback = "No es esa. Busca la pista cultural";
+            IsBusy = false;
+            return;
+        }
+
+        weeklyQuizStopwatch.Stop();
+        QuizFeedback = "¡Correcto!";
+        using (activity.Pause())
+            await Shell.Current.DisplayAlertAsync("Conexión chilena", question.Explanation, "Continuar");
+        weeklyQuestionIndex++;
+        if (weeklyQuestionIndex < weekly.FinalQuestions.Count)
+        {
+            ShowWeeklyQuestion();
+            weeklyQuizStopwatch.Start();
+            IsBusy = false;
+            return;
+        }
+
+        SubmissionFeedbackRequested?.Invoke(this, new SubmissionFeedbackEventArgs(true, true));
+        await FinishGameAsync(weeklyQuizErrors, weeklyQuizStopwatch.Elapsed);
+        IsBusy = false;
     }
 
     [RelayCommand]
@@ -196,9 +292,9 @@ public partial class GameViewModel(
         }
     }
 
-    private async Task FinishGameAsync()
+    private async Task FinishGameAsync(int additionalErrors = 0, TimeSpan additionalElapsed = default)
     {
-        var result = coordinator.Finish();
+        var result = coordinator.Finish(additionalErrors, additionalElapsed);
         var progressUpdate = await progress.RecordCompletionAsync(result);
         coordinator.SetProgressUpdate(progressUpdate);
         if (result.IsSuccess && result.Mode == PuzzleMode.Weekly && coordinator.CurrentWeekly is { } weekly)
@@ -277,3 +373,5 @@ public partial class WordTileViewModel(string word, bool isSelected) : Observabl
 }
 
 public sealed record SolvedGroupViewModel(string Category, string Words, string Explanation, string BackgroundColor);
+
+public sealed record QuizOptionViewModel(string Text);

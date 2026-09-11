@@ -21,27 +21,36 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
     private static readonly JsonSerializerOptions JsonOptions = CreateJsonOptions();
     private readonly HttpClient client = new() { Timeout = TimeSpan.FromSeconds(8) };
     private readonly SemaphoreSlim submissionLock = new(1, 1);
+    private IReadOnlyList<WeeklyChallengeDefinition> catalog = [];
     private WeeklyChallengeDefinition? current;
     private bool loaded;
+    private DateTimeOffset lastRemoteRefresh;
 
     public async Task<WeeklyChallengeDefinition?> GetCurrentAsync(bool refresh = false)
     {
         if (loaded && !refresh)
-            return current?.IsActive(DateTimeOffset.UtcNow) == true ? current : null;
+        {
+            current = SelectCurrent(catalog);
+            if (DateTimeOffset.UtcNow - lastRemoteRefresh > TimeSpan.FromMinutes(5))
+                _ = RefreshRemoteAsync();
+            return current;
+        }
 
         if (!loaded)
         {
             loaded = true;
-            current = Parse(Preferences.Default.Get(CacheKey, string.Empty));
-            if (current is null)
+            catalog = ParseCatalog(Preferences.Default.Get(CacheKey, string.Empty));
+            current = SelectCurrent(catalog);
+            if (catalog.Count == 0)
             {
                 try
                 {
                     await using var stream = await FileSystem.OpenAppPackageFileAsync("weekly.json");
-                    current = await JsonSerializer.DeserializeAsync<WeeklyChallengeDefinition>(stream, JsonOptions);
-                    if (current is not null) WeeklyChallengeValidator.Validate(current);
+                    using var reader = new StreamReader(stream);
+                    catalog = ParseCatalog(await reader.ReadToEndAsync());
+                    current = SelectCurrent(catalog);
                 }
-                catch { current = null; }
+                catch { catalog = []; current = null; }
             }
             if (current?.IsActive(DateTimeOffset.UtcNow) == true)
             {
@@ -56,9 +65,9 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
 
     public async Task<WeeklyChallengeDefinition?> GetByIdAsync(string id)
     {
-        var weekly = await GetCurrentAsync();
-        return weekly is not null && string.Equals(weekly.Id, id, StringComparison.OrdinalIgnoreCase)
-            ? weekly : null;
+        await GetCurrentAsync();
+        return catalog.FirstOrDefault(weekly => weekly.IsActive(DateTimeOffset.UtcNow)
+            && string.Equals(weekly.Id, id, StringComparison.OrdinalIgnoreCase));
     }
 
     public async Task<bool> SubmitResultAsync(WeeklyChallengeDefinition weekly, GameResult result)
@@ -175,28 +184,39 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
         catch { return null; }
     }
 
-    private static WeeklyChallengeDefinition? Parse(string json)
+    internal static IReadOnlyList<WeeklyChallengeDefinition> ParseCatalog(string json)
     {
-        if (string.IsNullOrWhiteSpace(json)) return null;
+        if (string.IsNullOrWhiteSpace(json)) return [];
         try
         {
-            var weekly = JsonSerializer.Deserialize<WeeklyChallengeDefinition>(json, JsonOptions);
-            if (weekly is null) return null;
-            WeeklyChallengeValidator.Validate(weekly);
-            return weekly;
+            var parsed = JsonSerializer.Deserialize<WeeklyChallengeCatalog>(json, JsonOptions);
+            if (parsed is null || parsed.Version < 1 || parsed.Challenges.Count == 0)
+                return [];
+            foreach (var weekly in parsed.Challenges)
+                WeeklyChallengeValidator.Validate(weekly);
+            if (parsed.Challenges.Select(item => item.Id).Distinct(StringComparer.OrdinalIgnoreCase).Count()
+                != parsed.Challenges.Count)
+                return [];
+            return parsed.Challenges;
         }
-        catch { return null; }
+        catch { return []; }
     }
+
+    private static WeeklyChallengeDefinition? SelectCurrent(IEnumerable<WeeklyChallengeDefinition> challenges) =>
+        challenges.Where(item => item.IsActive(DateTimeOffset.UtcNow))
+            .OrderByDescending(item => item.StartsAt).FirstOrDefault();
 
     private async Task RefreshRemoteAsync()
     {
+        lastRemoteRefresh = DateTimeOffset.UtcNow;
         try
         {
             var contentUri = new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), "../content/weekly.json");
             var json = await client.GetStringAsync(contentUri);
-            var downloaded = Parse(json);
-            if (downloaded is null) return;
-            current = downloaded;
+            var downloaded = ParseCatalog(json);
+            if (downloaded.Count == 0) return;
+            catalog = downloaded;
+            current = SelectCurrent(catalog);
             Preferences.Default.Set(CacheKey, json);
         }
         catch { /* The last valid or bundled event remains available. */ }

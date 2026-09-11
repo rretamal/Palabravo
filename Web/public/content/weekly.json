@@ -1,74 +1,126 @@
 {
-  "id": "chile-conexiones-2026",
-  "title": "Especial Chile",
-  "subtitle": "Combina palabras y descubre conexiones chilenas",
-  "country": "CL",
-  "flag": "🇨🇱",
-  "startsAt": "2026-09-07T00:00:00Z",
-  "endsAt": "2026-09-21T00:00:00Z",
-  "puzzle": {
-    "id": "weekly-cl-002",
-    "order": 0,
-    "contentVersion": 1,
-    "rank": "novato",
-    "title": "Chile entre líneas",
-    "difficulty": "Especial",
-    "groups": [
-      {
-        "category": "Sabores con apellido",
-        "hint": "Completa mentalmente el nombre de cada preparación.",
-        "words": [
-          "Pastel",
-          "Empanada",
-          "Mote",
-          "Pan"
+  "version": 1,
+  "challenges": [
+    {
+      "id": "chile-conexiones-2026",
+      "title": "Especial Chile",
+      "subtitle": "Combina palabras y descubre conexiones chilenas",
+      "country": "CL",
+      "flag": "🇨🇱",
+      "startsAt": "2026-09-07T00:00:00Z",
+      "endsAt": "2026-09-21T00:00:00Z",
+      "puzzle": {
+        "id": "weekly-cl-002",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Chile entre líneas",
+        "difficulty": "Especial",
+        "groups": [
+          {
+            "category": "Sabores con apellido",
+            "hint": "Completa mentalmente el nombre de cada preparación.",
+            "words": [
+              "Pastel",
+              "Empanada",
+              "Mote",
+              "Pan"
+            ],
+            "explanation": "Pastel de choclo, empanada de pino, mote con huesillo y pan de Pascua: la conexión está en el nombre completo."
+          },
+          {
+            "category": "Una palabra antes: Puerto",
+            "hint": "Prueba añadir la misma palabra delante de estos nombres.",
+            "words": [
+              "Montt",
+              "Varas",
+              "Natales",
+              "Aysén"
+            ],
+            "explanation": "Puerto Montt, Puerto Varas, Puerto Natales y Puerto Aysén. Una misma palabra convierte las cuatro piezas en nombres de ciudades chilenas."
+          },
+          {
+            "category": "Una palabra antes: al",
+            "hint": "Son fragmentos de expresiones cotidianas. ¿Qué palabra falta?",
+            "words": [
+              "Tiro",
+              "Lote",
+              "Seco",
+              "Callo"
+            ],
+            "explanation": "Al tiro: de inmediato. Al lote: sin orden ni cuidado. Al seco: de un trago. Al callo: justo en el punto."
+          },
+          {
+            "category": "Animales que describen personas",
+            "hint": "Piensa en cómo se usan estas palabras al hablar de alguien.",
+            "words": [
+              "Gallo",
+              "Pavo",
+              "Choro",
+              "Loco"
+            ],
+            "explanation": "Además de sus sentidos literales, aparecen al hablar de personas: un gallo, alguien pavo, alguien choro o alguien loco. El sentido depende del contexto; no son usos exclusivos de Chile."
+          }
         ],
-        "explanation": "Pastel de choclo, empanada de pino, mote con huesillo y pan de Pascua: la conexión está en el nombre completo."
+        "instructions": "Selecciona cuatro palabras que compartan una conexión. Algunas completan nombres o expresiones; otras esconden un doble sentido."
       },
-      {
-        "category": "Una palabra antes: Puerto",
-        "hint": "Prueba añadir la misma palabra delante de estos nombres.",
-        "words": [
-          "Montt",
-          "Varas",
-          "Natales",
-          "Aysén"
-        ],
-        "explanation": "Puerto Montt, Puerto Varas, Puerto Natales y Puerto Aysén. Una misma palabra convierte las cuatro piezas en nombres de ciudades chilenas."
+      "finalQuestions": [
+        {
+          "prompt": "¿Cuál de estas ciudades NO está en la Región de Los Lagos?",
+          "options": [
+            "Puerto Montt",
+            "Puerto Varas",
+            "Puerto Octay",
+            "Puerto Natales"
+          ],
+          "answer": "Puerto Natales",
+          "explanation": "Puerto Natales está en la Región de Magallanes y de la Antártica Chilena. Las otras tres están en Los Lagos."
+        },
+        {
+          "prompt": "Si alguien armó algo «al lote», ¿cómo lo hizo?",
+          "options": [
+            "Muy rápido",
+            "Sin orden ni cuidado",
+            "En secreto",
+            "Justo a tiempo"
+          ],
+          "answer": "Sin orden ni cuidado",
+          "explanation": "En el uso coloquial chileno, hacer algo al lote es hacerlo desordenadamente o sin demasiado cuidado."
+        },
+        {
+          "prompt": "¿Qué preparación lleva trigo cocido, duraznos deshidratados y jugo dulce?",
+          "options": [
+            "Cola de mono",
+            "Leche asada",
+            "Mote con huesillo",
+            "Chicha"
+          ],
+          "answer": "Mote con huesillo",
+          "explanation": "El mote con huesillo combina mote de trigo, huesillos cocidos y su jugo endulzado; es una preparación muy asociada al verano chileno."
+        },
+        {
+          "prompt": "¿Qué lugar chileno aparece en la imagen?",
+          "imageSource": "https://palabravo.app/content/weekly_palafitos_castro.png",
+          "options": [
+            "Caleta Tortel",
+            "Palafitos de Castro",
+            "Cerros de Valparaíso",
+            "Costanera de Valdivia"
+          ],
+          "answer": "Palafitos de Castro",
+          "explanation": "Son los palafitos de Castro, en Chiloé: casas de madera levantadas sobre pilotes junto al borde del agua."
+        }
+      ],
+      "badge": {
+        "id": "chile-2026",
+        "name": "Chile 2026",
+        "icon": "🇨🇱",
+        "imageUrl": "https://palabravo.app/badges/chile_2026.png"
       },
-      {
-        "category": "Una palabra antes: al",
-        "hint": "Son fragmentos de expresiones cotidianas. ¿Qué palabra falta?",
-        "words": [
-          "Tiro",
-          "Lote",
-          "Seco",
-          "Callo"
-        ],
-        "explanation": "Al tiro: de inmediato. Al lote: sin orden ni cuidado. Al seco: de un trago. Al callo: justo en el punto."
-      },
-      {
-        "category": "Animales que describen personas",
-        "hint": "Piensa en cómo se usan estas palabras al hablar de alguien.",
-        "words": [
-          "Gallo",
-          "Pavo",
-          "Choro",
-          "Loco"
-        ],
-        "explanation": "Además de sus sentidos literales, aparecen al hablar de personas: un gallo, alguien pavo, alguien choro o alguien loco. El sentido depende del contexto; no son usos exclusivos de Chile."
+      "share": {
+        "title": "Especial Chile 🇨🇱",
+        "message": "Completé el reto de Chile en Palabravo. ¿Puedes superarme?"
       }
-    ],
-    "instructions": "Selecciona cuatro palabras que compartan una conexión. Algunas completan nombres o expresiones; otras esconden un doble sentido."
-  },
-  "badge": {
-    "id": "chile-2026",
-    "name": "Chile 2026",
-    "icon": "🇨🇱",
-    "imageUrl": "https://palabravo.app/badges/chile-2026.svg"
-  },
-  "share": {
-    "title": "Especial Chile 🇨🇱",
-    "message": "Completé el reto de Chile en Palabravo. ¿Puedes superarme?"
-  }
+    }
+  ]
 }

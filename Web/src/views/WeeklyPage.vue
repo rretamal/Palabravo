@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 
 type Weekly = { title: string; subtitle: string; flag: string; startsAt: string; endsAt: string; badge: { name: string; imageUrl: string } }
+type WeeklyCatalog = { challenges: Weekly[] }
 const weekly = ref<Weekly | null>(null)
 const unavailable = ref(false)
 const playUrl = ref(`intent://palabravo.app/semanal#Intent;scheme=https;package=com.palabravo.app;S.browser_fallback_url=${encodeURIComponent('https://play.google.com/store/apps/details?id=com.palabravo.app')};end`)
@@ -10,7 +11,12 @@ onMounted(async () => {
   try {
     const response = await fetch('/content/weekly.json')
     if (!response.ok) throw new Error()
-    weekly.value = await response.json() as Weekly
+    const catalog = await response.json() as WeeklyCatalog
+    const now = Date.now()
+    weekly.value = catalog.challenges
+      .filter(item => Date.parse(item.startsAt) <= now && now < Date.parse(item.endsAt))
+      .sort((a, b) => Date.parse(b.startsAt) - Date.parse(a.startsAt))[0] ?? null
+    if (!weekly.value) unavailable.value = true
   } catch { unavailable.value = true }
 })
 </script>
@@ -22,7 +28,7 @@ onMounted(async () => {
       <p class="eyebrow">RETO DE LA SEMANA</p>
       <h1>{{ weekly.title }}</h1>
       <p class="weekly-lead">{{ weekly.subtitle }}</p>
-      <div class="weekly-facts"><span>16 palabras</span><span>4 conexiones</span><span>Badge especial</span></div>
+      <div class="weekly-facts"><span>16 palabras</span><span>4 conexiones</span><span>4 preguntas</span><span>Badge especial</span></div>
       <img :src="weekly.badge.imageUrl" :alt="`Badge ${weekly.badge.name}`" class="weekly-badge">
       <p>Abre Palabravo para jugar el mismo reto que toda la comunidad.</p>
       <a class="button" :href="playUrl">Jugar en Palabravo</a>
