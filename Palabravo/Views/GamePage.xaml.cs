@@ -9,6 +9,7 @@ public partial class GamePage : ContentPage, IQueryAttributable
     private readonly GameCoordinator _coordinator;
     private readonly CelebrationEffectsService _effects;
     private readonly Core.Services.GameplayActivity _activity;
+    private int _solvedGroupFeedbackVersion;
 
     public GamePage(
         GameViewModel viewModel,
@@ -69,6 +70,7 @@ public partial class GamePage : ContentPage, IQueryAttributable
         else
             _effects.PlayGroupFound();
 
+        var feedbackVersion = ++_solvedGroupFeedbackVersion;
         await Task.Yield();
         if (SolvedGroupsPanel.Children.LastOrDefault() is not VisualElement solvedGroup)
             return;
@@ -80,6 +82,18 @@ public partial class GamePage : ContentPage, IQueryAttributable
             solvedGroup.FadeToAsync(1, 180, Easing.CubicOut),
             solvedGroup.ScaleToAsync(1, 280, Easing.SpringOut),
             solvedGroup.TranslateToAsync(0, 0, 220, Easing.CubicOut));
+
+        await Task.Delay(2600);
+        if (feedbackVersion != _solvedGroupFeedbackVersion ||
+            !SolvedGroupsPanel.Children.Contains(solvedGroup))
+            return;
+
+        await Task.WhenAll(
+            solvedGroup.FadeToAsync(0, 220, Easing.CubicIn),
+            solvedGroup.TranslateToAsync(0, -8, 220, Easing.CubicIn));
+
+        if (feedbackVersion == _solvedGroupFeedbackVersion)
+            _viewModel.HideSolvedGroup();
     }
 
     private static async Task ShakeAsync(VisualElement element)

@@ -139,7 +139,7 @@ public partial class GameViewModel(
                 : $"Grupo encontrado: {outcome.SolvedGroup?.Category}";
         }
 
-        RebuildCollections();
+        RebuildCollections(outcome.Kind is SubmissionKind.Correct or SubmissionKind.Won);
         var startsQuiz = outcome.Kind == SubmissionKind.Won
             && coordinator.CurrentWeekly?.FinalQuestions.Count > 0;
         SubmissionFeedbackRequested?.Invoke(this, new SubmissionFeedbackEventArgs(
@@ -312,7 +312,9 @@ public partial class GameViewModel(
         await Shell.Current.GoToAsync(nameof(Views.ResultPage));
     }
 
-    private void RebuildCollections()
+    public void HideSolvedGroup() => SolvedGroups.Clear();
+
+    private void RebuildCollections(bool showLatestSolvedGroup = false)
     {
         var state = coordinator.Engine.State;
         if (state is null)
@@ -323,8 +325,9 @@ public partial class GameViewModel(
             Words.Add(new WordTileViewModel(word, state.SelectedWords.Contains(word)));
 
         SolvedGroups.Clear();
-        for (var i = 0; i < state.SolvedGroups.Count; i++)
+        if (showLatestSolvedGroup && state.SolvedGroups.Count > 0)
         {
+            var i = state.SolvedGroups.Count - 1;
             var group = state.SolvedGroups[i];
             SolvedGroups.Add(new SolvedGroupViewModel(group.Category,
                 string.Join(" · ", group.Words), group.Explanation, GroupColors[i % GroupColors.Length]));

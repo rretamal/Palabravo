@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-android</TargetFrameworks>
-		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
 
 		<!-- Note for MacCatalyst:
@@ -35,7 +35,7 @@
 		<ApplicationId>com.palabravo.app</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
@@ -111,9 +111,7 @@
 	</Target>
 
 	<!-- Xamarin.GooglePlayServices 121.0.0.4 currently contributes each downloaded AAR twice. -->
-	<Target Name="DeduplicateGooglePlayServicesAars"
-			AfterTargets="_XamarinBuildDownloadAarInclude"
-			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+	<Target Name="DeduplicateGooglePlayServicesAars" AfterTargets="_XamarinBuildDownloadAarInclude" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
 		<RemoveDuplicates Inputs="@(AndroidAarLibrary)">
 			<Output TaskParameter="Filtered" ItemName="DistinctAndroidAarLibrary" />
 		</RemoveDuplicates>
