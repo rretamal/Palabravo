@@ -81,9 +81,10 @@
         </VerticalStackLayout>
 
         <Border Grid.Row="2" Grid.RowSpan="3" IsVisible="{Binding IsWeeklyQuizVisible}"
-                Style="{StaticResource Card}" Padding="22" VerticalOptions="Center">
+                Style="{StaticResource Card}" Padding="22" VerticalOptions="Fill">
+            <ScrollView>
             <VerticalStackLayout Spacing="16">
-                <Label Text="RONDA FINAL" Style="{StaticResource Eyebrow}" TextColor="{StaticResource Coral}" HorizontalTextAlignment="Center" />
+                <Label Text="{Binding HeaderCaption}" Style="{StaticResource Eyebrow}" TextColor="{StaticResource Coral}" HorizontalTextAlignment="Center" />
                 <Label Text="{Binding QuizProgress}" FontSize="12" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
                 <Border IsVisible="{Binding HasQuizImage}" Stroke="{StaticResource Border}" StrokeThickness="1"
                         HeightRequest="190" Padding="0">
@@ -92,6 +93,13 @@
                            SemanticProperties.Description="Imagen para reconocer en la pregunta cultural" />
                 </Border>
                 <Label Text="{Binding QuizPrompt}" Style="{StaticResource EditorialTitle}" FontSize="25" HorizontalTextAlignment="Center" />
+                <VerticalStackLayout IsVisible="{Binding IsWrittenAnswer}" Spacing="12">
+                    <Label Text="Piénsalo… ¿qué palabra completa la frase?" FontSize="13" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                    <Entry Text="{Binding WrittenAnswer}" Placeholder="Escribe un adjetivo" MaxLength="80"
+                           IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" ReturnType="Done"
+                           ReturnCommand="{Binding CheckWrittenAnswerCommand}" SemanticProperties.Description="Tu respuesta, sin alternativas" />
+                    <Button Text="Comprobar palabra" Command="{Binding CheckWrittenAnswerCommand}" />
+                </VerticalStackLayout>
                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding QuizOptions}" Spacing="9">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
@@ -103,7 +111,11 @@
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
                 <Label Text="{Binding QuizFeedback}" FontSize="12" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                <Label Text="{Binding AssembledPieces}" IsVisible="{Binding IsPieces}" HorizontalTextAlignment="Center" />
+                <Button Text="Combinar piezas" Command="{Binding CheckPiecesCommand}" IsVisible="{Binding IsPieces}" />
+                <Button Text="Ayudas" Command="{Binding HintCommand}" BackgroundColor="Transparent" TextColor="{StaticResource Coral}" />
             </VerticalStackLayout>
+            </ScrollView>
         </Border>
     </Grid>
 </ContentPage>

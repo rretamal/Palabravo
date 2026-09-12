@@ -46,7 +46,8 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
 
         var next = all.FirstOrDefault(x => !state.Completions.ContainsKey($"challenge:{x.Id}")) ?? all[^1];
         _nextPuzzleId = next.Id;
-        NextChallengeText = rankProgress.IsPathComplete ? "Repetir el reto 30" : $"Reto {next.Order}: {next.Title}";
+        NextChallengeText = all.All(p => state.Completions.ContainsKey($"challenge:{p.Id}"))
+            ? $"Repetir el reto {next.Order}" : $"{next.DynamicLabel} · Reto {next.Order}: {next.Title}";
 
         var weekly = await weeklyChallenges.GetCurrentAsync();
         HasWeekly = weekly is not null && !state.HasCompletedWeekly(weekly.Puzzle.Id);
@@ -73,7 +74,7 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
         var code = await Shell.Current.DisplayPromptAsync("Reto de un amigo", "Ingresa el código del reto (por ejemplo, 07).", "Abrir", "Cancelar", maxLength: 20);
         if (code is null) return;
         var id = ReferralLink.PuzzleFromCode(code);
-        if (id is null) { await Shell.Current.DisplayAlertAsync("Código no válido", "Ingresa un código de reto entre 01 y 30.", "Cerrar"); return; }
+        if (id is null || await puzzles.GetByIdAsync(id) is null) { await Shell.Current.DisplayAlertAsync("Código no válido", "Ingresa el código de un reto disponible.", "Cerrar"); return; }
         await Shell.Current.GoToAsync(nameof(Views.GamePage), new Dictionary<string, object>
         { ["puzzleId"] = id, ["mode"] = "Challenge", ["referred"] = true });
     }

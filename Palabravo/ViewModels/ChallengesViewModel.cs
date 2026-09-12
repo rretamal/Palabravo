@@ -47,12 +47,16 @@ public partial class ChallengesViewModel(IPuzzleRepository puzzles, ProgressServ
         currentChallenge = nodes.FirstOrDefault(node => !node.IsLocked && !node.IsCompleted)
             ?? nodes.LastOrDefault(node => !node.IsLocked);
         if (currentChallenge is not null)
-            currentChallenge.IsCurrent = !rankProgress.IsPathComplete;
+            currentChallenge.IsCurrent = !currentChallenge.IsCompleted;
 
         RankSections.Clear();
-        foreach (var definition in RankCatalog.All)
+        foreach (var chunk in nodes.Chunk(RankCatalog.ChallengesPerRank))
         {
-            var rankNodes = nodes.Where(node => node.Rank == definition.Tier).ToList();
+            var rankNodes = chunk.ToList();
+            var start = int.Parse(chunk[0].Number);
+            var definition = RankCatalog.ForChallenge(start);
+            if (start > RankCatalog.TotalChallenges)
+                definition = definition with { Name = $"Gran Maestro · {start}–{start + chunk.Length - 1}" };
             RankSections.Add(new RankSectionViewModel(
                 definition,
                 rankNodes,
@@ -63,14 +67,16 @@ public partial class ChallengesViewModel(IPuzzleRepository puzzles, ProgressServ
         RankName = rankProgress.Definition.Name;
         RankProgressText = $"{rankProgress.CompletedInRank}/{rankProgress.RequiredInRank}";
         CurrentRankIndex = rankProgress.Definition.Index;
-        GeneralProgress = CompletedCount / (double)RankCatalog.TotalChallenges;
+        GeneralProgress = nodes.Count(n => n.IsCompleted) / (double)all.Count;
         ProgressPercentText = $"{(int)Math.Round(GeneralProgress * 100)}%";
         RankCaption = BuildRankCaption(rankProgress);
+        if (CompletedCount >= RankCatalog.TotalChallenges && GeneralProgress < 1)
+            RankCaption = "Nuevos retos para seguir avanzando";
         GoldCount = challengeCompletions.Count(completion => completion.BestMedal == Medal.Gold).ToString();
         SilverCount = challengeCompletions.Count(completion => completion.BestMedal == Medal.Silver).ToString();
         BronzeCount = challengeCompletions.Count(completion => completion.BestMedal == Medal.Bronze).ToString();
-        ContinueText = rankProgress.IsPathComplete
-            ? "Repetir · Reto 30"
+        ContinueText = nodes.All(n => n.IsCompleted)
+            ? $"Repetir · Reto {all[^1].Order}"
             : CompletedCount == 0
                 ? "Comenzar · Reto 1"
                 : $"Continuar · Reto {currentChallenge?.Number}";
@@ -129,8 +135,8 @@ public sealed class RankSectionViewModel
     public bool IsLocked { get; }
     public double Opacity => IsLocked ? 0.6 : 1;
     public int CompletedCount => Nodes.Count(node => node.IsCompleted);
-    public string ProgressText => $"{CompletedCount}/{RankCatalog.ChallengesPerRank}";
-    public string StatusText => CompletedCount == RankCatalog.ChallengesPerRank
+    public string ProgressText => $"{CompletedCount}/{Nodes.Count}";
+    public string StatusText => CompletedCount == Nodes.Count
         ? "Rango completado"
         : IsLocked ? "Completa el rango anterior" : IsCurrent ? "Tu rango actual" : "En progreso";
 }
@@ -148,7 +154,7 @@ public sealed class ChallengeNodeViewModel
         Id = puzzle.Id;
         Number = puzzle.Order.ToString();
         Title = puzzle.Title;
-        Difficulty = puzzle.Difficulty;
+        Difficulty = $"{puzzle.DynamicLabel} · {puzzle.Difficulty}";
         Rank = puzzle.Rank;
         AccentColor = Color.FromArgb(RankCatalog.ForChallenge(puzzle.Order).AccentColor);
         IsLocked = !isUnlocked;

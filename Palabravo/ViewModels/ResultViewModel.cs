@@ -53,7 +53,7 @@ public partial class ResultViewModel(GameCoordinator coordinator, WeeklyChalleng
             PuzzleMode.Weekly => $"{coordinator.CurrentWeekly?.Flag} RETO DE LA SEMANA",
             _ => "CAMINO PALABRAVO"
         };
-        Title = result.IsSuccess ? "¡Conexiones encontradas!" : "Casi lo tienes";
+        Title = result.IsSuccess ? "¡Reto completado!" : "Casi lo tienes";
         MedalIcon = result.Medal switch
         {
             Medal.Gold => "🥇",

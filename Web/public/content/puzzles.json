@@ -1,0 +1,1330 @@
+[
+  {
+    "id": "puzzle-01",
+    "order": 1,
+    "contentVersion": 2,
+    "rank": "novato",
+    "title": "Primeras conexiones",
+    "difficulty": "Fácil",
+    "groups": [
+      {
+        "category": "Planetas",
+        "hint": "Mira más allá de la Tierra.",
+        "words": [
+          "MARTE",
+          "VENUS",
+          "SATURNO",
+          "NEPTUNO"
+        ]
+      },
+      {
+        "category": "Instrumentos de cuerda",
+        "hint": "Suenan al pulsar o frotar cuerdas.",
+        "words": [
+          "GUITARRA",
+          "VIOLÍN",
+          "ARPA",
+          "VIOLONCHELO"
+        ]
+      },
+      {
+        "category": "Cítricos",
+        "hint": "Comparten un sabor fresco y ácido.",
+        "words": [
+          "LIMÓN",
+          "NARANJA",
+          "MANDARINA",
+          "POMELO"
+        ]
+      },
+      {
+        "category": "Capitales sudamericanas",
+        "hint": "Cuatro ciudades que son sede de gobierno.",
+        "words": [
+          "LIMA",
+          "QUITO",
+          "BOGOTÁ",
+          "ASUNCIÓN"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-02",
+    "order": 2,
+    "contentVersion": 2,
+    "rank": "novato",
+    "title": "Una palabra, dos caminos",
+    "difficulty": "Fácil",
+    "groups": [],
+    "dynamic": "bridge",
+    "questions": [
+      {
+        "prompt": "Completa: ___ de un círculo · ___ de una rueda",
+        "options": [
+          "Radio",
+          "Luz",
+          "Rayo",
+          "Cuerda"
+        ],
+        "answer": "Radio",
+        "explanation": "Radio nombra el segmento del centro a la circunferencia y la pieza que une el centro y la llanta de una rueda.",
+        "hint": "Ambos van desde el centro hacia el borde."
+      },
+      {
+        "prompt": "Completa: ___ de agua · ___ de los árboles",
+        "options": [
+          "Copa",
+          "Vaso",
+          "Rama",
+          "Hoja"
+        ],
+        "answer": "Copa",
+        "explanation": "Copa puede ser un recipiente o la parte superior de un árbol.",
+        "hint": "También puedes brindar con ella."
+      }
+    ],
+    "instructions": "Encuentra la palabra que completa ambas expresiones."
+  },
+  {
+    "id": "puzzle-03",
+    "order": 3,
+    "contentVersion": 2,
+    "rank": "novato",
+    "title": "Curiosidades cotidianas",
+    "difficulty": "Fácil",
+    "groups": [],
+    "dynamic": "trivia",
+    "questions": [
+      {
+        "prompt": "¿Qué instrumento mide la temperatura?",
+        "options": [
+          "Termómetro",
+          "Barómetro",
+          "Brújula",
+          "Cronómetro"
+        ],
+        "answer": "Termómetro",
+        "explanation": "El termómetro mide temperatura; el barómetro, presión.",
+        "hint": "Su nombre comienza con una raíz relacionada con el calor."
+      },
+      {
+        "prompt": "¿Qué planeta habitamos?",
+        "options": [
+          "Tierra",
+          "Marte",
+          "Venus",
+          "Saturno"
+        ],
+        "answer": "Tierra",
+        "explanation": "Nuestro planeta es la Tierra.",
+        "hint": "Es el tercer planeta desde el Sol."
+      },
+      {
+        "prompt": "¿Cuál de estos animales es un mamífero?",
+        "options": [
+          "Delfín",
+          "Tiburón",
+          "Pulpo",
+          "Sardina"
+        ],
+        "answer": "Delfín",
+        "explanation": "El delfín respira aire y alimenta a sus crías con leche.",
+        "hint": "Vivir en el agua no implica ser un pez."
+      }
+    ],
+    "instructions": "Elige una respuesta. Tienes tres errores para completar el reto."
+  },
+  {
+    "id": "puzzle-04",
+    "order": 4,
+    "contentVersion": 2,
+    "rank": "novato",
+    "title": "Sonidos y movimiento",
+    "difficulty": "Fácil",
+    "groups": [
+      {
+        "category": "Mamíferos",
+        "hint": "Todos alimentan a sus crías de la misma manera.",
+        "words": [
+          "DELFÍN",
+          "ELEFANTE",
+          "JIRAFA",
+          "BALLENA"
+        ]
+      },
+      {
+        "category": "Deportes",
+        "hint": "Actividades que pueden ser competitivas.",
+        "words": [
+          "TENIS",
+          "FÚTBOL",
+          "NATACIÓN",
+          "CICLISMO"
+        ]
+      },
+      {
+        "category": "Frutas",
+        "hint": "Cuatro opciones para una ensalada dulce.",
+        "words": [
+          "MANZANA",
+          "PERA",
+          "UVA",
+          "MANGO"
+        ]
+      },
+      {
+        "category": "Instrumentos musicales",
+        "hint": "Todos producen música, aunque de maneras distintas.",
+        "words": [
+          "TROMPETA",
+          "CLARINETE",
+          "TAMBOR",
+          "FLAUTA"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-05",
+    "order": 5,
+    "contentVersion": 2,
+    "rank": "novato",
+    "title": "Uno no encaja",
+    "difficulty": "Fácil",
+    "groups": [],
+    "dynamic": "intruder",
+    "questions": [
+      {
+        "prompt": "Tres son instrumentos de cuerda. ¿Cuál sobra?",
+        "options": [
+          "Flauta",
+          "Violín",
+          "Guitarra",
+          "Arpa"
+        ],
+        "answer": "Flauta",
+        "explanation": "La flauta produce sonido con una columna de aire.",
+        "hint": "Busca el instrumento de viento."
+      },
+      {
+        "prompt": "Tres tienen cuatro lados. ¿Cuál sobra?",
+        "options": [
+          "Triángulo",
+          "Cuadrado",
+          "Rectángulo",
+          "Rombo"
+        ],
+        "answer": "Triángulo",
+        "explanation": "El triángulo tiene tres lados.",
+        "hint": "Cuenta los lados."
+      }
+    ],
+    "instructions": "Elige el elemento que no cumple la regla."
+  },
+  {
+    "id": "puzzle-06",
+    "order": 6,
+    "contentVersion": 2,
+    "rank": "agil",
+    "title": "Piezas que forman palabras",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "pieces",
+    "questions": [
+      {
+        "prompt": "Construye el nombre de un objeto que protege de la lluvia.",
+        "fragments": ["PARA", "GUAS", "SACA", "SOL"],
+        "solutionParts": ["PARA", "GUAS"],
+        "options": [
+          "Paraguas",
+          "Paraguero",
+          "Paraguay",
+          "Aguacero"
+        ],
+        "answer": "Paraguas",
+        "explanation": "Paraguas combina para y aguas.",
+        "hint": "Protege de la lluvia."
+      },
+      {
+        "prompt": "Construye el nombre del objeto que afila lápices.",
+        "fragments": ["SACA", "PUNTAS", "PARA", "AGUAS"],
+        "solutionParts": ["SACA", "PUNTAS"],
+        "options": [
+          "Sacapuntas",
+          "Sacacorchos",
+          "Puntero",
+          "Puntapié"
+        ],
+        "answer": "Sacapuntas",
+        "explanation": "Un sacapuntas afila lápices.",
+        "hint": "Piensa en un útil escolar."
+      }
+    ],
+    "instructions": "Combina las piezas y elige la palabra bien escrita."
+  },
+  {
+    "id": "puzzle-07",
+    "order": 7,
+    "contentVersion": 2,
+    "rank": "agil",
+    "title": "Vuelo y oficio",
+    "difficulty": "Media",
+    "groups": [
+      {
+        "category": "Aves",
+        "hint": "Todas tienen alas y pico.",
+        "words": [
+          "ÁGUILA",
+          "HALCÓN",
+          "BÚHO",
+          "CÓNDOR"
+        ]
+      },
+      {
+        "category": "Países",
+        "hint": "Cuatro naciones de continentes distintos.",
+        "words": [
+          "CANADÁ",
+          "CHILE",
+          "JAPÓN",
+          "BRASIL"
+        ]
+      },
+      {
+        "category": "Herramientas",
+        "hint": "Podrían encontrarse en una caja de trabajo.",
+        "words": [
+          "MARTILLO",
+          "DESTORNILLADOR",
+          "ALICATE",
+          "LLAVE INGLESA"
+        ]
+      },
+      {
+        "category": "Días de la semana",
+        "hint": "Cuatro posiciones dentro de una semana.",
+        "words": [
+          "DOMINGO",
+          "LUNES",
+          "MIÉRCOLES",
+          "VIERNES"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-08",
+    "order": 8,
+    "contentVersion": 3,
+    "rank": "agil",
+    "title": "No te confíes: los sentidos",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "recall",
+    "questions": [
+      {
+        "prompt": "Si algo se puede comer, es…",
+        "answer": "comestible",
+        "acceptedAnswers": ["comible"],
+        "explanation": "Comestible y comible sirven. ¿Seguirá funcionando la misma terminación?",
+        "hint": "La palabra principal empieza con C."
+      },
+      {
+        "prompt": "Si algo se puede beber, es…",
+        "answer": "potable",
+        "acceptedAnswers": ["bebible", "bebestible", "bebedero"],
+        "explanation": "Potable es una respuesta posible. Bebible y bebestible también son válidas: bebestible se formó imitando comestible. Aquí el patrón sí funciona.",
+        "hint": "La palabra principal empieza con P."
+      },
+      {
+        "prompt": "Si un sonido se puede oír, es…",
+        "answer": "audible",
+        "acceptedAnswers": ["oíble", "escuchable"],
+        "explanation": "Audible cambia la raíz: no basta con añadir una terminación a escuchar. También aceptamos oíble y escuchable en esta frase.",
+        "hint": "La palabra principal empieza con A."
+      },
+      {
+        "prompt": "Si algo se puede tocar, es…",
+        "answer": "tangible",
+        "acceptedAnswers": ["tocable", "palpable", "material", "concreto"],
+        "explanation": "Buscábamos tangible. Palpable y tocable también encajan en la frase: la sorpresa no convierte una alternativa válida en un error.",
+        "hint": "La palabra principal empieza con T y continúa con A."
+      }
+    ],
+    "instructions": "Completa cada frase con un adjetivo. Sin alternativas ni límite de tiempo. Se aceptan variantes y respuestas sin tilde; tienes tres errores."
+  },
+  {
+    "id": "puzzle-09",
+    "order": 9,
+    "contentVersion": 2,
+    "rank": "agil",
+    "title": "Conexiones escondidas",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "bridge",
+    "questions": [
+      {
+        "prompt": "Completa: ___ del río · ___ para sentarse",
+        "options": [
+          "Banco",
+          "Silla",
+          "Cauce",
+          "Piedra"
+        ],
+        "answer": "Banco",
+        "explanation": "Banco puede ser una acumulación de arena o un asiento.",
+        "hint": "También es un lugar donde guardar dinero."
+      },
+      {
+        "prompt": "Completa: ___ de ajedrez · ___ del castillo",
+        "options": [
+          "Torre",
+          "Reina",
+          "Peón",
+          "Muralla"
+        ],
+        "answer": "Torre",
+        "explanation": "La torre es una pieza de ajedrez y una construcción elevada.",
+        "hint": "En ajedrez se mueve en líneas rectas."
+      }
+    ],
+    "instructions": "Encuentra la palabra que completa ambas expresiones."
+  },
+  {
+    "id": "puzzle-10",
+    "order": 10,
+    "contentVersion": 2,
+    "rank": "agil",
+    "title": "El engaño de Mercurio",
+    "difficulty": "Media",
+    "groups": [
+      {
+        "category": "Especias",
+        "hint": "Dan aroma y sabor a una receta.",
+        "words": [
+          "CANELA",
+          "COMINO",
+          "ORÉGANO",
+          "PAPRIKA"
+        ]
+      },
+      {
+        "category": "Planetas",
+        "hint": "No todos los nombres planetarios pertenecen aquí.",
+        "words": [
+          "MARTE",
+          "VENUS",
+          "SATURNO",
+          "JÚPITER"
+        ]
+      },
+      {
+        "category": "Ríos",
+        "hint": "Grandes cursos de agua de distintos continentes.",
+        "words": [
+          "AMAZONAS",
+          "NILO",
+          "DANUBIO",
+          "YANGTSÉ"
+        ]
+      },
+      {
+        "category": "Metales",
+        "hint": "Uno de ellos también mira al cielo.",
+        "words": [
+          "PLATA",
+          "COBRE",
+          "ORO",
+          "MERCURIO"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-11",
+    "order": 11,
+    "contentVersion": 2,
+    "rank": "ingenioso",
+    "title": "Observa la costa",
+    "difficulty": "Media alta",
+    "groups": [],
+    "dynamic": "visual",
+    "questions": [
+      {
+        "prompt": "Observa la imagen. ¿Sobre qué se levantan las casas?",
+        "options": [
+          "Pilotes",
+          "Ruedas",
+          "Arcos de piedra",
+          "Dunas"
+        ],
+        "answer": "Pilotes",
+        "explanation": "Los pilotes sostienen las casas sobre el agua.",
+        "hint": "Mira debajo de las viviendas.",
+        "imageSource": "https://palabravo.app/content/weekly_palafitos_castro.png"
+      },
+      {
+        "prompt": "¿Qué material predomina en las fachadas?",
+        "options": [
+          "Madera",
+          "Mármol",
+          "Vidrio",
+          "Ladrillo"
+        ],
+        "answer": "Madera",
+        "explanation": "Se observan fachadas de tablas de madera.",
+        "hint": "Fíjate en las líneas de las tablas.",
+        "imageSource": "https://palabravo.app/content/weekly_palafitos_castro.png"
+      }
+    ],
+    "instructions": "Elige una respuesta. Tienes tres errores para completar el reto."
+  },
+  {
+    "id": "puzzle-12",
+    "order": 12,
+    "contentVersion": 2,
+    "rank": "ingenioso",
+    "title": "Busca la regla",
+    "difficulty": "Media alta",
+    "groups": [],
+    "dynamic": "intruder",
+    "questions": [
+      {
+        "prompt": "Tres palabras son agudas. ¿Cuál sobra?",
+        "options": [
+          "Árbol",
+          "Café",
+          "Reloj",
+          "Canción"
+        ],
+        "answer": "Árbol",
+        "explanation": "Árbol es una palabra llana: la fuerza está en la penúltima sílaba.",
+        "hint": "Pronuncia cada palabra en voz alta."
+      },
+      {
+        "prompt": "Tres son unidades de longitud. ¿Cuál sobra?",
+        "options": [
+          "Litro",
+          "Metro",
+          "Kilómetro",
+          "Centímetro"
+        ],
+        "answer": "Litro",
+        "explanation": "El litro mide volumen.",
+        "hint": "Busca la unidad usada para líquidos."
+      }
+    ],
+    "instructions": "Elige el elemento que no cumple la regla."
+  },
+  {
+    "id": "puzzle-13",
+    "order": 13,
+    "contentVersion": 2,
+    "rank": "ingenioso",
+    "title": "Mitos y constelaciones",
+    "difficulty": "Media alta",
+    "groups": [
+      {
+        "category": "Criaturas míticas",
+        "hint": "Existen en leyendas, no en zoológicos.",
+        "words": [
+          "DRAGÓN",
+          "UNICORNIO",
+          "SIRENA",
+          "FÉNIX"
+        ]
+      },
+      {
+        "category": "Frutos del bosque",
+        "hint": "Pequeños frutos frecuentes en postres.",
+        "words": [
+          "FRESA",
+          "MORA",
+          "FRAMBUESA",
+          "ARÁNDANO"
+        ]
+      },
+      {
+        "category": "Planetas",
+        "hint": "Cuatro cuerpos que orbitan el Sol.",
+        "words": [
+          "MARTE",
+          "VENUS",
+          "SATURNO",
+          "JÚPITER"
+        ]
+      },
+      {
+        "category": "Instrumentos de cuerda frotada",
+        "hint": "Una familia que suele tocarse con arco.",
+        "words": [
+          "VIOLÍN",
+          "VIOLA",
+          "CHELO",
+          "CONTRABAJO"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-14",
+    "order": 14,
+    "contentVersion": 2,
+    "rank": "ingenioso",
+    "title": "Construye con sentido",
+    "difficulty": "Media alta",
+    "groups": [],
+    "dynamic": "pieces",
+    "questions": [
+      {
+        "prompt": "Construye el nombre de un juego de piezas que encajan.",
+        "fragments": ["ROMPE", "CABEZAS", "OLAS", "PARA"],
+        "solutionParts": ["ROMPE", "CABEZAS"],
+        "options": [
+          "Rompecabezas",
+          "Cabezal",
+          "Quebradero",
+          "Rompeolas"
+        ],
+        "answer": "Rompecabezas",
+        "explanation": "Rompecabezas es una palabra compuesta.",
+        "hint": "Puede tener muchas piezas."
+      },
+      {
+        "prompt": "Construye el nombre de una flor amarilla.",
+        "fragments": ["GIRA", "SOL", "LUNA", "SACA"],
+        "solutionParts": ["GIRA", "SOL"],
+        "options": [
+          "Girasol",
+          "Parasol",
+          "Solsticio",
+          "Giro"
+        ],
+        "answer": "Girasol",
+        "explanation": "Girasol nombra una planta de grandes flores amarillas.",
+        "hint": "Piensa en una flor."
+      }
+    ],
+    "instructions": "Combina las piezas y elige la palabra bien escrita."
+  },
+  {
+    "id": "puzzle-15",
+    "order": 15,
+    "contentVersion": 2,
+    "rank": "ingenioso",
+    "title": "Palabras y relatos",
+    "difficulty": "Media alta",
+    "groups": [],
+    "dynamic": "trivia",
+    "questions": [
+      {
+        "prompt": "¿Cómo se llama el personaje principal de una historia?",
+        "options": [
+          "Protagonista",
+          "Narrador",
+          "Editor",
+          "Lector"
+        ],
+        "answer": "Protagonista",
+        "explanation": "El protagonista ocupa el papel principal; el narrador cuenta la historia.",
+        "hint": "No tiene por qué ser quien cuenta los hechos."
+      },
+      {
+        "prompt": "¿Qué palabra significa lo contrario de escaso?",
+        "options": [
+          "Abundante",
+          "Pequeño",
+          "Raro",
+          "Breve"
+        ],
+        "answer": "Abundante",
+        "explanation": "Abundante indica que hay mucho.",
+        "hint": "Piensa en cantidad."
+      },
+      {
+        "prompt": "¿Qué signo abre una pregunta en español?",
+        "options": [
+          "¿",
+          "¡",
+          ":",
+          ";"
+        ],
+        "answer": "¿",
+        "explanation": "En español las preguntas directas se delimitan con ¿ y ?.",
+        "hint": "Se coloca al inicio de una interrogación."
+      }
+    ],
+    "instructions": "Elige una respuesta. Tienes tres errores para completar el reto."
+  },
+  {
+    "id": "puzzle-16",
+    "order": 16,
+    "contentVersion": 2,
+    "rank": "experto",
+    "title": "Una palabra cambia todo",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "bridge",
+    "questions": [
+      {
+        "prompt": "Completa: ___ de la montaña · ___ del lápiz",
+        "options": [
+          "Punta",
+          "Falda",
+          "Mina",
+          "Cumbre"
+        ],
+        "answer": "Punta",
+        "explanation": "Punta nombra el extremo de ambos.",
+        "hint": "Busca un extremo."
+      },
+      {
+        "prompt": "Completa: ___ de una carta · ___ de una mano",
+        "options": [
+          "Dorso",
+          "Palma",
+          "Sello",
+          "As"
+        ],
+        "answer": "Dorso",
+        "explanation": "Dorso es la parte posterior de una carta o de la mano.",
+        "hint": "Es la parte de atrás."
+      }
+    ],
+    "instructions": "Encuentra la palabra que completa ambas expresiones."
+  },
+  {
+    "id": "puzzle-17",
+    "order": 17,
+    "contentVersion": 2,
+    "rank": "experto",
+    "title": "Del cuerpo al paisaje",
+    "difficulty": "Difícil",
+    "groups": [
+      {
+        "category": "Términos del cuerpo usados en geografía u objetos",
+        "hint": "El cuerpo presta estas palabras a otras cosas.",
+        "words": [
+          "BOCA",
+          "BRAZO",
+          "CUELLO",
+          "PIE"
+        ]
+      },
+      {
+        "category": "Partes de un libro",
+        "hint": "Ayudan a organizar una obra escrita.",
+        "words": [
+          "PORTADA",
+          "ÍNDICE",
+          "CAPÍTULO",
+          "PRÓLOGO"
+        ]
+      },
+      {
+        "category": "Acciones de cocina",
+        "hint": "Verbos habituales al seguir una receta.",
+        "words": [
+          "BATIR",
+          "HERVIR",
+          "PICAR",
+          "SOFREÍR"
+        ]
+      },
+      {
+        "category": "Fenómenos meteorológicos",
+        "hint": "Pueden aparecer durante un cambio de tiempo.",
+        "words": [
+          "GRANIZO",
+          "TRUENO",
+          "RELÁMPAGO",
+          "NIEBLA"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-18",
+    "order": 18,
+    "contentVersion": 2,
+    "rank": "experto",
+    "title": "Lee el paisaje",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "visual",
+    "questions": [
+      {
+        "prompt": "¿Qué se refleja en primer plano?",
+        "options": [
+          "Las casas",
+          "Una catedral",
+          "Un glaciar",
+          "Un faro"
+        ],
+        "answer": "Las casas",
+        "explanation": "El agua muestra los colores y formas de las casas.",
+        "hint": "Observa las franjas de color en el agua.",
+        "imageSource": "https://palabravo.app/content/weekly_palafitos_castro.png"
+      },
+      {
+        "prompt": "¿Qué paisaje se ve detrás de las casas?",
+        "options": [
+          "Laderas con vegetación",
+          "Dunas desérticas",
+          "Campos de hielo",
+          "Rascacielos"
+        ],
+        "answer": "Laderas con vegetación",
+        "explanation": "Detrás de las casas aparecen colinas cubiertas de vegetación.",
+        "hint": "Mira la parte superior de la imagen.",
+        "imageSource": "https://palabravo.app/content/weekly_palafitos_castro.png"
+      }
+    ],
+    "instructions": "Elige una respuesta. Tienes tres errores para completar el reto."
+  },
+  {
+    "id": "puzzle-19",
+    "order": 19,
+    "contentVersion": 2,
+    "rank": "experto",
+    "title": "Ciencia en pocas palabras",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "trivia",
+    "questions": [
+      {
+        "prompt": "¿Qué proceso convierte agua líquida en vapor?",
+        "options": [
+          "Evaporación",
+          "Condensación",
+          "Congelación",
+          "Fusión"
+        ],
+        "answer": "Evaporación",
+        "explanation": "La evaporación es el paso de líquido a gas.",
+        "hint": "Ocurre cuando se seca un charco."
+      },
+      {
+        "prompt": "¿Qué órgano bombea la sangre?",
+        "options": [
+          "Corazón",
+          "Pulmón",
+          "Hígado",
+          "Estómago"
+        ],
+        "answer": "Corazón",
+        "explanation": "El corazón impulsa la sangre por el sistema circulatorio.",
+        "hint": "Tiene un latido."
+      },
+      {
+        "prompt": "¿Qué fuerza mantiene los planetas en órbita alrededor del Sol?",
+        "options": [
+          "Gravedad",
+          "Fricción",
+          "Elasticidad",
+          "Flotación"
+        ],
+        "answer": "Gravedad",
+        "explanation": "La atracción gravitatoria interviene en las órbitas planetarias.",
+        "hint": "También hace caer los objetos."
+      }
+    ],
+    "instructions": "Elige una respuesta. Tienes tres errores para completar el reto."
+  },
+  {
+    "id": "puzzle-20",
+    "order": 20,
+    "contentVersion": 2,
+    "rank": "experto",
+    "title": "Medidas relativas",
+    "difficulty": "Difícil",
+    "groups": [
+      {
+        "category": "MEDIA ___",
+        "hint": "Cuatro expresiones empiezan con «media».",
+        "words": [
+          "LUNA",
+          "NARANJA",
+          "DOCENA",
+          "NOCHE"
+        ]
+      },
+      {
+        "category": "ALTA ___",
+        "hint": "Cuatro expresiones empiezan con «alta».",
+        "words": [
+          "MAR",
+          "TENSIÓN",
+          "COSTURA",
+          "FIDELIDAD"
+        ]
+      },
+      {
+        "category": "BAJO ___",
+        "hint": "Cuatro expresiones empiezan con «bajo».",
+        "words": [
+          "CONSUMO",
+          "PERFIL",
+          "COSTO",
+          "PRESIÓN"
+        ]
+      },
+      {
+        "category": "GRAN ___",
+        "hint": "Cuatro expresiones empiezan con «gran».",
+        "words": [
+          "PREMIO",
+          "HERMANO",
+          "MAESTRO",
+          "FINAL"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-21",
+    "order": 21,
+    "contentVersion": 2,
+    "rank": "maestro",
+    "title": "Compuestos ingeniosos",
+    "difficulty": "Muy difícil",
+    "groups": [],
+    "dynamic": "pieces",
+    "questions": [
+      {
+        "prompt": "Construye el nombre del utensilio que abre conservas.",
+        "fragments": ["ABRE", "LATAS", "SACA", "PUNTAS"],
+        "solutionParts": ["ABRE", "LATAS"],
+        "options": [
+          "Abrelatas",
+          "Abrepuertas",
+          "Enlatado",
+          "Latón"
+        ],
+        "answer": "Abrelatas",
+        "explanation": "Abrelatas nombra el utensilio que abre latas.",
+        "hint": "Es un utensilio de cocina."
+      },
+      {
+        "prompt": "Construye el nombre del animal alargado de muchas patas.",
+        "fragments": ["CIEM", "PIÉS", "PUNTAS", "CIEN"],
+        "solutionParts": ["CIEM", "PIÉS"],
+        "options": [
+          "Ciempiés",
+          "Cienpiés",
+          "Centímetro",
+          "Milímetro"
+        ],
+        "answer": "Ciempiés",
+        "explanation": "En ciempiés, la n cambia a m ante la p.",
+        "hint": "Ante p se escribe m."
+      }
+    ],
+    "instructions": "Combina las piezas y elige la palabra bien escrita."
+  },
+  {
+    "id": "puzzle-22",
+    "order": 22,
+    "contentVersion": 3,
+    "rank": "maestro",
+    "title": "No te confíes: cambia la raíz",
+    "difficulty": "Muy difícil",
+    "groups": [],
+    "dynamic": "recall",
+    "questions": [
+      {
+        "prompt": "Si algo se puede ver, es…",
+        "answer": "visible",
+        "acceptedAnswers": ["observable", "perceptible", "apreciable"],
+        "explanation": "Visible es la palabra habitual. Observable también encaja. Vamos a probar otra acción.",
+        "hint": "La palabra principal empieza con V."
+      },
+      {
+        "prompt": "Si un texto se puede leer, es…",
+        "answer": "legible",
+        "acceptedAnswers": ["leíble", "descifrable", "claro", "inteligible", "comprensible"],
+        "explanation": "Legible cambia leer por leg-. Leíble también es válida; no todo lo que suena raro está mal.",
+        "hint": "La palabra principal empieza con L y continúa con E."
+      },
+      {
+        "prompt": "Si una explicación se puede entender, es…",
+        "answer": "inteligible",
+        "acceptedAnswers": ["entendible", "comprensible", "clara", "accesible"],
+        "explanation": "Inteligible, entendible y comprensible son respuestas válidas. Una misma idea puede tener varias formas.",
+        "hint": "La palabra principal empieza con I."
+      },
+      {
+        "prompt": "Si algo merece que lo creas, es…",
+        "answer": "creíble",
+        "acceptedAnswers": ["verosímil", "plausible", "convincente", "fiable", "confiable", "fidedigno"],
+        "explanation": "Creíble lleva tilde, aunque aquí también aceptamos escribirla sin ella. Verosímil es otra respuesta posible.",
+        "hint": "La palabra principal empieza con C y continúa con R."
+      }
+    ],
+    "instructions": "Completa cada frase con un adjetivo. La raíz puede cambiar. Se aceptan variantes y respuestas sin tilde; tienes tres errores."
+  },
+  {
+    "id": "puzzle-23",
+    "order": 23,
+    "contentVersion": 2,
+    "rank": "maestro",
+    "title": "La excepción precisa",
+    "difficulty": "Muy difícil",
+    "groups": [],
+    "dynamic": "intruder",
+    "questions": [
+      {
+        "prompt": "Tres números son primos. ¿Cuál sobra?",
+        "options": [
+          "21",
+          "13",
+          "17",
+          "19"
+        ],
+        "answer": "21",
+        "explanation": "21 es divisible por 3 y por 7.",
+        "hint": "Un primo tiene exactamente dos divisores positivos."
+      },
+      {
+        "prompt": "Tres palabras son verbos en infinitivo. ¿Cuál sobra?",
+        "options": [
+          "Canto",
+          "Leer",
+          "Vivir",
+          "Saltar"
+        ],
+        "answer": "Canto",
+        "explanation": "Canto puede ser sustantivo o verbo conjugado; no es infinitivo.",
+        "hint": "Los infinitivos terminan en ar, er o ir."
+      }
+    ],
+    "instructions": "Elige el elemento que no cumple la regla."
+  },
+  {
+    "id": "puzzle-24",
+    "order": 24,
+    "contentVersion": 2,
+    "rank": "maestro",
+    "title": "Expresiones de enlace",
+    "difficulty": "Muy difícil",
+    "groups": [
+      {
+        "category": "SIN ___",
+        "hint": "Cuatro expresiones empiezan con «sin».",
+        "words": [
+          "DUDA",
+          "EMBARGO",
+          "QUERER",
+          "MÁS"
+        ]
+      },
+      {
+        "category": "A ___",
+        "hint": "Cuatro locuciones empiezan con la preposición «a».",
+        "words": [
+          "TIEMPO",
+          "CIEGAS",
+          "MEDIAS",
+          "SOLAS"
+        ]
+      },
+      {
+        "category": "DE ___",
+        "hint": "Cuatro locuciones empiezan con la preposición «de».",
+        "words": [
+          "REPENTE",
+          "PRONTO",
+          "NUEVO",
+          "SOBRA"
+        ]
+      },
+      {
+        "category": "POR ___",
+        "hint": "Cuatro locuciones empiezan con la preposición «por».",
+        "words": [
+          "FIN",
+          "SUERTE",
+          "SUPUESTO",
+          "CIERTO"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-25",
+    "order": 25,
+    "contentVersion": 2,
+    "rank": "maestro",
+    "title": "Puentes de significado",
+    "difficulty": "Muy difícil",
+    "groups": [],
+    "dynamic": "bridge",
+    "questions": [
+      {
+        "prompt": "Completa: ___ musical · ___ al pie",
+        "options": [
+          "Nota",
+          "Clave",
+          "Compás",
+          "Letra"
+        ],
+        "answer": "Nota",
+        "explanation": "Nota puede ser un sonido musical o una aclaración escrita.",
+        "hint": "También puede ser una calificación."
+      },
+      {
+        "prompt": "Completa: ___ de una noticia · ___ de un periódico",
+        "options": [
+          "Titular",
+          "Portada",
+          "Párrafo",
+          "Tinta"
+        ],
+        "answer": "Titular",
+        "explanation": "Titular nombra el encabezado de una noticia o del periódico.",
+        "hint": "Es el texto que anuncia el tema principal."
+      }
+    ],
+    "instructions": "Encuentra la palabra que completa ambas expresiones."
+  },
+  {
+    "id": "puzzle-26",
+    "order": 26,
+    "contentVersion": 2,
+    "rank": "granMaestro",
+    "title": "Reconoce Chiloé",
+    "difficulty": "Máxima",
+    "groups": [],
+    "dynamic": "visual",
+    "questions": [
+      {
+        "prompt": "¿Cómo se llaman las viviendas levantadas sobre pilotes?",
+        "options": [
+          "Palafitos",
+          "Iglús",
+          "Rucas",
+          "Yurtas"
+        ],
+        "answer": "Palafitos",
+        "explanation": "Los palafitos se levantan sobre postes o pilotes.",
+        "hint": "El nombre comienza con pala.",
+        "imageSource": "https://palabravo.app/content/weekly_palafitos_castro.png"
+      },
+      {
+        "prompt": "¿Con qué ciudad chilena se asocia esta representación?",
+        "options": [
+          "Castro",
+          "Calama",
+          "Talca",
+          "Rancagua"
+        ],
+        "answer": "Castro",
+        "explanation": "Castro, en Chiloé, es conocida por sus palafitos.",
+        "hint": "Está en la isla grande de Chiloé.",
+        "imageSource": "https://palabravo.app/content/weekly_palafitos_castro.png"
+      }
+    ],
+    "instructions": "Elige una respuesta. Tienes tres errores para completar el reto."
+  },
+  {
+    "id": "puzzle-27",
+    "order": 27,
+    "contentVersion": 2,
+    "rank": "granMaestro",
+    "title": "Palabras con nombre propio",
+    "difficulty": "Máxima",
+    "groups": [
+      {
+        "category": "Colores usados como nombres",
+        "hint": "También pueden aparecer en un documento de identidad.",
+        "words": [
+          "ROSA",
+          "VIOLETA",
+          "BLANCA",
+          "CELESTE"
+        ]
+      },
+      {
+        "category": "Cielo y naturaleza usados como nombres",
+        "hint": "La naturaleza inspira estos nombres propios.",
+        "words": [
+          "LUNA",
+          "AURORA",
+          "ESTRELLA",
+          "SOL"
+        ]
+      },
+      {
+        "category": "Conceptos usados como nombres",
+        "hint": "Ideas abstractas que también nombran personas.",
+        "words": [
+          "ESPERANZA",
+          "FE",
+          "PAZ",
+          "VICTORIA"
+        ]
+      },
+      {
+        "category": "Nombres de asociación religiosa",
+        "hint": "Comparten una conexión frecuente con la tradición cristiana.",
+        "words": [
+          "ÁNGEL",
+          "JESÚS",
+          "TRINIDAD",
+          "ROSARIO"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-28",
+    "order": 28,
+    "contentVersion": 2,
+    "rank": "granMaestro",
+    "title": "Últimas piezas",
+    "difficulty": "Máxima",
+    "groups": [],
+    "dynamic": "pieces",
+    "questions": [
+      {
+        "prompt": "Construye la palabra para un movimiento de ida y vuelta.",
+        "fragments": ["VAI", "VÉN", "SOL", "DÍA"],
+        "solutionParts": ["VAI", "VÉN"],
+        "options": [
+          "Vaivén",
+          "Vayvén",
+          "Vendaval",
+          "Vaivienes"
+        ],
+        "answer": "Vaivén",
+        "explanation": "Vaivén expresa un movimiento alternativo en direcciones opuestas.",
+        "hint": "La conjunción se convierte en i en esta palabra."
+      },
+      {
+        "prompt": "Construye la palabra que nombra la parte central del día.",
+        "fragments": ["MEDIO", "DÍA", "MEDIA", "NOCHE"],
+        "solutionParts": ["MEDIO", "DÍA"],
+        "options": [
+          "Mediodía",
+          "Medianoche",
+          "Mediador",
+          "Díamedio"
+        ],
+        "answer": "Mediodía",
+        "explanation": "Mediodía nombra la parte central del día.",
+        "hint": "No es la mitad de la noche."
+      }
+    ],
+    "instructions": "Combina las piezas y elige la palabra bien escrita."
+  },
+  {
+    "id": "puzzle-29",
+    "order": 29,
+    "contentVersion": 2,
+    "rank": "granMaestro",
+    "title": "El desafío del saber",
+    "difficulty": "Máxima",
+    "groups": [],
+    "dynamic": "trivia",
+    "questions": [
+      {
+        "prompt": "¿Qué recurso atribuye cualidades humanas a algo que no es humano?",
+        "options": [
+          "Personificación",
+          "Hipérbole",
+          "Onomatopeya",
+          "Enumeración"
+        ],
+        "answer": "Personificación",
+        "explanation": "La personificación atribuye rasgos humanos a animales, objetos o ideas.",
+        "hint": "Como decir que el viento susurra secretos."
+      },
+      {
+        "prompt": "Si todos los cuadrados son rectángulos, ¿todos los rectángulos son cuadrados?",
+        "options": [
+          "No, pueden tener lados de distinta longitud",
+          "Sí, siempre",
+          "Solo los grandes",
+          "Solo los dibujados"
+        ],
+        "answer": "No, pueden tener lados de distinta longitud",
+        "explanation": "El cuadrado exige cuatro lados iguales; el rectángulo no.",
+        "hint": "Piensa en un rectángulo alargado."
+      },
+      {
+        "prompt": "¿Qué palabra contiene un hiato?",
+        "options": [
+          "País",
+          "Tierra",
+          "Causa",
+          "Cielo"
+        ],
+        "answer": "País",
+        "explanation": "País separa sus vocales en dos sílabas: pa-ís.",
+        "hint": "La vocal cerrada tónica lleva tilde."
+      }
+    ],
+    "instructions": "Elige una respuesta. Tienes tres errores para completar el reto."
+  },
+  {
+    "id": "puzzle-30",
+    "order": 30,
+    "contentVersion": 2,
+    "rank": "granMaestro",
+    "title": "La conexión final",
+    "difficulty": "Máxima",
+    "groups": [
+      {
+        "category": "TIEMPO ___",
+        "hint": "Cuatro expresiones empiezan con «tiempo».",
+        "words": [
+          "EXTRA",
+          "REAL",
+          "LIBRE",
+          "MUERTO"
+        ]
+      },
+      {
+        "category": "FUEGO ___",
+        "hint": "Cuatro expresiones empiezan con «fuego».",
+        "words": [
+          "AMIGO",
+          "CRUZADO",
+          "LENTO",
+          "ARTIFICIAL"
+        ]
+      },
+      {
+        "category": "MODO ___",
+        "hint": "Cuatro expresiones empiezan con «modo».",
+        "words": [
+          "AVIÓN",
+          "OSCURO",
+          "SEGURO",
+          "INCÓGNITO"
+        ]
+      },
+      {
+        "category": "PUNTO ___",
+        "hint": "Cuatro expresiones empiezan con «punto».",
+        "words": [
+          "CERO",
+          "CLAVE",
+          "DÉBIL",
+          "ÁLGIDO"
+        ]
+      }
+    ],
+    "dynamic": "connections"
+  }
+]

@@ -47,10 +47,10 @@ public static class RankCatalog
 
     public static RankDefinition ForChallenge(int order)
     {
-        if (order is < 1 or > TotalChallenges)
+        if (order < 1)
             throw new ArgumentOutOfRangeException(nameof(order));
 
-        return All[(order - 1) / ChallengesPerRank];
+        return All[Math.Min((order - 1) / ChallengesPerRank, All.Count - 1)];
     }
 
     public static RankProgressSnapshot ForCompleted(int completedChallenges)

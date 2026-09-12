@@ -51,6 +51,7 @@ public sealed class GameState
     public List<PuzzleGroup> SolvedGroups { get; } = [];
     public HashSet<string> RevealedHints { get; } = [];
     public int Errors { get; internal set; }
+    public int QuestionIndex { get; internal set; }
     public int HintsUsed { get; internal set; }
     public bool SolutionRequested { get; internal set; }
     public bool IsFinished { get; internal set; }

@@ -18,7 +18,7 @@
     <ProjectReference Include="../Palabravo.Core/Palabravo.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="../Palabravo/Resources/Raw/puzzles.json" Link="puzzles.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Web/public/content/puzzles.json" Link="puzzles.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../Web/public/content/weekly.json" Link="weekly.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

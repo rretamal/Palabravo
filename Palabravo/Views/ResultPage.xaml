@@ -17,7 +17,7 @@
                         </Border>
                         <VerticalStackLayout Grid.Column="1" Spacing="-1" VerticalOptions="Center">
                             <Label Text="PALABRAVO" FontFamily="OpenSansSemibold" FontSize="20" TextColor="{StaticResource Coral}" CharacterSpacing="1.5" />
-                            <Label Text="CUATRO GRUPOS · DIECISÉIS PALABRAS" Style="{StaticResource Eyebrow}" FontSize="8" />
+                            <Label Text="DESCUBRE · CONECTA · APRENDE" Style="{StaticResource Eyebrow}" FontSize="8" />
                         </VerticalStackLayout>
                     </Grid>
 
@@ -105,7 +105,7 @@
                     BorderColor="{StaticResource Coral}" BorderWidth="1" />
 
             <VerticalStackLayout IsVisible="{Binding SolutionVisible}" Spacing="7" Margin="0,8,0,4">
-                <Label Text="LAS CONEXIONES" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" />
+                <Label Text="LAS RESPUESTAS" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" />
                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding SolutionGroups}" Spacing="7">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>

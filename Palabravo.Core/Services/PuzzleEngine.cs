@@ -23,7 +23,7 @@ public sealed class PuzzleEngine
         _pauseDepth = 0;
         _stopwatch.Restart();
         State = new GameState { Puzzle = puzzle, Mode = mode, PlayedOn = playedOn };
-        State.RemainingWords.AddRange(puzzle.Groups.SelectMany(x => x.Words));
+        if (puzzle.Dynamic == "connections") State.RemainingWords.AddRange(puzzle.Groups.SelectMany(x => x.Words));
         Shuffle();
         return State;
     }
@@ -41,6 +41,27 @@ public sealed class PuzzleEngine
             return false;
 
         return state.SelectedWords.Add(word);
+    }
+
+    public PathQuestion? CurrentQuestion => State is { IsFinished: false } s && s.Puzzle.Dynamic != "connections"
+        ? s.Puzzle.Questions[s.QuestionIndex] : null;
+
+    public SubmissionOutcome AnswerQuestion(string answer)
+    {
+        var state = RequireState();
+        var question = CurrentQuestion;
+        if (question is null || string.IsNullOrWhiteSpace(answer) || answer.Length > 80) return new(SubmissionKind.NotReady);
+        var written = state.Puzzle.Dynamic == "recall";
+        if (!written && !question.Options.Contains(answer)) return new(SubmissionKind.NotReady);
+        if (written ? !question.AcceptsWrittenAnswer(answer) : answer != question.Answer)
+        {
+            state.Errors++;
+            if (state.Errors < MaxErrors) return new(SubmissionKind.Incorrect);
+            state.IsFinished = true; _stopwatch.Stop(); return new(SubmissionKind.Lost);
+        }
+        state.QuestionIndex++;
+        if (state.QuestionIndex < state.Puzzle.Questions.Count) return new(SubmissionKind.Correct);
+        state.IsFinished = true; _stopwatch.Stop(); return new(SubmissionKind.Won);
     }
 
     public SubmissionOutcome Submit()
@@ -77,8 +98,9 @@ public sealed class PuzzleEngine
     }
 
     public bool HasUsefulHint => State is { IsFinished: false, HintsUsed: < 2 } state &&
-        state.Puzzle.Groups.Any(x => !state.SolvedGroups.Contains(x) &&
-            !string.IsNullOrWhiteSpace(x.Hint) && !state.RevealedHints.Contains(x.Hint));
+        (CurrentQuestion is { } q ? !string.IsNullOrWhiteSpace(q.Hint) && !state.RevealedHints.Contains(q.Hint)
+        : state.Puzzle.Groups.Any(x => !state.SolvedGroups.Contains(x) &&
+            !string.IsNullOrWhiteSpace(x.Hint) && !state.RevealedHints.Contains(x.Hint)));
 
     public IDisposable Pause()
     {
@@ -103,6 +125,11 @@ public sealed class PuzzleEngine
         var state = RequireState();
         if (!HasUsefulHint)
             return null;
+
+        if (CurrentQuestion is { } question)
+        {
+            state.HintsUsed++; state.RevealedHints.Add(question.Hint); return question.Hint;
+        }
 
         var group = state.Puzzle.Groups.FirstOrDefault(x => !state.SolvedGroups.Contains(x) &&
             !string.IsNullOrWhiteSpace(x.Hint) && !state.RevealedHints.Contains(x.Hint));
@@ -143,20 +170,27 @@ public sealed class PuzzleEngine
         if (!state.IsFinished)
             throw new InvalidOperationException("La partida todavía no termina.");
 
-        var succeeded = state.SolvedGroups.Count == 4;
+        var succeeded = state.Puzzle.Dynamic == "connections" ? state.SolvedGroups.Count == 4
+            : state.QuestionIndex == state.Puzzle.Questions.Count;
         var medal = !succeeded ? Medal.None : state.Errors == 0 && state.HintsUsed == 0
             ? Medal.Gold
             : state.Errors <= 1 && state.HintsUsed <= 1 ? Medal.Silver : Medal.Bronze;
 
         return new GameResult(state.Puzzle.Id, state.Puzzle.Title, state.Mode, state.PlayedOn,
             succeeded, medal, state.Errors, state.HintsUsed, state.SolutionRequested, Elapsed,
-            state.SolvedGroups.ToList(), state.Puzzle.Groups.ToList());
+            state.SolvedGroups.ToList(), state.Puzzle.Dynamic == "connections" ? state.Puzzle.Groups.ToList()
+                : state.Puzzle.Questions.Select(q => new PuzzleGroup { Category = q.Prompt, Words = [q.Answer], Explanation = q.Explanation }).ToList());
     }
 
     private GameState RequireState() => State ?? throw new InvalidOperationException("No hay una partida activa.");
 
     private static void ValidatePuzzle(PuzzleDefinition puzzle)
     {
+        if (puzzle.Dynamic != "connections")
+        {
+            if (puzzle.Questions.Count == 0) throw new ArgumentException("El reto necesita preguntas.");
+            return;
+        }
         if (puzzle.Groups.Count != 4 || puzzle.Groups.Any(x => x.Words.Count != 4))
             throw new ArgumentException("Cada puzzle debe contener cuatro grupos de cuatro palabras.", nameof(puzzle));
 

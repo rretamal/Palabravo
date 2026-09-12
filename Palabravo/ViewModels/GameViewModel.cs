@@ -49,7 +49,20 @@ public partial class GameViewModel(
     [ObservableProperty] private string quizFeedback = string.Empty;
     [ObservableProperty] private string? quizImageSource;
     [ObservableProperty] private bool hasQuizImage;
-    partial void OnIsGameplayActiveChanged(bool value) => SubmitCommand.NotifyCanExecuteChanged();
+    [ObservableProperty] private bool isPieces;
+    [ObservableProperty] private bool isWrittenAnswer;
+    [ObservableProperty] private string writtenAnswer = string.Empty;
+    public bool CanCheckWrittenAnswer => IsWrittenAnswer && !IsBusy && IsGameplayActive && !string.IsNullOrWhiteSpace(WrittenAnswer);
+    partial void OnWrittenAnswerChanged(string value) => CheckWrittenAnswerCommand.NotifyCanExecuteChanged();
+    partial void OnIsWrittenAnswerChanged(bool value) => CheckWrittenAnswerCommand.NotifyCanExecuteChanged();
+    partial void OnIsBusyChanged(bool value) => CheckWrittenAnswerCommand.NotifyCanExecuteChanged();
+    [ObservableProperty] private string assembledPieces = string.Empty;
+    private readonly List<string> selectedPieces = [];
+    partial void OnIsGameplayActiveChanged(bool value)
+    {
+        SubmitCommand.NotifyCanExecuteChanged();
+        CheckWrittenAnswerCommand.NotifyCanExecuteChanged();
+    }
 
     public async Task LoadAsync(string puzzleId, string modeText, bool referred = false)
     {
@@ -91,6 +104,13 @@ public partial class GameViewModel(
             _ => $"Reto {state.Puzzle.Order}"
         };
         Subtitle = state.Puzzle.Title;
+        IsWrittenAnswer = state.Puzzle.Dynamic == "recall";
+        if (state.Puzzle.Dynamic != "connections")
+        {
+            IsConnectionsVisible = false; IsWeeklyQuizVisible = true;
+            HeaderCaption = state.Puzzle.DynamicLabel.ToUpperInvariant();
+            ShowPathQuestion(); UpdateHeader(); return;
+        }
         ConnectionsEyebrow = state.Mode == PuzzleMode.Weekly
             ? "FASE 1 DE 2 · CONEXIONES"
             : "CUATRO GRUPOS · DIECISÉIS PALABRAS";
@@ -191,6 +211,36 @@ public partial class GameViewModel(
     [RelayCommand]
     private async Task SelectQuizAnswerAsync(QuizOptionViewModel option)
     {
+        if (coordinator.Engine.State?.Puzzle.Dynamic != "connections")
+        {
+            if (IsBusy || !IsGameplayActive) return;
+            if (IsPieces)
+            {
+                if (selectedPieces.Count >= coordinator.Engine.CurrentQuestion!.SolutionParts.Count) selectedPieces.Clear();
+                selectedPieces.Add(option.Text);
+                AssembledPieces = string.Join(" + ", selectedPieces);
+                return;
+            }
+            IsBusy = true;
+            try
+            {
+                activity.Touch();
+                var pathQuestion = coordinator.Engine.CurrentQuestion;
+                var outcome = coordinator.Engine.AnswerQuestion(option.Text);
+                UpdateHeader();
+                if (outcome.Kind is SubmissionKind.Correct or SubmissionKind.Won)
+                {
+                    using (activity.Pause())
+                        await Shell.Current.DisplayAlertAsync("¡Correcto!",
+                            IsWrittenAnswer ? $"{pathQuestion!.Answer}\n\n{pathQuestion.Explanation}" : pathQuestion!.Explanation, "Continuar");
+                }
+                if (outcome.Kind is SubmissionKind.Won or SubmissionKind.Lost) await FinishGameAsync();
+                else if (outcome.Kind == SubmissionKind.Correct) ShowPathQuestion();
+                else QuizFeedback = IsWrittenAnswer ? "Busca otro adjetivo. Puedes pedir la primera letra en Ayudas." : "Esa respuesta no encaja. Prueba otra vez.";
+            }
+            finally { IsBusy = false; }
+            return;
+        }
         if (IsBusy || !IsWeeklyQuizVisible || coordinator.CurrentWeekly is not { } weekly)
             return;
 
@@ -221,6 +271,41 @@ public partial class GameViewModel(
         SubmissionFeedbackRequested?.Invoke(this, new SubmissionFeedbackEventArgs(true, true));
         await FinishGameAsync(weeklyQuizErrors, weeklyQuizStopwatch.Elapsed);
         IsBusy = false;
+    }
+
+    private void ShowPathQuestion()
+    {
+        var state = coordinator.Engine.State!;
+        var question = coordinator.Engine.CurrentQuestion;
+        if (question is null) return;
+        IsPieces = state.Puzzle.Dynamic == "pieces";
+        IsWrittenAnswer = state.Puzzle.Dynamic == "recall";
+        WrittenAnswer = string.Empty;
+        selectedPieces.Clear(); AssembledPieces = "Toca las piezas en orden";
+        QuizProgress = $"{state.Puzzle.DynamicLabel.ToUpperInvariant()} · {state.QuestionIndex + 1} / {state.Puzzle.Questions.Count}";
+        QuizPrompt = question.Prompt;
+        QuizFeedback = state.Puzzle.Instructions;
+        QuizImageSource = question.ImageSource;
+        HasQuizImage = !string.IsNullOrWhiteSpace(question.ImageSource);
+        QuizOptions.Clear();
+        foreach (var option in (IsPieces ? question.Fragments : question.Options).OrderBy(_ => Random.Shared.Next())) QuizOptions.Add(new(option));
+    }
+
+    [RelayCommand(CanExecute = nameof(CanCheckWrittenAnswer))]
+    private Task CheckWrittenAnswerAsync() => SelectQuizAnswerAsync(new(WrittenAnswer));
+
+    [RelayCommand]
+    private async Task CheckPiecesAsync()
+    {
+        var q = coordinator.Engine.CurrentQuestion;
+        if (IsBusy || !IsGameplayActive || q is null || selectedPieces.Count != q.SolutionParts.Count) return;
+        var answer = selectedPieces.SequenceEqual(q.SolutionParts) ? q.Answer : q.Options.First(o => o != q.Answer);
+        IsPieces = false;
+        await SelectQuizAnswerAsync(new(answer));
+        if (coordinator.Engine.State?.IsFinished == false)
+        {
+            IsPieces = true; selectedPieces.Clear(); AssembledPieces = "Toca las piezas en orden";
+        }
     }
 
     [RelayCommand]
