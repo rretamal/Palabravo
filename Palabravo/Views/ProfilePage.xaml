@@ -99,6 +99,29 @@
                 </Grid>
             </Border>
 
+            <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource MustardSoft}" Stroke="#E6C66E">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Notificaciones" FontFamily="OpenSansSemibold" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Recordarme que siga avanzando" FontSize="13" />
+                            <Label Text="Un aviso local después de dos días sin jugar" FontSize="11" TextColor="{StaticResource Muted}" />
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding ProgressRemindersEnabled}" OnColor="{StaticResource Coral}"
+                                SemanticProperties.Description="Activar recordatorios para seguir avanzando" />
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="#E6C66E" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Avisarme cuando haya un reto nuevo" FontSize="13" />
+                            <Label Text="Novedades enviadas por Palabravo" FontSize="11" TextColor="{StaticResource Muted}" />
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding NewChallengesNotificationsEnabled}" OnColor="{StaticResource Coral}"
+                                SemanticProperties.Description="Activar avisos de nuevos retos" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
             <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource SageSoft}" Stroke="#A7D5CA">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                     <Label Text="♢" FontSize="32" TextColor="{StaticResource Sage}" VerticalTextAlignment="Start" />

@@ -74,12 +74,14 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.90" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="Plugin.LocalNotification" Version="14.1.1" />
 		<PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' Or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
 		<PackageReference Include="Plugin.AdMob" Version="10.0.90" />
 		<PackageReference Include="Plugin.Firebase.Analytics" Version="4.0.0" />
+		<PackageReference Include="Plugin.Firebase.CloudMessaging" Version="4.0.0" />
 		<PackageReference Include="Plugin.Firebase.RemoteConfig" Version="4.0.0" />
 		<PackageReference Include="Plugin.Firebase.Crashlytics" Version="4.0.0" />
 	</ItemGroup>

@@ -13,6 +13,7 @@ public partial class ProfileViewModel(
     ProgressService progress,
     IPlayerAccountService accountService,
     CelebrationEffectsService effects,
+    EngagementNotificationService notifications,
     IMonetizationService monetization,
     MonetizationOfferPresenter offers) : ObservableObject
 {
@@ -36,6 +37,9 @@ public partial class ProfileViewModel(
     [ObservableProperty] private string bronze = "0";
     [ObservableProperty] private bool hasSpecialBadges;
     [ObservableProperty] private bool soundEnabled = effects.SoundEnabled;
+    [ObservableProperty] private bool progressRemindersEnabled;
+    [ObservableProperty] private bool newChallengesNotificationsEnabled;
+    private bool loadingNotificationPreferences;
 
     public bool IsAccountIdle => !IsAccountBusy;
     public bool MonetizationEnabled => monetization.IsEnabled;
@@ -68,6 +72,10 @@ public partial class ProfileViewModel(
     public async Task RefreshAsync()
     {
         AnalyticsEnabled = Preferences.Default.Get("analytics_consent", false);
+        loadingNotificationPreferences = true;
+        ProgressRemindersEnabled = notifications.ProgressRemindersEnabled;
+        NewChallengesNotificationsEnabled = notifications.NewChallengesEnabled;
+        loadingNotificationPreferences = false;
         ApplyAccount(accountService.GetSnapshot());
         var player = await progress.LoadAsync();
         var rankProgress = player.RankProgress;
@@ -133,6 +141,7 @@ public partial class ProfileViewModel(
                 return result;
 
             await progress.ResetAsync();
+            await notifications.ResetAsync();
             await monetization.ClearPersonalDataAsync();
 #if ANDROID || IOS
             await FirebaseAdapter.ClearLocalDataAsync();
@@ -176,6 +185,30 @@ public partial class ProfileViewModel(
         effects.SoundEnabled = value;
         if (value)
             effects.PlayGroupFound();
+    }
+
+    async partial void OnProgressRemindersEnabledChanged(bool value)
+    {
+        if (loadingNotificationPreferences) return;
+        if (await notifications.SetProgressRemindersEnabledAsync(value)) return;
+        await RestoreDeniedNotificationPreferenceAsync(isProgressReminder: true);
+    }
+
+    async partial void OnNewChallengesNotificationsEnabledChanged(bool value)
+    {
+        if (loadingNotificationPreferences) return;
+        if (await notifications.SetNewChallengesEnabledAsync(value)) return;
+        await RestoreDeniedNotificationPreferenceAsync(isProgressReminder: false);
+    }
+
+    private async Task RestoreDeniedNotificationPreferenceAsync(bool isProgressReminder)
+    {
+        loadingNotificationPreferences = true;
+        if (isProgressReminder) ProgressRemindersEnabled = false;
+        else NewChallengesNotificationsEnabled = false;
+        loadingNotificationPreferences = false;
+        await Shell.Current.DisplayAlertAsync("Notificaciones desactivadas",
+            "Palabravo necesita permiso del sistema para enviarte estos avisos. Puedes habilitarlo más tarde desde Perfil.", "Cerrar");
     }
 
     partial void OnIsAccountBusyChanged(bool value)

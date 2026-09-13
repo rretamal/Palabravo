@@ -6,8 +6,10 @@ public partial class App : Application
     private readonly Core.Monetization.IMonetizationService _monetization;
     private readonly Core.Services.GameplayActivity _activity;
     private readonly Services.ReferralService _referrals;
+    private readonly Services.EngagementNotificationService _notifications;
 
-    public App(AppShell shell, Core.Monetization.IMonetizationService monetization, Core.Services.GameplayActivity activity, Services.ReferralService referrals)
+    public App(AppShell shell, Core.Monetization.IMonetizationService monetization, Core.Services.GameplayActivity activity,
+        Services.ReferralService referrals, Services.EngagementNotificationService notifications)
     {
         InitializeComponent();
         UserAppTheme = AppTheme.Light;
@@ -15,14 +17,16 @@ public partial class App : Application
         _monetization = monetization;
         _activity = activity;
         _referrals = referrals;
+        _notifications = notifications;
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
         var window = new Window(_shell);
-        window.Deactivated += (_, _) =>
+        window.Deactivated += async (_, _) =>
         {
             _activity.SetForeground(false);
+            await _notifications.OnDeactivatedAsync();
         };
         window.Activated += async (_, _) =>
         {
@@ -30,6 +34,7 @@ public partial class App : Application
             // Background store/config requests do not pause gameplay. The
             // consent adapter owns the pause around its presentation instead.
             await _monetization.InitializeAsync();
+            await _notifications.OnActivatedAsync();
             _activity.Touch();
             await _referrals.OpenPendingAsync();
         };

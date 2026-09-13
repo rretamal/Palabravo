@@ -7,9 +7,12 @@ using Plugin.Maui.Audio;
 using Palabravo.Core.Monetization;
 using Palabravo.Services.Monetization;
 using Microsoft.Maui.LifecycleEvents;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.Core.Models.AndroidOption;
 #if ANDROID || IOS
 using Plugin.AdMob;
 using Plugin.AdMob.Configuration;
+using Plugin.Firebase.CloudMessaging;
 #endif
 
 namespace Palabravo;
@@ -21,6 +24,17 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseLocalNotification(config =>
+            {
+#if ANDROID
+                config.AddAndroid(android => android.AddChannel(new AndroidNotificationChannelRequest
+                {
+                    Id = EngagementNotificationService.UpdatesChannelId,
+                    Name = "Recordatorios y nuevos retos",
+                    Description = "Avisos opcionales para continuar jugando y descubrir retos nuevos."
+                }));
+#endif
+            })
             .AddAudio()
             .ConfigureFonts(fonts =>
             {
@@ -49,11 +63,11 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPurchaseAdapter, GoogleBillingAdapter>();
         builder.ConfigureLifecycleEvents(events => events.AddAndroid(android => android.OnCreate((activity, _) =>
         {
-            if (!monetization.Enabled) return;
             try
             {
                 Plugin.Firebase.Core.Platforms.Android.CrossFirebase.Initialize(activity, () => Platform.CurrentActivity!);
                 Plugin.Firebase.Analytics.FirebaseAnalyticsImplementation.Initialize(activity);
+                FirebaseCloudMessagingImplementation.ChannelId = EngagementNotificationService.UpdatesChannelId;
                 FirebaseAdapter.Ready = true;
                 FirebaseAdapter.SetCollection(Preferences.Default.Get("analytics_consent", false));
             }
@@ -63,9 +77,10 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPurchaseAdapter, StoreKitAdapter>();
         builder.ConfigureLifecycleEvents(events => events.AddiOS(ios => ios.FinishedLaunching((_, _) =>
         {
-            if (monetization.Enabled && Foundation.NSBundle.MainBundle.PathForResource("GoogleService-Info", "plist") is not null)
+            if (Foundation.NSBundle.MainBundle.PathForResource("GoogleService-Info", "plist") is not null)
             {
                 Plugin.Firebase.Core.Platforms.iOS.CrossFirebase.Initialize();
+                FirebaseCloudMessagingImplementation.Initialize();
                 FirebaseAdapter.Ready = true;
                 FirebaseAdapter.SetCollection(Preferences.Default.Get("analytics_consent", false));
             }
@@ -99,6 +114,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<WeeklyChallengeService>();
         builder.Services.AddSingleton<GameCoordinator>();
         builder.Services.AddSingleton<ReferralService>();
+        builder.Services.AddSingleton<EngagementNotificationService>();
         builder.Services.AddSingleton<CelebrationEffectsService>();
         builder.Services.AddSingleton<IAccountDeletionGateway, AccountDeletionGateway>();
         builder.Services.AddSingleton<PlayFabLeaderboardService>();

@@ -10,6 +10,8 @@
     "ANALYTICS_PROPERTY_ID": "",
     "ANALYTICS_SERVICE_ACCOUNT_JSON": "",
     "GOOGLE_SERVICE_ACCOUNT_JSON": "",
+    "FIREBASE_SERVICE_ACCOUNT_JSON": "",
+    "NOTIFICATION_ADMIN_KEY": "replace-with-a-long-random-secret",
     "GOOGLE_RTDN_AUDIENCE": "https://palabravo.app/api/purchases/notifications/google",
     "GOOGLE_RTDN_SERVICE_ACCOUNT_EMAIL": "",
     "APPLE_ROOT_CERTIFICATES_BASE64": "",

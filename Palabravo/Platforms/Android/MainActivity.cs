@@ -24,8 +24,11 @@ namespace Palabravo
         }
         private static void Receive(Android.Content.Intent? intent)
         {
-            if (Uri.TryCreate(intent?.DataString, UriKind.Absolute, out var uri))
+            var target = intent?.DataString ?? intent?.GetStringExtra("link");
+            if (Uri.TryCreate(target, UriKind.Absolute, out var uri))
                 IPlatformApplication.Current!.Services.GetRequiredService<Services.ReferralService>().Receive(uri);
+            if (intent is not null)
+                Plugin.Firebase.CloudMessaging.FirebaseCloudMessagingImplementation.OnNewIntent(intent);
         }
     }
 }

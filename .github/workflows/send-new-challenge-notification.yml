@@ -1,0 +1,44 @@
+name: Enviar aviso de nuevo reto
+
+on:
+  workflow_dispatch:
+    inputs:
+      weekly_id:
+        description: ID publicado en weekly.json
+        required: true
+        type: string
+      title:
+        description: Título de la notificación
+        required: true
+        default: ¡Hay un reto nuevo!
+        type: string
+      message:
+        description: Mensaje de la notificación
+        required: true
+        default: Descubre las conexiones de esta semana en Palabravo.
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enviar mediante la API de Palabravo
+        env:
+          ADMIN_KEY: ${{ secrets.NOTIFICATION_ADMIN_KEY }}
+          WEEKLY_ID: ${{ inputs.weekly_id }}
+          NOTIFICATION_TITLE: ${{ inputs.title }}
+          NOTIFICATION_MESSAGE: ${{ inputs.message }}
+        run: |
+          payload=$(jq -n \
+            --arg weeklyId "$WEEKLY_ID" \
+            --arg title "$NOTIFICATION_TITLE" \
+            --arg body "$NOTIFICATION_MESSAGE" \
+            '{weeklyId: $weeklyId, title: $title, body: $body}')
+          curl --fail-with-body --silent --show-error \
+            --request POST "https://palabravo.app/api/notifications/new-challenge" \
+            --header "Authorization: Bearer $ADMIN_KEY" \
+            --header "Content-Type: application/json" \
+            --data "$payload"
