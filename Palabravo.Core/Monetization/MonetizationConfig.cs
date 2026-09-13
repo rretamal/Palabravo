@@ -48,7 +48,12 @@ public sealed class MonetizationState
     public string? PuzzleId { get; set; }
     public bool ReferredExemptionUsed { get; set; }
     public bool AttemptAdFree { get; set; }
-    public int WelcomeHints { get; set; } = 2;
+    public int WelcomeHints { get; set; } = 1;
+    public DateOnly RetryDate { get; set; }
+    public Dictionary<string, int> FreeRetriesUsed { get; set; } = [];
+    public HashSet<string> FailedPuzzles { get; set; } = [];
+    public Dictionary<string, string> RetryAdRequests { get; set; } = [];
+    public Dictionary<string, int> PendingRetries { get; set; } = [];
     public DateOnly DailyDate { get; set; }
     public int DailyHintsUsed { get; set; }
     public bool OwnsRemoveAds { get; set; }

@@ -71,6 +71,8 @@ public interface IMonetizationService
     Task<bool> AcceptHintAsync(HintOffer offer);
     bool ConsumeHint(string attemptId, Func<bool> deliver);
     void ConfirmHintDisplayed();
+    bool RetryNeedsAd(string puzzleId);
+    Task<bool> AuthorizeRetryAsync(string puzzleId);
     Task ClearPersonalDataAsync();
     Task CompleteAttemptAsync(string attemptId, bool success);
     Task<StoreProduct?> GetProductAsync();

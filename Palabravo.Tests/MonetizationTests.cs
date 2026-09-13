@@ -123,7 +123,7 @@ public sealed class MonetizationTests
         f.Service.BeginAttempt("a", "p");
         Assert.False(f.Service.ConsumeHint("old", () => true));
         Assert.False(f.Service.ConsumeHint("a", () => false));
-        Assert.Equal(2, f.Store.State.WelcomeHints);
+        Assert.Equal(1, f.Store.State.WelcomeHints);
         Assert.Equal(HintSource.Unavailable, f.Service.GetHintOffer(false).Source);
     }
 
@@ -138,8 +138,7 @@ public sealed class MonetizationTests
             Assert.Equal(HintSource.Daily, f.Service.GetHintOffer(true).Source);
             Assert.True(f.Service.ConsumeHint("a", () => true));
         }
-        Assert.Equal(2, f.Store.State.WelcomeHints);
-        Assert.True(f.Service.ConsumeHint("a", () => true));
+        Assert.Equal(1, f.Store.State.WelcomeHints);
         Assert.True(f.Service.ConsumeHint("a", () => true));
         Assert.Equal(HintSource.Unavailable, f.Service.GetHintOffer(true).Source);
         f.Clock.Now += TimeSpan.FromDays(1);
@@ -197,6 +196,54 @@ public sealed class MonetizationTests
         }
         public void Advance(int seconds) { Service.Activity(true); Clock.Now += TimeSpan.FromSeconds(seconds); Service.Activity(false); }
     }
+    [Fact]
+    public async Task Retry_allowance_survives_restart_and_renews_next_day()
+    {
+        var f = await Fixture.Create();
+        f.Service.BeginAttempt("failed", "p");
+        await f.Service.CompleteAttemptAsync("failed", false);
+        Assert.True(await f.Service.AuthorizeRetryAsync("p"));
+        var restarted = f.NewService();
+        Assert.True(await restarted.AuthorizeRetryAsync("p"));
+        Assert.True(restarted.RetryNeedsAd("p"));
+        Assert.False(await restarted.AuthorizeRetryAsync("p"));
+        Assert.True(await restarted.AuthorizeRetryAsync("other"));
+        f.Clock.Now += TimeSpan.FromDays(1);
+        Assert.False(restarted.RetryNeedsAd("p"));
+        Assert.True(await restarted.AuthorizeRetryAsync("p"));
+        f.Store.State.OwnsRemoveAds = true;
+        for (var i = 0; i < 4; i++) Assert.True(await restarted.AuthorizeRetryAsync("p"));
+    }
+
+    [Fact]
+    public async Task Retry_reward_is_not_a_hint_and_duplicate_callbacks_do_not_grant_extra_retries()
+    {
+        var f = await Fixture.Create();
+        f.Store.State.FailedPuzzles.Add("p");
+        await f.Service.AuthorizeRetryAsync("p");
+        await f.Service.AuthorizeRetryAsync("p");
+        f.Ads.Emit(new("ad_request", AdFormat.Rewarded, "retry-ad"));
+        Assert.False(await f.Service.AuthorizeRetryAsync("p"));
+        var signal = new AdSignal("reward_earned", AdFormat.Rewarded, "retry-ad", RewardId: "retry-reward");
+        f.Ads.Emit(signal);
+        f.Ads.Emit(signal);
+        Assert.Empty(f.Store.State.PendingRewards);
+        Assert.True(await f.Service.AuthorizeRetryAsync("p"));
+        Assert.Equal(0, f.Store.State.PendingRetries["p"]);
+        Assert.True(f.Service.RetryNeedsAd("p"));
+    }
+
+    [Fact]
+    public async Task Only_one_welcome_hint_is_free()
+    {
+        var f = await Fixture.Create();
+        f.Service.BeginAttempt("a", "p");
+        Assert.True(f.Service.ConsumeHint("a", () => true));
+        f.Service.ConfirmHintDisplayed();
+        Assert.Equal(HintSource.Advertisement, f.Service.GetHintOffer(true).Source);
+        Assert.False(f.Service.ConsumeHint("a", () => true));
+    }
+
     private sealed class MemoryStore : IMonetizationStore
     {
         public MonetizationState State = new();

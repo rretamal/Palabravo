@@ -76,7 +76,11 @@ public partial class GameViewModel(
         IsConnectionsVisible = true;
         IsWeeklyQuizVisible = false;
         HeaderCaption = "INTENTOS";
-        await coordinator.StartAsync(puzzleId, mode, referred);
+        if (!await coordinator.StartAsync(puzzleId, mode, referred))
+        {
+            await Shell.Current.GoToAsync("//home");
+            return;
+        }
         activity.Touch();
         RefreshFromEngine();
         if (mode == PuzzleMode.Weekly)

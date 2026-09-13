@@ -111,7 +111,7 @@ public partial class ResultViewModel(GameCoordinator coordinator, WeeklyChalleng
     [RelayCommand]
     private async Task ReplayAsync()
     {
-        coordinator.Restart();
+        if (!await coordinator.RestartAsync()) return;
         await Shell.Current.GoToAsync("..");
     }
 

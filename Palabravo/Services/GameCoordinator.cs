@@ -12,7 +12,7 @@ public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMo
     public ProgressUpdate? LastProgressUpdate { get; private set; }
     public WeeklyChallengeDefinition? CurrentWeekly { get; private set; }
 
-    public async Task StartAsync(string puzzleId, PuzzleMode mode, bool referred = false)
+    public async Task<bool> StartAsync(string puzzleId, PuzzleMode mode, bool referred = false)
     {
         var playedOn = mode == PuzzleMode.Daily ? clock.UtcToday : clock.Today;
         CurrentWeekly = mode == PuzzleMode.Weekly
@@ -25,12 +25,24 @@ public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMo
             _ => await puzzles.GetByIdAsync(puzzleId) ?? throw new InvalidOperationException("Reto no encontrado.")
         };
 
+        if (!await AllowRetryAsync(puzzle.Id)) return false;
         Engine = new PuzzleEngine();
         Engine.Start(puzzle, mode, playedOn);
         monetization.BeginAttempt(Engine.State!.AttemptId, puzzle.Id, referred);
         activity.Attach(Engine);
         LastResult = null;
         LastProgressUpdate = null;
+        return true;
+    }
+
+    private async Task<bool> AllowRetryAsync(string puzzleId)
+    {
+        if (monetization.RetryNeedsAd(puzzleId) && !await Shell.Current.DisplayAlertAsync(
+            "Reintentar el reto", "Ya usaste los dos reintentos gratis de hoy. Mira un anuncio para reiniciar o vuelve mañana (el cupo se renueva a las 00:00 UTC).",
+            "Ver anuncio", "Ahora no")) return false;
+        if (await monetization.AuthorizeRetryAsync(puzzleId)) return true;
+        await Shell.Current.DisplayAlertAsync("Reintento no disponible", "No se confirmó la recompensa del anuncio. Puedes volver a intentarlo más tarde. Tu cupo no se ha consumido.", "Entendido");
+        return false;
     }
 
     public GameResult Finish(int additionalErrors = 0, TimeSpan additionalElapsed = default)
@@ -46,14 +58,16 @@ public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMo
 
     public void SetProgressUpdate(ProgressUpdate update) => LastProgressUpdate = update;
 
-    public void Restart()
+    public async Task<bool> RestartAsync()
     {
         var state = Engine.State ?? throw new InvalidOperationException("No hay un reto para repetir.");
+        if (!await AllowRetryAsync(state.Puzzle.Id)) return false;
         Engine = new PuzzleEngine();
         Engine.Start(state.Puzzle, state.Mode, state.PlayedOn);
         monetization.BeginAttempt(Engine.State!.AttemptId, state.Puzzle.Id);
         activity.Attach(Engine);
         LastResult = null;
         LastProgressUpdate = null;
+        return true;
     }
 }

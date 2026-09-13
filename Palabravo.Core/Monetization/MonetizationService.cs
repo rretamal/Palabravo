@@ -15,6 +15,48 @@ public sealed class MonetizationService : IMonetizationService
     private HintOffer? visibleOffer;
     private DateTimeOffset lastConfigFetch;
     private bool fetchingConfig;
+    private string? rewardedRequest;
+
+    private void RefreshRetryDay(MonetizationState s)
+    {
+        var today = DateOnly.FromDateTime(time.GetUtcNow().UtcDateTime);
+        if (today > s.RetryDate) { s.RetryDate = today; s.FreeRetriesUsed.Clear(); }
+    }
+
+    public bool RetryNeedsAd(string puzzleId) => IsEnabled && store.Update(s =>
+    {
+        RefreshRetryDay(s);
+        return s.FailedPuzzles.Contains(puzzleId) && !s.OwnsRemoveAds &&
+            s.FreeRetriesUsed.GetValueOrDefault(puzzleId) >= 2 && s.PendingRetries.GetValueOrDefault(puzzleId) == 0;
+    });
+
+    public async Task<bool> AuthorizeRetryAsync(string puzzleId)
+    {
+        if (!IsEnabled) return true;
+        if (!await operation.WaitAsync(0)) return false;
+        try
+        {
+            bool Consume() => store.Update(s =>
+            {
+                RefreshRetryDay(s);
+                if (!s.FailedPuzzles.Contains(puzzleId) || s.OwnsRemoveAds) return true;
+                var used = s.FreeRetriesUsed.GetValueOrDefault(puzzleId);
+                if (used < 2) { s.FreeRetriesUsed[puzzleId] = used + 1; return true; }
+                var pending = s.PendingRetries.GetValueOrDefault(puzzleId);
+                if (pending == 0) return false;
+                s.PendingRetries[puzzleId] = pending - 1;
+                return true;
+            });
+            if (Consume()) return true;
+            if (!store.Update(s => CanAdvertise(s, AdFormat.Rewarded)) || !ads.IsReady(AdFormat.Rewarded) || rewardedRequest is null)
+            { Preload(); return false; }
+            store.Update(s => { s.RetryAdRequests[rewardedRequest] = puzzleId; return true; });
+            await ads.ShowAsync(AdFormat.Rewarded, () => store.Update(s => CanAdvertise(s, AdFormat.Rewarded)));
+            return Consume();
+        }
+        catch { return false; }
+        finally { operation.Release(); }
+    }
 
     public MonetizationService(IMonetizationStore store, IAdAdapter ads, IConsentAdapter consent,
         IPurchaseAdapter purchases, IEntitlementGateway gateway, IMonetizationConfiguration configuration,
@@ -216,7 +258,8 @@ public sealed class MonetizationService : IMonetizationService
         {
             if (attemptId != s.AttemptId || s.LastCompletedAttempt == attemptId) return "duplicate";
             s.LastCompletedAttempt = attemptId;
-            if (!success) return "not_completed";
+            if (!success) { if (s.PuzzleId is { } failed) s.FailedPuzzles.Add(failed); return "not_completed"; }
+            if (s.PuzzleId is { } completed) s.FailedPuzzles.Remove(completed);
             s.CompletedAttempts++;
             var c = s.AttemptConfig ?? s.EffectiveConfig;
             if (s.CompletedAttempts <= c.GraceCompleted || s.CompletedAttempts % c.EveryCompleted != 0) return "frequency";
@@ -253,6 +296,7 @@ public sealed class MonetizationService : IMonetizationService
 
     private void OnAdSignal(AdSignal signal)
     {
+        if (signal.Name == "ad_request" && signal.Format == AdFormat.Rewarded) rewardedRequest = signal.InstanceId;
         if (signal.Name == "ad_impression")
             store.Update(s =>
             {
@@ -262,7 +306,14 @@ public sealed class MonetizationService : IMonetizationService
                 return true;
             });
         if (signal.Name == "reward_earned" && signal.RewardId is { } reward)
-            store.Update(s => { if (s.EarnedRewards.Add(reward)) s.PendingRewards.Add(reward); return true; });
+            store.Update(s =>
+            {
+                if (!s.EarnedRewards.Add(reward)) return false;
+                if (s.RetryAdRequests.Remove(signal.InstanceId, out var puzzle))
+                    s.PendingRetries[puzzle] = s.PendingRetries.GetValueOrDefault(puzzle) + 1;
+                else s.PendingRewards.Add(reward);
+                return true;
+            });
         // Canonical impression/revenue events belong to the Firebase/AdMob integration.
         Track(signal.Name == "ad_impression" ? "ad_impression_diagnostic" : signal.Name,
             ("ad_instance_id", signal.InstanceId), ("format", signal.Format.ToString().ToLowerInvariant()),
