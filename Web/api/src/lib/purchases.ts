@@ -67,17 +67,22 @@ export async function getEntitlement(authorization: string | null, platform: str
   } catch { return errorResult(503, 'entitlement_unavailable') }
 }
 
-export async function authenticatePlayer(authorization: string | null): Promise<string | null> {
+export async function authenticatePlayer(authorization: string | null,
+  environment: NodeJS.ProcessEnv = process.env, fetchImpl: typeof fetch = fetch): Promise<string | null> {
   const ticket = bearerToken(authorization)
   if (!ticket) return null
-  const title = process.env.PLAYFAB_TITLE_ID
-  const secret = process.env.PLAYFAB_SECRET_KEY
+  const title = environment.PLAYFAB_TITLE_ID
+  const secret = environment.PLAYFAB_SECRET_KEY
   if (!title || !/^[A-Za-z0-9]+$/.test(title) || !secret) throw new Error('PlayFab not configured')
-  const response = await fetch(`https://${title}.playfabapi.com/Admin/GetPlayerIdFromAuthToken`, {
+  const response = await fetchImpl(`https://${title}.playfabapi.com/Server/AuthenticateSessionTicket`, {
     method: 'POST', headers: { 'Content-Type': 'application/json', 'X-SecretKey': secret },
-    body: JSON.stringify({ Token: ticket, TokenType: 'SessionTicket' }), signal: AbortSignal.timeout(10_000),
+    body: JSON.stringify({ SessionTicket: ticket }), signal: AbortSignal.timeout(10_000),
   })
   if (!response.ok) return null
-  const envelope = await response.json() as { data?: { PlayFabId?: string } }
-  return envelope.data?.PlayFabId ?? null
+  const envelope = await response.json() as {
+    data?: { IsSessionTicketExpired?: boolean; UserInfo?: { PlayFabId?: string } }
+  }
+  return envelope.data?.IsSessionTicketExpired === false
+    ? envelope.data.UserInfo?.PlayFabId ?? null
+    : null
 }

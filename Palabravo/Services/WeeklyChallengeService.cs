@@ -153,7 +153,8 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
     }
 
     private PendingWeeklyResult CreatePendingResult(string weeklyId, GameResult result) =>
-        new(weeklyId, LeaderboardScore.Encode(result), ScoreSeconds(result), result.Errors, result.HintsUsed,
+        new(weeklyId, LeaderboardScore.Encode(result), ScoreSeconds(result),
+            Math.Clamp(result.Errors, 0, 4), Math.Clamp(result.HintsUsed, 0, 2),
             result.Medal.ToString().ToLowerInvariant(), accounts.GetSnapshot().DisplayName);
 
     private async Task<bool> FlushPendingResultAsync(string weeklyId)

@@ -102,13 +102,10 @@ public partial class ResultPage : ContentPage
                 try
                 {
                     // Let the card reflow so action controls are not baked into the shared image.
-                    await Task.Delay(50);
-                    var screenshot = await Screenshot.Default.CaptureAsync(nativeCard);
-                    if (screenshot is null)
-                        throw new InvalidOperationException("No fue posible crear la tarjeta para compartir.");
+                    ShareCard.InvalidateMeasure();
+                    await Task.Delay(100);
                     var path = Path.Combine(FileSystem.CacheDirectory, "palabravo-reto.png");
-                    await using (var output = File.Create(path))
-                        await screenshot.CopyToAsync(output, ScreenshotFormat.Png, 100);
+                    CaptureCardOnAndroid(nativeCard, path);
 
                     ShareBrandedCardOnAndroid(path, shareText);
                     return;
@@ -128,6 +125,21 @@ public partial class ResultPage : ContentPage
     }
 
 #if ANDROID
+    private static void CaptureCardOnAndroid(Android.Views.View card, string path)
+    {
+        if (card.Width <= 0 || card.Height <= 0)
+            throw new InvalidOperationException("No fue posible medir la tarjeta para compartir.");
+
+        using var bitmap = Android.Graphics.Bitmap.CreateBitmap(
+            card.Width, card.Height, Android.Graphics.Bitmap.Config.Argb8888!)
+            ?? throw new InvalidOperationException("No fue posible crear la tarjeta para compartir.");
+        using var canvas = new Android.Graphics.Canvas(bitmap);
+        card.Draw(canvas);
+        using var output = File.Create(path);
+        if (!bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Png!, 100, output))
+            throw new InvalidOperationException("No fue posible guardar la tarjeta para compartir.");
+    }
+
     private static void ShareBrandedCardOnAndroid(string path, string text)
     {
         var context = Platform.AppContext;

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { getEntitlement, parseProof, verifyPurchase, type PurchaseDependencies, type VerifiedPurchase } from '../src/lib/purchases.js'
+import { authenticatePlayer, getEntitlement, parseProof, verifyPurchase, type PurchaseDependencies, type VerifiedPurchase } from '../src/lib/purchases.js'
 
 const proof = { platform: 'android', transactionId: 'order', proof: 'purchase-token' }
 function setup() {
@@ -19,6 +19,28 @@ function setup() {
   return { deps, records, current, calls }
 }
 describe('purchase verification', () => {
+  it('authenticates PlayFab session tickets with the server endpoint', async () => {
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(new Response(JSON.stringify({
+      data: { IsSessionTicketExpired: false, UserInfo: { PlayFabId: 'PF-123' } },
+    }), { status: 200 }))
+
+    expect(await authenticatePlayer('Bearer session-ticket', {
+      PLAYFAB_TITLE_ID: '153ECF', PLAYFAB_SECRET_KEY: 'secret',
+    }, fetchMock)).toBe('PF-123')
+    expect(fetchMock.mock.calls[0][0]).toBe('https://153ECF.playfabapi.com/Server/AuthenticateSessionTicket')
+    expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify({ SessionTicket: 'session-ticket' }))
+  })
+
+  it('rejects expired PlayFab session tickets', async () => {
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(new Response(JSON.stringify({
+      data: { IsSessionTicketExpired: true, UserInfo: { PlayFabId: 'PF-123' } },
+    }), { status: 200 }))
+
+    expect(await authenticatePlayer('Bearer expired', {
+      PLAYFAB_TITLE_ID: '153ECF', PLAYFAB_SECRET_KEY: 'secret',
+    }, fetchMock)).toBeNull()
+  })
+
   it('rejects unauthenticated purchases before contacting a store', async () => {
     const { deps } = setup()
     expect((await verifyPurchase(null, proof, deps)).status).toBe(401)
