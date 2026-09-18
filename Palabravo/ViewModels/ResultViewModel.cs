@@ -11,6 +11,7 @@ public partial class ResultViewModel(GameCoordinator coordinator, WeeklyChalleng
 {
     public const string AndroidInstallUrl = "https://play.google.com/store/apps/details?id=com.palabravo.app";
     private static readonly string[] GroupColors = ["#FCE4DE", "#FFF0C8", "#DDEFE9", "#E5E9F5"];
+    private PuzzleMode resultMode = PuzzleMode.Challenge;
 
     public ObservableCollection<ResultGroupViewModel> SolutionGroups { get; } = [];
 
@@ -46,6 +47,7 @@ public partial class ResultViewModel(GameCoordinator coordinator, WeeklyChalleng
             return;
 
         IsSuccess = result.IsSuccess;
+        resultMode = result.Mode;
         IsWeekly = result.Mode == PuzzleMode.Weekly && result.IsSuccess;
         Eyebrow = result.Mode switch
         {
@@ -116,10 +118,23 @@ public partial class ResultViewModel(GameCoordinator coordinator, WeeklyChalleng
     }
 
     [RelayCommand]
-    private Task GoHomeAsync() => Shell.Current.GoToAsync("//home");
+    private Task ContinueAsync() => LeaveResultAsync(
+        resultMode == PuzzleMode.Challenge ? "//challenges" : "//home");
 
     [RelayCommand]
-    private Task GoRankingAsync() => Shell.Current.GoToAsync("//ranking");
+    private Task GoHomeAsync() => LeaveResultAsync("//home");
+
+    [RelayCommand]
+    private Task GoRankingAsync() => LeaveResultAsync("//ranking");
+
+    private static async Task LeaveResultAsync(string route)
+    {
+        // Shell preserves an independent navigation stack for each tab. Clear the
+        // finished game and its result before switching, otherwise returning to
+        // Retos resurfaces the previous result/tutorial stack.
+        await Shell.Current.Navigation.PopToRootAsync(false);
+        await Shell.Current.GoToAsync(route);
+    }
 
     public string BuildShareText(string? challengeUrl = null)
     {
@@ -134,22 +149,51 @@ public partial class ResultViewModel(GameCoordinator coordinator, WeeklyChalleng
         return $"🟧 PALABRAVO · Te reto a resolver {label}\n\n{ShareResultText}\n\n¿Puedes encontrar las cuatro conexiones?\n\n{Core.Services.ReferralLink.Build(result.PuzzleId)}\nCódigo de reto: {result.PuzzleId}";
     }
 
-    public async Task<string> BuildShareTextAsync()
+    public string BuildResultShareText()
+    {
+        var result = coordinator.LastResult;
+        if (result is null) return string.Empty;
+        TrackShare(result, "result");
+
+        if (result.Mode == PuzzleMode.Weekly && coordinator.CurrentWeekly is { } weekly)
+            return $"{weekly.Flag} {weekly.Share.Title} — Palabravo\n\n{ShareResultText}\n\nCompleté el reto de esta semana.\n\nhttps://palabravo.app/semanal";
+
+        var label = result.Mode == PuzzleMode.Daily
+            ? $"el reto diario del {result.PlayedOn:dd/MM}"
+            : $"«{result.PuzzleTitle}»";
+        return $"🟧 PALABRAVO · Completé {label}\n\n{ShareResultText}\n\n{Core.Services.ReferralLink.Build(result.PuzzleId)}";
+    }
+
+    public async Task<string> BuildChallengeShareTextAsync()
     {
         var result = coordinator.LastResult;
         if (result?.Mode != PuzzleMode.Weekly || coordinator.CurrentWeekly is not { } weekly)
         {
-            if (result?.Mode == PuzzleMode.Daily)
-                telemetry.Track("daily_share_clicked", new Dictionary<string, object> { ["played_on"] = result.PlayedOn.ToString("yyyy-MM-dd") });
+            if (result is not null) TrackShare(result, "challenge");
             return BuildShareText();
         }
-        telemetry.Track("weekly_share_clicked", new Dictionary<string, object> { ["weekly_id"] = weekly.Id });
+        TrackShare(result, "challenge");
         var invite = await weeklyChallenges.CreateInviteAsync(weekly, result);
         return BuildShareText(invite is null ? null : WeeklyChallengeService.ChallengeUrl(invite.Token));
     }
 
-    public Task ShareTextAsync(string? text = null) => Share.Default.RequestAsync(
-        new ShareTextRequest(text ?? BuildShareText(), "Te reto en Palabravo"));
+    private void TrackShare(GameResult result, string kind)
+    {
+        var values = new Dictionary<string, object> { ["share_kind"] = kind };
+        if (result.Mode == PuzzleMode.Weekly && coordinator.CurrentWeekly is { } weekly)
+        {
+            values["weekly_id"] = weekly.Id;
+            telemetry.Track("weekly_share_clicked", values);
+        }
+        else if (result.Mode == PuzzleMode.Daily)
+        {
+            values["played_on"] = result.PlayedOn.ToString("yyyy-MM-dd");
+            telemetry.Track("daily_share_clicked", values);
+        }
+    }
+
+    public Task ShareTextAsync(string? text = null, string title = "Compartir en Palabravo") => Share.Default.RequestAsync(
+        new ShareTextRequest(text ?? BuildShareText(), title));
 }
 
 public sealed record ResultGroupViewModel(string Category, string Words, string BackgroundColor);

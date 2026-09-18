@@ -46,7 +46,7 @@ public sealed class MonetizationTests
         for (var i = 1; i <= 12; i++)
         {
             f.Service.BeginAttempt($"a{i}", "puzzle");
-            f.Advance(301);
+            f.Advance(60);
             await f.Service.CompleteAttemptAsync($"a{i}", true);
             await f.Service.CompleteAttemptAsync($"a{i}", true);
             Assert.Equal(i < 3 ? 0 : i < 6 ? 1 : 2, f.Ads.Shown);
@@ -68,6 +68,53 @@ public sealed class MonetizationTests
         await f.Service.CompleteAttemptAsync("b", false);
         Assert.Equal(0, f.Ads.Shown);
         Assert.Equal(6, f.Store.State.CompletedAttempts);
+        f.Service.BeginAttempt("c", "p");
+        await f.Service.CompleteAttemptAsync("c", true);
+        Assert.Equal(1, f.Ads.Shown);
+        Assert.Equal(7, f.Store.State.CompletedAttemptsAtLastInterstitial);
+        for (var i = 8; i <= 10; i++)
+        {
+            f.Service.BeginAttempt($"a{i}", "p");
+            f.Advance(60);
+            await f.Service.CompleteAttemptAsync($"a{i}", true);
+            Assert.Equal(i < 10 ? 1 : 2, f.Ads.Shown);
+        }
+    }
+
+    [Fact]
+    public async Task First_interstitial_needs_no_initial_playtime_but_subsequent_one_needs_180_seconds()
+    {
+        var f = await Fixture.Create();
+        for (var i = 1; i <= 6; i++)
+        {
+            f.Service.BeginAttempt($"a{i}", "p");
+            await f.Service.CompleteAttemptAsync($"a{i}", true);
+            Assert.Equal(i < 3 ? 0 : 1, f.Ads.Shown);
+        }
+        f.Service.BeginAttempt("a7", "p");
+        f.Advance(179);
+        await f.Service.CompleteAttemptAsync("a7", true);
+        Assert.Equal(1, f.Ads.Shown);
+        f.Service.BeginAttempt("a8", "p");
+        f.Advance(1);
+        await f.Service.CompleteAttemptAsync("a8", true);
+        Assert.Equal(2, f.Ads.Shown);
+    }
+
+    [Fact]
+    public async Task Rewarded_impression_delays_even_the_first_interstitial()
+    {
+        var f = await Fixture.Create();
+        f.Ads.Emit(new("ad_impression", AdFormat.Rewarded, "rewarded"));
+        f.Store.State.CompletedAttempts = 2;
+        f.Service.BeginAttempt("a", "p");
+        f.Advance(179);
+        await f.Service.CompleteAttemptAsync("a", true);
+        Assert.Equal(0, f.Ads.Shown);
+        f.Service.BeginAttempt("b", "p");
+        f.Advance(1);
+        await f.Service.CompleteAttemptAsync("b", true);
+        Assert.Equal(1, f.Ads.Shown);
     }
 
     [Fact]
@@ -91,6 +138,7 @@ public sealed class MonetizationTests
         var second = f.NewService();
         second.Activity(false);
         Assert.Equal(1, f.Store.State.SessionInterstitials);
+        Assert.Equal(6, f.Store.State.CompletedAttemptsAtLastInterstitial);
         var session = f.Store.State.SessionId;
         f.Clock.Now += TimeSpan.FromMinutes(31);
         second.Activity(false);
@@ -173,6 +221,26 @@ public sealed class MonetizationTests
         f.Store.State.EntitlementResolved = false;
         f.Service.BeginAttempt("b", "p");
         Assert.Equal(0, f.Ads.Requests);
+    }
+
+    [Fact]
+    public async Task Banner_respects_consent_ownership_kill_switch_and_full_screen_cooldown()
+    {
+        var f = await Fixture.Create();
+        Assert.True(f.Service.CanShowBanner);
+        f.Consent.Allowed = false;
+        Assert.False(f.Service.CanShowBanner);
+        f.Consent.Allowed = true;
+        f.Store.State.OwnsRemoveAds = true;
+        Assert.False(f.Service.CanShowBanner);
+        f.Store.State.OwnsRemoveAds = false;
+        f.Store.State.BannerKilled = true;
+        Assert.False(f.Service.CanShowBanner);
+        f.Store.State.BannerKilled = false;
+        f.Ads.Emit(new("ad_impression", AdFormat.Interstitial, "full-screen"));
+        Assert.False(f.Service.CanShowBanner);
+        f.Advance(180);
+        Assert.True(f.Service.CanShowBanner);
     }
 
     [Theory]

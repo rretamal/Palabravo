@@ -10,7 +10,8 @@ namespace Palabravo.Services;
 
 public sealed record WeeklyRankingItem(int Rank, string Name, long Score, bool IsCurrentPlayer);
 public sealed record WeeklyRankingSnapshot(bool IsAvailable, string? Error,
-    IReadOnlyList<WeeklyRankingItem> Entries, WeeklyRankingItem? CurrentPlayer, int? Percentile);
+    IReadOnlyList<WeeklyRankingItem> Entries, WeeklyRankingItem? CurrentPlayer, int? Percentile,
+    bool PendingSync = false);
 public sealed record WeeklyInvite(string Token, string WeeklyId, string Challenger,
     long Score, int TimeSeconds, int Mistakes, string Medal);
 
@@ -88,18 +89,20 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
     {
         try
         {
-            await FlushPendingResultAsync(weeklyId);
+            var synchronized = await FlushPendingResultAsync(weeklyId);
             using var request = await AuthorizedAsync(HttpMethod.Get,
                 $"weekly/{Uri.EscapeDataString(weeklyId)}/ranking");
             using var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<WeeklyRankingSnapshot>(JsonOptions)
-                ?? new(false, "Respuesta vacía.", [], null, null);
+            var snapshot = await response.Content.ReadFromJsonAsync<WeeklyRankingSnapshot>(JsonOptions);
+            return snapshot is null
+                ? new(false, "Respuesta vacía.", [], null, null, !synchronized)
+                : snapshot with { PendingSync = !synchronized };
         }
         catch
         {
             return new(false, "No pudimos cargar el ranking semanal. Tu resultado queda guardado para reintentarlo.",
-                [], null, null);
+                [], null, null, true);
         }
     }
 

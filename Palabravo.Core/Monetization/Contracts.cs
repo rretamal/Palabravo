@@ -63,6 +63,7 @@ public interface IMonetizationService
 {
     bool IsEnabled { get; }
     bool OwnsRemoveAds { get; }
+    bool CanShowBanner { get; }
     Task InitializeAsync();
     void BeginAttempt(string attemptId, string puzzleId, bool referred = false);
     void Activity(bool playing);

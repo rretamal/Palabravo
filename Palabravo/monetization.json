@@ -1,8 +1,10 @@
 {
   "enabled": true,
-  "testAds": true,
+  "testAds": false,
+  "androidBannerId": "ca-app-pub-6103700775321270/3766727833",
   "androidInterstitialId": "ca-app-pub-6103700775321270/5040198902",
   "androidRewardedId": "ca-app-pub-6103700775321270/8620351261",
+  "iosBannerId": "ca-app-pub-6103700775321270/1610890671",
   "iosInterstitialId": "ca-app-pub-6103700775321270/7263389210",
   "iosRewardedId": "ca-app-pub-6103700775321270/8187634249",
   "apiBaseUrl": "https://palabravo.app/api/"

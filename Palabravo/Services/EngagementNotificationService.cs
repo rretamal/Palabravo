@@ -12,11 +12,13 @@ public sealed class EngagementNotificationService
     public const string UpdatesChannelId = "palabravo_updates";
     private const string ReminderPreference = "progress_reminders_enabled";
     private const string NewsPreference = "new_challenges_notifications_enabled";
+    private const string FirstUsePromptPreference = "notifications_first_use_prompted";
     private const string TopicRegisteredPreference = "new_challenges_topic_registered";
     private const string NewsTopic = "new-challenges-es";
     private const int ProgressReminderId = 4101;
     private readonly INotificationService localNotifications;
     private bool cloudEventsAttached;
+    private bool firstUsePromptRunning;
 
     public EngagementNotificationService(INotificationService localNotifications)
     {
@@ -26,6 +28,31 @@ public sealed class EngagementNotificationService
 
     public bool ProgressRemindersEnabled => Preferences.Default.Get(ReminderPreference, false);
     public bool NewChallengesEnabled => Preferences.Default.Get(NewsPreference, false);
+
+    public async Task PromptOnFirstUseAsync(Func<Task<bool>> confirm)
+    {
+        if (Preferences.Default.ContainsKey(FirstUsePromptPreference) || firstUsePromptRunning) return;
+        firstUsePromptRunning = true;
+        try
+        {
+            var accepted = await confirm();
+            // The explanatory prompt is shown only once. The switches in Profile remain available.
+            Preferences.Default.Set(FirstUsePromptPreference, true);
+            if (!accepted || !await EnsurePermissionAsync()) return;
+
+            Preferences.Default.Set(ReminderPreference, true);
+            Preferences.Default.Set(NewsPreference, true);
+            await SynchronizeTopicAsync();
+        }
+        catch
+        {
+            // Permission/provider failures must not interrupt the first app session.
+        }
+        finally
+        {
+            firstUsePromptRunning = false;
+        }
+    }
 
     public async Task<bool> SetProgressRemindersEnabledAsync(bool enabled)
     {

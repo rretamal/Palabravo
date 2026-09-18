@@ -49,11 +49,18 @@ public static class MauiProgram
         builder.Services.AddSingleton<IEntitlementGateway, EntitlementGateway>();
 #if ANDROID || IOS
         builder.UseAdMob(automaticallyAskForConsent: false,
+            androidDefaultBannerAdUnitId: monetization.AndroidBannerId,
             androidDefaultInterstitialAdUnitId: monetization.AndroidInterstitialId,
             androidDefaultRewardedAdUnitId: monetization.AndroidRewardedId,
+            iosDefaultBannerAdUnitId: monetization.IosBannerId,
             iosDefaultInterstitialAdUnitId: monetization.IosInterstitialId,
             iosDefaultRewardedAdUnitId: monetization.IosRewardedId);
+#if DEBUG
+        // Development builds must never generate traffic against production ad units.
+        AdConfig.UseTestAdUnitIds = false;
+#else
         AdConfig.UseTestAdUnitIds = monetization.TestAds;
+#endif
         builder.Services.AddSingleton<IAdAdapter, AdMobAdapter>();
         builder.Services.AddSingleton<IConsentAdapter, AdMobConsentAdapter>();
         builder.Services.AddSingleton<FirebaseAdapter>();
@@ -112,6 +119,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IProgressStore, PreferencesProgressStore>();
         builder.Services.AddSingleton<ProgressService>();
         builder.Services.AddSingleton<WeeklyChallengeService>();
+        builder.Services.AddSingleton<PathRankingService>();
         builder.Services.AddSingleton<GameCoordinator>();
         builder.Services.AddSingleton<ReferralService>();
         builder.Services.AddSingleton<EngagementNotificationService>();

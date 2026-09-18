@@ -7,6 +7,14 @@
         <VerticalStackLayout Spacing="5" Margin="0,0,0,14">
             <Label Text="{Binding Heading}" Style="{StaticResource PageTitle}" />
             <Label Text="{Binding NextResetText}" TextColor="{StaticResource Muted}" FontSize="12" />
+            <Label Text="{Binding Description}"
+                   TextColor="{StaticResource Muted}" FontSize="11" />
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,8,0,0">
+                <Button Text="Camino" Command="{Binding SelectPathCommand}"
+                        BackgroundColor="{Binding PathTabColor}" TextColor="{Binding PathTabTextColor}" />
+                <Button Grid.Column="1" Text="Semanal" Command="{Binding SelectWeeklyCommand}"
+                        BackgroundColor="{Binding WeeklyTabColor}" TextColor="{Binding WeeklyTabTextColor}" />
+            </Grid>
         </VerticalStackLayout>
 
         <RefreshView Grid.Row="1" Command="{Binding LoadCommand}" IsRefreshing="{Binding IsLoading}">
@@ -28,6 +36,11 @@
                             <Label Grid.Column="2" Text="✦" FontSize="24" TextColor="{StaticResource Coral}"
                                    VerticalTextAlignment="Center" />
                         </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource MustardSoft}"
+                            Stroke="#E6C66E" Padding="13,10" IsVisible="{Binding ShowSyncWarning}">
+                        <Label Text="{Binding SyncMessage}" FontSize="11" TextColor="{StaticResource Muted}" />
                     </Border>
 
                     <VerticalStackLayout IsVisible="{Binding HasEntries}" Spacing="8">
@@ -85,6 +98,10 @@
 
                     <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}"
                                        Color="{StaticResource Coral}" HeightRequest="48" />
+
+                    <ContentView x:Name="BannerHost" AutomationId="ranking-banner"
+                                 IsVisible="False" Margin="0,18,0,0"
+                                 HorizontalOptions="Fill" />
                 </VerticalStackLayout>
             </ScrollView>
         </RefreshView>

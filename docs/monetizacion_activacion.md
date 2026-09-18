@@ -6,7 +6,7 @@ La monetización permanece desactivada en `Palabravo/monetization.json` hasta co
 
 ## Implementación
 
-- Reglas y persistencia local independientes del progreso: bienvenida, cupo diario, recompensas idempotentes, oportunidades 3/6/9, 300 segundos activos y máximo dos intersticiales por sesión.
+- Reglas y persistencia local independientes del progreso: bienvenida, cupo diario, recompensas idempotentes, primera oportunidad al tercer reto sin espera inicial; después, mínimo tres retos desde el último intersticial y 180 segundos activos desde cualquier anuncio. Máximo dos intersticiales por sesión; si falta inventario, reevaluar al completar el siguiente reto.
 - Pistas distintas y parciales; una recompensa cuya pantalla no se confirmó se recupera en el siguiente intento.
 - Pausas compartidas entre intentos para consentimiento, anuncios, modales y segundo plano. Iniciar otro reto durante una pausa no activa su cronómetro.
 - Adaptadores de AdMob, UMP, Firebase, Google Play Billing y StoreKit 2; verificación y restauración mediante API autenticada con PlayFab.
@@ -32,8 +32,8 @@ La monetización permanece desactivada en `Palabravo/monetization.json` hasta co
 6. Separar sandbox y producción mediante `PURCHASE_ENVIRONMENT`. Configurar credenciales de Google Play y Apple, certificados raíz oficiales de Apple y permisos de acceso al producto. Nunca registrar tokens de compra ni cabeceras de autorización.
 7. Configurar Apple Server Notifications en `/api/purchases/notifications/apple` y Google RTDN mediante Pub/Sub push autenticado hacia `/api/purchases/notifications/google`, con audiencia exacta y correo de cuenta de servicio autorizado.
 8. Para el borrado histórico de Analytics, configurar `ANALYTICS_PROPERTY_ID` y `ANALYTICS_SERVICE_ACCOUNT_JSON`, habilitar Analytics Admin API y conceder a esa cuenta los permisos necesarios sobre la propiedad. No necesita BigQuery. El endpoint de borrado solicita primero el procesamiento de Analytics y limpia las referencias Azure, antes de invalidar la sesión PlayFab. Si falla, el usuario puede reintentar.
-9. Completar las cuatro unidades en `Palabravo/monetization.json`. Mantener `testAds: true` en QA. Sustituir también los App IDs de muestra del manifiesto Android y `Info.plist` iOS al preparar producción.
-10. Configurar Remote Config con la clave JSON `monetization_policy` y los parámetros de la estrategia. La app conserva la última configuración válida, congela la política durante el intento y aplica el apagado al recibirlo. Consulta en primer plano y durante interacciones con caché mínima de 60 segundos; la red no garantiza entrega instantánea.
+9. Completar las seis unidades (banner, intersticial y recompensado para Android e iOS) en `Palabravo/monetization.json`. Mantener `testAds: true` en QA. Sustituir también los App IDs de muestra del manifiesto Android y `Info.plist` iOS al preparar producción.
+10. Configurar Remote Config con la clave JSON `monetization_policy` y los parámetros de la estrategia. Incluir `banner_enabled: true`; permite apagar los banners sin publicar una versión nueva. Para la frecuencia actual, publicar `min_active_seconds_between_ads: 180`; una política remota o cacheada con 300 conserva la espera anterior. Los cambios de frecuencia se aplican al iniciar una nueva sesión después de recibirlos. La app conserva la última configuración válida, congela la política durante el intento y aplica el apagado al recibirlo. Consulta en primer plano y durante interacciones con caché mínima de 60 segundos; la red no garantiza entrega instantánea.
 11. Configurar `ANDROID_CERT_SHA256` (Play App Signing), `APPLE_TEAM_ID` y `ADMOB_PUBLISHER_ID` en el build web. Se generan las asociaciones `.well-known` y `app-ads.txt`. `MONETIZATION_RELEASE=true` impide generar una versión web de monetización sin estos datos. Agregar el enlace real de App Store cuando exista.
 
 ## Reportes para el lanzamiento

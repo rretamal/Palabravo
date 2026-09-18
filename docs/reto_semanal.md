@@ -2,7 +2,7 @@
 
 La app y el sitio usan `Web/public/content/weekly.json` como catálogo administrable. Puede contener varios especiales programados en `challenges`. Ese mismo archivo se incluye en el binario como respaldo sin conexión. Al publicar el sitio, la app consulta `https://palabravo.app/content/weekly.json`, conserva la última versión válida y elige el evento vigente entre `startsAt` (incluido) y `endsAt` (excluido), en UTC. Para publicar otro reto no hace falta desplegar la app: se agrega su definición y se publican el JSON y sus imágenes en el portal.
 
-El ranking visible en la app es semanal y recibe solamente resultados completados desde el reto semanal, para que todas las personas compitan con el mismo tablero. Antes de llamar a la API, la app guarda localmente el mejor resultado pendiente y vuelve a enviarlo al abrir el ranking. Una interrupción o una API temporalmente indisponible no pierde el resultado.
+La app divide la competencia en dos pestañas. **Camino** suma los retos normales: 100 puntos por completar cada uno, más 30 por oro, 20 por plata o 10 por bronce; solo cuenta la mejor medalla guardada de cada reto. **Semanal** recibe exclusivamente resultados del evento vigente, para que todas las personas compitan con el mismo tablero. Antes de llamar a la API, la app guarda localmente cada resultado pendiente y vuelve a enviarlo al abrir el ranking. Una interrupción o una API temporalmente indisponible no pierde el resultado y la interfaz indica que la sincronización sigue pendiente.
 
 Para agregar un evento se editan sus metadatos, las cuatro conexiones, la trivia, la medalla y los textos de compartir. Cada evento y cada puzzle deben tener IDs nuevos y estables. El puzzle debe contener exactamente cuatro grupos de cuatro palabras únicas. `badge.imageUrl` y las imágenes opcionales de las preguntas deben publicarse con HTTPS.
 
@@ -26,6 +26,8 @@ Los IDs de jugador se transforman en un hash antes de persistirse. No se guardan
 - Resolver desafío: `GET /api/challenges/{token}`
 - Publicar resultado: `POST /api/weekly/results`
 - Ranking: `GET /api/weekly/{weeklyId}/ranking`
+- Publicar progreso del camino: `POST /api/path/results`
+- Ranking del camino: `GET /api/path/ranking`
 
 Antes de publicar se deben probar los App Links/Universal Links con las firmas de distribución, crear `PalabravoWeekly` y desplegar juntos el sitio y sus Functions. Si la API social no está disponible, el puzzle y el badge siguen funcionando; compartir utiliza `/semanal` como respaldo.
 

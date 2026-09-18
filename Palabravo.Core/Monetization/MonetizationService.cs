@@ -71,6 +71,8 @@ public sealed class MonetizationService : IMonetizationService
 
     public bool IsEnabled { get; }
     public bool OwnsRemoveAds => store.Update(s => s.OwnsRemoveAds);
+    public bool CanShowBanner => store.Update(s => CanRequestAds(s) &&
+        (s.AttemptConfig ?? s.EffectiveConfig).BannerEnabled && !s.BannerKilled && CooldownPassed(s));
 
     public async Task InitializeAsync()
     {
@@ -115,6 +117,8 @@ public sealed class MonetizationService : IMonetizationService
         var now = time.GetUtcNow();
         var newSession = store.Update(s =>
         {
+            // Older persisted states lack the impression checkpoint. Migrate conservatively.
+            s.CompletedAttemptsAtLastInterstitial ??= s.LastAdActiveSeconds.HasValue ? s.CompletedAttempts : 0;
             var expired = s.LastInteractionUtc == default || now - s.LastInteractionUtc >= TimeSpan.FromMinutes(30);
             if (expired)
             {
@@ -148,6 +152,7 @@ public sealed class MonetizationService : IMonetizationService
             store.Update(s =>
             {
                 s.CachedConfig = config; s.InterstitialKilled = !config.InterstitialEnabled;
+                s.BannerKilled = !config.BannerEnabled;
                 s.RewardedKilled = !config.RewardedEnabled; return true;
             });
             if (!config.InterstitialEnabled || !config.RewardedEnabled) ads.Discard();
@@ -240,6 +245,7 @@ public sealed class MonetizationService : IMonetizationService
                 s.InstallationId = Guid.NewGuid().ToString("N"); s.SessionId = Guid.NewGuid().ToString("N");
                 s.AttemptId = null; s.PuzzleId = null; s.LastCompletedAttempt = null; s.LastInteractionUtc = default;
                 s.ActiveSeconds = 0; s.LastAdActiveSeconds = null; s.SessionInterstitials = 0; s.CompletedAttempts = 0;
+                s.CompletedAttemptsAtLastInterstitial = 0;
                 s.PendingRewards.Clear(); s.EarnedRewards.Clear(); s.Impressions.Clear(); s.UnconfirmedHintReward = null;
                 s.AttemptConfig = null; s.AttemptAdFree = false;
                 // Retain only the paid benefit and anonymous per-install allowances.
@@ -262,11 +268,12 @@ public sealed class MonetizationService : IMonetizationService
             if (s.PuzzleId is { } completed) s.FailedPuzzles.Remove(completed);
             s.CompletedAttempts++;
             var c = s.AttemptConfig ?? s.EffectiveConfig;
-            if (s.CompletedAttempts <= c.GraceCompleted || s.CompletedAttempts % c.EveryCompleted != 0) return "frequency";
+            if (s.CompletedAttempts <= c.GraceCompleted ||
+                s.CompletedAttempts - (s.CompletedAttemptsAtLastInterstitial ?? 0) < c.EveryCompleted) return "frequency";
             if (s.AttemptAdFree) return "referred";
             if (!CanAdvertise(s, AdFormat.Interstitial)) return "disabled";
             if (s.SessionInterstitials >= c.MaxPerSession) return "session_limit";
-            if (s.ActiveSeconds < c.MinActiveSeconds || !CooldownPassed(s)) return "cooldown";
+            if (!CooldownPassed(s)) return "cooldown";
             return "eligible";
         });
         if (reason == "duplicate") return;
@@ -277,12 +284,13 @@ public sealed class MonetizationService : IMonetizationService
         {
             await ads.ShowAsync(AdFormat.Interstitial, () => store.Update(s => CanAdvertise(s, AdFormat.Interstitial) && CooldownPassed(s)));
         }
-        catch { /* The consumed opportunity is never shown late. */ }
+        catch { /* Reevaluate on the next completion, never retry late inside a puzzle. */ }
         finally { operation.Release(); }
     }
 
     private bool CooldownPassed(MonetizationState s) => s.LastAdActiveSeconds is not { } last || s.ActiveSeconds - last >= (s.AttemptConfig ?? s.EffectiveConfig).MinActiveSeconds;
-    private bool CanAdvertise(MonetizationState s, AdFormat format) => IsEnabled && s.EntitlementResolved && !s.OwnsRemoveAds && consent.CanRequestAds &&
+    private bool CanRequestAds(MonetizationState s) => IsEnabled && s.EntitlementResolved && !s.OwnsRemoveAds && consent.CanRequestAds;
+    private bool CanAdvertise(MonetizationState s, AdFormat format) => CanRequestAds(s) &&
         (format == AdFormat.Rewarded ? (s.AttemptConfig ?? s.EffectiveConfig).RewardedEnabled && !s.RewardedKilled :
             (s.AttemptConfig ?? s.EffectiveConfig).InterstitialEnabled && !s.InterstitialKilled && (!(s.AttemptConfig ?? s.EffectiveConfig).ExperimentEnabled || s.Variant == "moderate_interstitials"));
 
@@ -302,7 +310,11 @@ public sealed class MonetizationService : IMonetizationService
             {
                 if (!s.Impressions.Add(signal.InstanceId)) return false;
                 s.LastAdActiveSeconds = s.ActiveSeconds;
-                if (signal.Format == AdFormat.Interstitial) s.SessionInterstitials++;
+                if (signal.Format == AdFormat.Interstitial)
+                {
+                    s.SessionInterstitials++;
+                    s.CompletedAttemptsAtLastInterstitial = s.CompletedAttempts;
+                }
                 return true;
             });
         if (signal.Name == "reward_earned" && signal.RewardId is { } reward)

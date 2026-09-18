@@ -9,10 +9,11 @@ public sealed record MonetizationConfig
     public const int DailyHints = 3;
     [JsonPropertyName("config_version")] public string Version { get; init; } = "launch-1";
     [JsonPropertyName("interstitial_enabled")] public bool InterstitialEnabled { get; init; } = true;
+    [JsonPropertyName("banner_enabled")] public bool BannerEnabled { get; init; } = true;
     [JsonPropertyName("rewarded_enabled")] public bool RewardedEnabled { get; init; } = true;
     [JsonPropertyName("interstitial_every_completed")] public int EveryCompleted { get; init; } = 3;
     [JsonPropertyName("interstitial_grace_completed")] public int GraceCompleted { get; init; } = 2;
-    [JsonPropertyName("min_active_seconds_between_ads")] public int MinActiveSeconds { get; init; } = 300;
+    [JsonPropertyName("min_active_seconds_between_ads")] public int MinActiveSeconds { get; init; } = 180;
     [JsonPropertyName("max_interstitials_per_session")] public int MaxPerSession { get; init; } = 2;
     [JsonPropertyName("first_referred_attempt_ad_free")] public bool FirstReferredAdFree { get; init; } = true;
     [JsonPropertyName("remove_ads_product_id")] public string RemoveAdsProductId { get; init; } = ProductId;
@@ -20,7 +21,7 @@ public sealed record MonetizationConfig
 
     public bool IsValid => !string.IsNullOrWhiteSpace(Version) && Version.Length <= 64 &&
         EveryCompleted is >= 3 and <= 30 && GraceCompleted is >= 2 and <= 100 &&
-        MinActiveSeconds is >= 300 and <= 3600 && MaxPerSession is >= 0 and <= 2 &&
+        MinActiveSeconds is >= 180 and <= 3600 && MaxPerSession is >= 0 and <= 2 &&
         RemoveAdsProductId == ProductId;
 
     public static MonetizationConfig? Parse(string json)
@@ -43,6 +44,7 @@ public sealed class MonetizationState
     public double? LastAdActiveSeconds { get; set; }
     public int SessionInterstitials { get; set; }
     public long CompletedAttempts { get; set; }
+    public long? CompletedAttemptsAtLastInterstitial { get; set; }
     public string? LastCompletedAttempt { get; set; }
     public string? AttemptId { get; set; }
     public string? PuzzleId { get; set; }
@@ -66,6 +68,7 @@ public sealed class MonetizationState
     public MonetizationConfig? AttemptConfig { get; set; }
     public MonetizationConfig CachedConfig { get; set; } = new();
     public bool InterstitialKilled { get; set; }
+    public bool BannerKilled { get; set; }
     public bool RewardedKilled { get; set; }
     public string Variant { get; set; } = Random.Shared.Next(2) == 0 ? "rewarded_only" : "moderate_interstitials";
 }

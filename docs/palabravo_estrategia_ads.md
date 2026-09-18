@@ -18,8 +18,8 @@ Los packs premium serían una decisión posterior. La compra sin anuncios no imp
 | --- | --- |
 | Pistas | Algunas pistas gratuitas de introducción; después, oferta voluntaria con recompensa explícita. |
 | Recompensado | Un video por una pista parcial, solo tras aceptación. No resolver todo el tablero. |
-| Intersticial | Oportunidad cada 3 retos completados; primera oportunidad al completar el tercero, sujeta al tiempo mínimo y al límite por sesión. |
-| Separación | Al menos 300 segundos de juego activo desde el último anuncio mostrado, también si fue recompensado. |
+| Intersticial | Primera oportunidad al completar el tercer reto, sin tiempo mínimo inicial; después, al menos 3 retos completados desde el último intersticial mostrado, respetando separación y límite por sesión. |
+| Separación | Al menos 180 segundos de juego activo desde el último anuncio mostrado, también si fue recompensado. Si no se ha mostrado ninguno, no hay espera inicial. |
 | Límite | Máximo 2 intersticiales por sesión. Sesión: reinicio después de 30 minutos en segundo plano/inactividad. Persistir contadores para que reiniciar el proceso no eluda los límites. |
 | Ubicación | Transición natural al finalizar un reto, antes de habilitar la acción de continuar. Nunca durante selección de palabras. |
 | Nuevo invitado | Primera partida referida sin intersticial, aunque otras condiciones lo permitan. |
@@ -27,7 +27,7 @@ Los packs premium serían una decisión posterior. La compra sin anuncios no imp
 | Comprador | Sin solicitudes ni visualización de anuncios tras confirmar el derecho adquirido. |
 | Banners y apertura | No incluir. |
 
-Si un anuncio no está listo en su oportunidad, omitirlo; nunca mostrarlo tardíamente dentro del siguiente puzzle. Precargar no equivale a mostrar ni a generar ingresos. No colocar un intersticial inmediatamente después de una pista recompensada.
+Si un anuncio no está listo en su oportunidad, omitirlo y reevaluar al completar el siguiente reto; nunca mostrarlo tardíamente dentro del siguiente puzzle. El contador de separación entre retos se actualiza solo al registrar una impresión. Precargar no equivale a mostrar ni a generar ingresos. No colocar un intersticial inmediatamente después de una pista recompensada.
 
 AdMob recomienda las pausas entre niveles como ubicación natural y advierte sobre anuncios inesperados junto al botón de continuar: [guía oficial](https://support.google.com/admob/answer/6201350?hl=en).
 
@@ -38,11 +38,12 @@ Centralizar decisiones en un servicio de monetización, con adaptadores para anu
 ```json
 {
   "config_version": "launch-1",
+  "banner_enabled": true,
   "interstitial_enabled": true,
   "rewarded_enabled": true,
   "interstitial_every_completed": 3,
   "interstitial_grace_completed": 2,
-  "min_active_seconds_between_ads": 300,
+  "min_active_seconds_between_ads": 180,
   "max_interstitials_per_session": 2,
   "first_referred_attempt_ad_free": true,
   "remove_ads_product_id": "palabravo_remove_ads"

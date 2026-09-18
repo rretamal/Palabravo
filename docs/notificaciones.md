@@ -7,7 +7,7 @@ Palabravo ofrece dos preferencias independientes y desactivadas por defecto.
 
 ## Configuración móvil
 
-Android requiere `Palabravo/Platforms/Android/google-services.json`, excluido de Git, con el paquete `com.palabravo.app`. En Android 13 o posterior, la app solicita el permiso de notificaciones cuando el jugador activa una de las preferencias.
+Android requiere `Palabravo/Platforms/Android/google-services.json`, excluido de Git, con el paquete `com.palabravo.app`. En el primer uso, la app explica ambos tipos de aviso una sola vez; si el jugador elige **Activar**, solicita el permiso nativo (obligatorio desde Android 13) y habilita recordatorios y nuevos retos. Si elige **Ahora no** o rechaza el permiso, ambos permanecen desactivados y puede habilitarlos individualmente más tarde desde Perfil.
 
 La integración de iPhone queda preparada en el servicio compartido, pero el proyecto debe habilitar primero el target `net10.0-ios`. Después se debe incluir `GoogleService-Info.plist`, habilitar Push Notifications y Remote notifications, agregar el entitlement de APNs y cargar una clave APNs en Firebase.
 

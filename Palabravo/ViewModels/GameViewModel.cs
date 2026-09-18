@@ -17,7 +17,8 @@ public partial class GameViewModel(
     IMonetizationTelemetry telemetry,
     MonetizationOfferPresenter offers,
     GameplayActivity activity,
-    WeeklyChallengeService weeklyChallenges) : ObservableObject
+    WeeklyChallengeService weeklyChallenges,
+    PathRankingService pathRanking) : ObservableObject
 {
     private static readonly string[] GroupColors = ["#FCE4DE", "#FFF0C8", "#DDEFE9", "#E5E9F5"];
     private bool referredAttempt;
@@ -386,6 +387,8 @@ public partial class GameViewModel(
         var result = coordinator.Finish(additionalErrors, additionalElapsed);
         var progressUpdate = await progress.RecordCompletionAsync(result);
         coordinator.SetProgressUpdate(progressUpdate);
+        if (result.IsSuccess && result.Mode == PuzzleMode.Challenge)
+            _ = pathRanking.SubmitAsync(progress.Current);
         if (result.IsSuccess && result.Mode == PuzzleMode.Weekly && coordinator.CurrentWeekly is { } weekly)
         {
             var earned = await progress.EarnSpecialBadgeAsync(weekly.Badge);

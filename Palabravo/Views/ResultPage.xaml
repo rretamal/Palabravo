@@ -62,22 +62,15 @@
                         <Border Grid.Column="2" Style="{StaticResource Card}" Padding="10"><VerticalStackLayout><Label Text="{Binding Time}" FontFamily="OpenSansSemibold" FontSize="21" HorizontalTextAlignment="Center" /><Label Text="TIEMPO" Style="{StaticResource Eyebrow}" HorizontalTextAlignment="Center" /></VerticalStackLayout></Border>
                     </Grid>
 
-                    <Border BackgroundColor="{StaticResource Coral}" Stroke="Transparent" Padding="14,11">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
-                        <VerticalStackLayout Spacing="2">
-                            <Label Text="¿Puedes superar mi resultado?" FontFamily="OpenSansSemibold" FontSize="15"
-                                   TextColor="White" HorizontalTextAlignment="Center" />
-                            <Label Text="Instala Palabravo en Google Play" FontSize="10" TextColor="#FFF1EC"
-                                   HorizontalTextAlignment="Center" />
-                            <Label Text="play.google.com/store/apps/details?id=com.palabravo.app" FontSize="7"
-                                   TextColor="#FFF1EC" HorizontalTextAlignment="Center" />
-                        </VerticalStackLayout>
-                    </Border>
+                    <Button x:Name="ShareResultButton" Text="Compartir mi resultado"
+                            Clicked="OnShareResultClicked" IsVisible="{Binding IsSuccess}"
+                            SemanticProperties.Description="Compartir una tarjeta con mi resultado de Palabravo" />
 
                     <Grid x:Name="WinnerActions" IsVisible="{Binding IsSuccess}"
-                          ColumnDefinitions="*,*" ColumnSpacing="9" Margin="0,2,0,0">
-                        <Button Text="Continuar" Command="{Binding GoHomeCommand}" />
-                        <Button Grid.Column="1" Text="Retar" Clicked="OnChallengeFriendClicked"
+                          ColumnDefinitions="0.8*,1.2*" ColumnSpacing="9" Margin="0,2,0,0">
+                        <Button Text="Continuar" Command="{Binding ContinueCommand}" />
+                        <Button Grid.Column="1" Text="Retar a un amigo" Clicked="OnChallengeFriendClicked"
+                                FontSize="12" Padding="8,0"
                                 BackgroundColor="{StaticResource Surface}" TextColor="{StaticResource Coral}"
                                 BorderColor="{StaticResource Coral}" BorderWidth="1"
                                 SemanticProperties.Description="Compartir este reto con un amigo sin revelar la solución" />
@@ -125,6 +118,10 @@
             <Button Text="Jugar otra vez" Command="{Binding ReplayCommand}" BackgroundColor="{StaticResource Surface}" TextColor="{StaticResource Coral}" BorderColor="{StaticResource Coral}" BorderWidth="1" />
             <Button Text="Volver al inicio" Command="{Binding GoHomeCommand}" IsVisible="{Binding IsFailure}"
                     BackgroundColor="Transparent" TextColor="{StaticResource Muted}" />
+
+            <ContentView x:Name="BannerHost" AutomationId="result-banner"
+                         IsVisible="False" Margin="0,18,0,0"
+                         HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

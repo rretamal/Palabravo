@@ -1,4 +1,6 @@
 using Palabravo.Services;
+using Palabravo.Services.Monetization;
+using Palabravo.Core.Monetization;
 using Palabravo.ViewModels;
 
 namespace Palabravo.Views;
@@ -7,18 +9,22 @@ public partial class ResultPage : ContentPage
 {
     private readonly ResultViewModel _viewModel;
     private readonly CelebrationEffectsService _effects;
+    private readonly IMonetizationService _monetization;
     private bool _hasAnimated;
 
-    public ResultPage(ResultViewModel viewModel, CelebrationEffectsService effects)
+    public ResultPage(ResultViewModel viewModel, CelebrationEffectsService effects,
+        IMonetizationService monetization)
     {
         InitializeComponent();
         BindingContext = _viewModel = viewModel;
         _effects = effects;
+        _monetization = monetization;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        MonetizationBanner.Attach(BannerHost, _monetization);
         _viewModel.Refresh();
         if (_hasAnimated)
             return;
@@ -91,14 +97,28 @@ public partial class ResultPage : ContentPage
 
     private async void OnChallengeFriendClicked(object? sender, EventArgs e)
     {
+        await ShareAsync(createChallenge: true);
+    }
+
+    private async void OnShareResultClicked(object? sender, EventArgs e)
+    {
+        await ShareAsync(createChallenge: false);
+    }
+
+    private async Task ShareAsync(bool createChallenge)
+    {
         string? shareText = null;
+        var chooserTitle = createChallenge ? "Retar a un amigo" : "Compartir mi resultado";
         try
         {
-            shareText = await _viewModel.BuildShareTextAsync();
+            shareText = createChallenge
+                ? await _viewModel.BuildChallengeShareTextAsync()
+                : _viewModel.BuildResultShareText();
 #if ANDROID
             if (ShareCard.Handler?.PlatformView is Android.Views.View nativeCard)
             {
                 WinnerActions.IsVisible = false;
+                ShareResultButton.IsVisible = false;
                 try
                 {
                     // Let the card reflow so action controls are not baked into the shared image.
@@ -107,20 +127,21 @@ public partial class ResultPage : ContentPage
                     var path = Path.Combine(FileSystem.CacheDirectory, "palabravo-reto.png");
                     CaptureCardOnAndroid(nativeCard, path);
 
-                    ShareBrandedCardOnAndroid(path, shareText);
+                    ShareBrandedCardOnAndroid(path, shareText, chooserTitle);
                     return;
                 }
                 finally
                 {
                     WinnerActions.IsVisible = _viewModel.IsSuccess;
+                    ShareResultButton.IsVisible = _viewModel.IsSuccess;
                 }
             }
 #endif
-            await _viewModel.ShareTextAsync(shareText);
+            await _viewModel.ShareTextAsync(shareText, chooserTitle);
         }
         catch
         {
-            await _viewModel.ShareTextAsync(shareText);
+            await _viewModel.ShareTextAsync(shareText, chooserTitle);
         }
     }
 
@@ -140,7 +161,7 @@ public partial class ResultPage : ContentPage
             throw new InvalidOperationException("No fue posible guardar la tarjeta para compartir.");
     }
 
-    private static void ShareBrandedCardOnAndroid(string path, string text)
+    private static void ShareBrandedCardOnAndroid(string path, string text, string chooserTitle)
     {
         var context = Platform.AppContext;
         var file = new Java.IO.File(path);
@@ -154,7 +175,7 @@ public partial class ResultPage : ContentPage
         intent.PutExtra(Android.Content.Intent.ExtraText, text);
         intent.AddFlags(Android.Content.ActivityFlags.GrantReadUriPermission);
 
-        var chooser = Android.Content.Intent.CreateChooser(intent, "Retar a un amigo")
+        var chooser = Android.Content.Intent.CreateChooser(intent, chooserTitle)
             ?? throw new InvalidOperationException("No hay aplicaciones disponibles para compartir.");
         chooser.AddFlags(Android.Content.ActivityFlags.NewTask);
         context.StartActivity(chooser);

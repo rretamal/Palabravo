@@ -35,6 +35,10 @@ public partial class App : Application
             // consent adapter owns the pause around its presentation instead.
             await _monetization.InitializeAsync();
             await _notifications.OnActivatedAsync();
+            await _notifications.PromptOnFirstUseAsync(() => _shell.DisplayAlertAsync(
+                "¿Activar notificaciones?",
+                "Te avisaremos cuando haya retos nuevos y, después de dos días sin jugar, te recordaremos que puedes seguir avanzando. Puedes cambiar cada aviso desde Perfil.",
+                "Activar", "Ahora no"));
             _activity.Touch();
             await _referrals.OpenPendingAsync();
         };
