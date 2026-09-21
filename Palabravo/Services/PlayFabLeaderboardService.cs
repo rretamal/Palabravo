@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Palabravo.Core.Models;
 using Palabravo.Core.Services;
+using Palabravo.Services.Monetization;
 
 namespace Palabravo.Services;
 
@@ -212,9 +213,7 @@ public sealed class PlayFabLeaderboardService(
                 return current;
 
             var guestId = GetOrCreateGuestId();
-            var login = await PostAsync<LoginData>(
-                "Client/LoginWithCustomID",
-                new { TitleId, CustomId = guestId, CreateAccount = true });
+            var login = await BootstrapSessionAsync(guestId);
             _session = await CreateSessionAsync(login);
             await EnsureAliasAsync(_session);
             return _session;
@@ -223,6 +222,20 @@ public sealed class PlayFabLeaderboardService(
         {
             _sessionLock.Release();
         }
+    }
+
+    private async Task<LoginData> BootstrapSessionAsync(string customId)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post,
+            new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), "player/session"))
+        {
+            Content = JsonContent.Create(new { CustomId = customId }, options: JsonOptions)
+        };
+        using var response = await _client.SendAsync(request);
+        var login = await response.Content.ReadFromJsonAsync<LoginData>(JsonOptions);
+        if (!response.IsSuccessStatusCode || login?.SessionTicket is null)
+            throw new PlayFabException(null, "No se pudo crear la sesión de juego.");
+        return login;
     }
 
     private async Task<PlayFabSession> CreateSessionAsync(LoginData login)

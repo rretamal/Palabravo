@@ -19,7 +19,9 @@ public partial class RankingPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        MonetizationBanner.Attach(BannerHost, _monetization);
         await _viewModel.LoadAsync();
+        // Loading the ranking also gives startup monetization reconciliation time
+        // to resolve ownership before an ad request is allowed.
+        MonetizationBanner.Attach(BannerHost, _monetization);
     }
 }

@@ -57,7 +57,7 @@ public static class MauiProgram
             iosDefaultRewardedAdUnitId: monetization.IosRewardedId);
 #if DEBUG
         // Development builds must never generate traffic against production ad units.
-        AdConfig.UseTestAdUnitIds = false;
+        AdConfig.UseTestAdUnitIds = true;
 #else
         AdConfig.UseTestAdUnitIds = monetization.TestAds;
 #endif

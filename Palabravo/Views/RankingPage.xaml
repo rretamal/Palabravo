@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Palabravo.Views.RankingPage"
              Title="Ranking">
-    <Grid RowDefinitions="Auto,*" Padding="20,18,20,14" MaximumWidthRequest="540">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20,18,20,14" MaximumWidthRequest="540">
         <VerticalStackLayout Spacing="5" Margin="0,0,0,14">
             <Label Text="{Binding Heading}" Style="{StaticResource PageTitle}" />
             <Label Text="{Binding NextResetText}" TextColor="{StaticResource Muted}" FontSize="12" />
@@ -99,11 +99,12 @@
                     <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}"
                                        Color="{StaticResource Coral}" HeightRequest="48" />
 
-                    <ContentView x:Name="BannerHost" AutomationId="ranking-banner"
-                                 IsVisible="False" Margin="0,18,0,0"
-                                 HorizontalOptions="Fill" />
                 </VerticalStackLayout>
             </ScrollView>
         </RefreshView>
+
+        <ContentView Grid.Row="2" x:Name="BannerHost" AutomationId="ranking-banner"
+                     IsVisible="False" Margin="0,10,0,0"
+                     HorizontalOptions="Fill" />
     </Grid>
 </ContentPage>

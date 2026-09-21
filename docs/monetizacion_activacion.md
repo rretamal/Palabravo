@@ -2,7 +2,7 @@
 
 Actualizado el 9 de septiembre de 2026. BigQuery y Looker Studio quedan para una etapa posterior. El lanzamiento utiliza los reportes de AdMob, Firebase Analytics, Google Play y App Store.
 
-La monetización permanece desactivada en `Palabravo/monetization.json` hasta completar la configuración externa y las pruebas de tienda. No se han publicado binarios ni efectuado compras reales.
+La monetización está habilitada con unidades reales en los builds Release mediante `testAds: false`. Las compilaciones Debug fuerzan unidades de prueba para evitar tráfico accidental durante el desarrollo local.
 
 ## Implementación
 
@@ -35,6 +35,7 @@ La monetización permanece desactivada en `Palabravo/monetization.json` hasta co
 9. Completar las seis unidades (banner, intersticial y recompensado para Android e iOS) en `Palabravo/monetization.json`. Mantener `testAds: true` en QA. Sustituir también los App IDs de muestra del manifiesto Android y `Info.plist` iOS al preparar producción.
 10. Configurar Remote Config con la clave JSON `monetization_policy` y los parámetros de la estrategia. Incluir `banner_enabled: true`; permite apagar los banners sin publicar una versión nueva. Para la frecuencia actual, publicar `min_active_seconds_between_ads: 180`; una política remota o cacheada con 300 conserva la espera anterior. Los cambios de frecuencia se aplican al iniciar una nueva sesión después de recibirlos. La app conserva la última configuración válida, congela la política durante el intento y aplica el apagado al recibirlo. Consulta en primer plano y durante interacciones con caché mínima de 60 segundos; la red no garantiza entrega instantánea.
 11. Configurar `ANDROID_CERT_SHA256` (Play App Signing), `APPLE_TEAM_ID` y `ADMOB_PUBLISHER_ID` en el build web. Se generan las asociaciones `.well-known` y `app-ads.txt`. `MONETIZATION_RELEASE=true` impide generar una versión web de monetización sin estos datos. Agregar el enlace real de App Store cuando exista.
+12. La creación de la cuenta invitada pasa por `POST /api/player/session` y `Server/LoginWithCustomID`; no habilitar creación anónima desde APIs Client. Configurar Google Play Games en PlayFab con el cliente web usado por `GooglePlayGamesAuthService`, y crear/publicar `DailyScore` y `DailyRanking` si se conserva el ranking diario de PlayFab. En Google Play Console, publicar la configuración de Play Games, agregar los testers y registrar el SHA-1 del certificado de **Play App Signing** para `com.palabravo.app`; el certificado local o el de carga no reemplazan esa credencial en el canal beta.
 
 ## Reportes para el lanzamiento
 
