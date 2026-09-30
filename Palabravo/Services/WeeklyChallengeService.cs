@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -140,7 +139,7 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
     private async Task<HttpRequestMessage> AuthorizedAsync(HttpMethod method, string path, object? body = null)
     {
         var request = new HttpRequestMessage(method, new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), path));
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await accounts.GetSessionTicketAsync());
+        PlayerApiAuthorization.Set(request, await accounts.GetSessionTicketAsync());
         if (body is not null) request.Content = BufferedJsonContent.Create(body, JsonOptions);
         return request;
     }

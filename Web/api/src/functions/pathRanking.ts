@@ -1,5 +1,5 @@
 import { app, type HttpRequest } from '@azure/functions'
-import { safeJsonResponse, errorResult } from '../lib/http.js'
+import { safeJsonResponse, errorResult, playerAuthorization } from '../lib/http.js'
 import { authenticatePlayer } from '../lib/purchases.js'
 import { getPathRanking, submitPathResult, type PathRankingDependencies } from '../lib/pathRanking.js'
 import { AzurePathRankingRepository } from '../lib/pathRankingRepository.js'
@@ -14,10 +14,10 @@ async function body(request: HttpRequest): Promise<unknown> {
   return JSON.parse(text)
 }
 app.http('path-result', { methods: ['POST'], authLevel: 'anonymous', route: 'path/results', handler: async request => {
-  try { return safeJsonResponse(await submitPathResult(request.headers.get('authorization'), await body(request), dependencies())) }
+  try { return safeJsonResponse(await submitPathResult(playerAuthorization(request.headers), await body(request), dependencies())) }
   catch { return safeJsonResponse(errorResult(503, 'service_unavailable')) }
 } })
 app.http('path-ranking', { methods: ['GET'], authLevel: 'anonymous', route: 'path/ranking', handler: async request => {
-  try { return safeJsonResponse(await getPathRanking(request.headers.get('authorization'), dependencies())) }
+  try { return safeJsonResponse(await getPathRanking(playerAuthorization(request.headers), dependencies())) }
   catch { return safeJsonResponse(errorResult(503, 'service_unavailable')) }
 } })

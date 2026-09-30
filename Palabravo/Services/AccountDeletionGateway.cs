@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -33,7 +32,7 @@ public sealed class AccountDeletionGateway : IAccountDeletionGateway
         {
             Content = Core.Services.BufferedJsonContent.Create(new { analyticsInstanceIds })
         };
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", sessionTicket);
+        Core.Services.PlayerApiAuthorization.Set(request, sessionTicket);
 
         using var response = await _client.SendAsync(request, cancellationToken);
         if ((int)response.StatusCode != 202)

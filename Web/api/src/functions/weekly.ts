@@ -3,7 +3,7 @@ import { authenticatePlayer } from '../lib/purchases.js'
 import { AzureWeeklyRepository } from '../lib/weeklyRepository.js'
 import { createWeeklyInvite, getWeeklyRanking, resolveWeeklyInvite, submitWeekly,
   type WeeklyDependencies } from '../lib/weekly.js'
-import { errorResult, safeJsonResponse } from '../lib/http.js'
+import { errorResult, safeJsonResponse, playerAuthorization } from '../lib/http.js'
 
 const dependencies = (): WeeklyDependencies => ({ authenticate: authenticatePlayer, repository: new AzureWeeklyRepository() })
 async function body(request: HttpRequest): Promise<unknown> {
@@ -12,15 +12,15 @@ async function body(request: HttpRequest): Promise<unknown> {
   return JSON.parse(text)
 }
 app.http('weekly-result', { methods: ['POST'], authLevel: 'anonymous', route: 'weekly/results', handler: async request => {
-  try { return safeJsonResponse(await submitWeekly(request.headers.get('authorization'), await body(request), dependencies())) }
+  try { return safeJsonResponse(await submitWeekly(playerAuthorization(request.headers), await body(request), dependencies())) }
   catch { return safeJsonResponse(errorResult(503, 'service_unavailable')) }
 } })
 app.http('weekly-ranking', { methods: ['GET'], authLevel: 'anonymous', route: 'weekly/{id}/ranking', handler: async request => {
-  try { return safeJsonResponse(await getWeeklyRanking(request.headers.get('authorization'), request.params.id, dependencies())) }
+  try { return safeJsonResponse(await getWeeklyRanking(playerAuthorization(request.headers), request.params.id, dependencies())) }
   catch { return safeJsonResponse(errorResult(503, 'service_unavailable')) }
 } })
 app.http('weekly-challenge-create', { methods: ['POST'], authLevel: 'anonymous', route: 'challenges', handler: async request => {
-  try { return safeJsonResponse(await createWeeklyInvite(request.headers.get('authorization'), await body(request), dependencies())) }
+  try { return safeJsonResponse(await createWeeklyInvite(playerAuthorization(request.headers), await body(request), dependencies())) }
   catch { return safeJsonResponse(errorResult(503, 'service_unavailable')) }
 } })
 app.http('weekly-challenge-get', { methods: ['GET'], authLevel: 'anonymous', route: 'challenges/{token}', handler: async request => {

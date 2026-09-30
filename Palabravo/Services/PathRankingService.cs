@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Palabravo.Core.Models;
@@ -37,7 +36,7 @@ public sealed class PathRankingService(PlayFabLeaderboardService accounts)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get,
                 new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), "path/ranking"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await accounts.GetSessionTicketAsync());
+            PlayerApiAuthorization.Set(request, await accounts.GetSessionTicketAsync());
             using var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var remote = await response.Content.ReadFromJsonAsync<RemoteSnapshot>(JsonOptions);
@@ -77,7 +76,7 @@ public sealed class PathRankingService(PlayFabLeaderboardService accounts)
 
             using var request = new HttpRequestMessage(HttpMethod.Post,
                 new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), "path/results"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await accounts.GetSessionTicketAsync());
+            PlayerApiAuthorization.Set(request, await accounts.GetSessionTicketAsync());
             request.Content = BufferedJsonContent.Create(pending, JsonOptions);
             using var response = await client.SendAsync(request);
             if (!response.IsSuccessStatusCode) return false;

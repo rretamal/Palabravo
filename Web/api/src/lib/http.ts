@@ -13,6 +13,11 @@ export function bearerToken(value: string | null | undefined): string | null {
   return match?.[1] ?? null
 }
 
+export function playerAuthorization(headers: { get(name: string): string | null }): string | null {
+  // Static Web Apps replaces Authorization with its gateway token.
+  return headers.get('x-palabravo-authorization') ?? headers.get('authorization')
+}
+
 export function safeJsonResponse(result: ApiResult) {
   return {
     status: result.status,

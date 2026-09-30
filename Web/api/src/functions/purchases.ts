@@ -2,7 +2,7 @@ import { app, type HttpRequest } from '@azure/functions'
 import { authenticatePlayer, BUNDLE_ID, getEntitlement, verifyPurchase, type PurchaseDependencies } from '../lib/purchases.js'
 import { AzurePurchaseRepository } from '../lib/purchaseRepository.js'
 import { OfficialStoreVerifier, appleServices, verifyGoogleNotificationIdentity } from '../lib/storeVerifier.js'
-import { errorResult, safeJsonResponse } from '../lib/http.js'
+import { errorResult, safeJsonResponse, playerAuthorization } from '../lib/http.js'
 
 const dependencies = (): PurchaseDependencies => ({ authenticate: authenticatePlayer, repository: new AzurePurchaseRepository(), verifier: new OfficialStoreVerifier() })
 async function json(request: HttpRequest): Promise<unknown> {
@@ -13,11 +13,11 @@ async function json(request: HttpRequest): Promise<unknown> {
 app.http('purchase-verify', { methods: ['POST'], authLevel: 'anonymous', route: 'purchases/verify', handler: async request => {
   let body: unknown
   try { body = await json(request) } catch { return safeJsonResponse(errorResult(400, 'invalid_body')) }
-  try { return safeJsonResponse(await verifyPurchase(request.headers.get('authorization'), body, dependencies())) }
+  try { return safeJsonResponse(await verifyPurchase(playerAuthorization(request.headers), body, dependencies())) }
   catch { return safeJsonResponse(errorResult(503, 'service_unavailable')) }
 } })
 app.http('purchase-entitlement', { methods: ['GET'], authLevel: 'anonymous', route: 'purchases/entitlement', handler: async request => {
-  try { return safeJsonResponse(await getEntitlement(request.headers.get('authorization'), request.query.get('platform'), dependencies())) }
+  try { return safeJsonResponse(await getEntitlement(playerAuthorization(request.headers), request.query.get('platform'), dependencies())) }
   catch { return safeJsonResponse(errorResult(503, 'service_unavailable')) }
 } })
 app.http('purchase-apple-notification', { methods: ['POST'], authLevel: 'anonymous', route: 'purchases/notifications/apple', handler: async request => {

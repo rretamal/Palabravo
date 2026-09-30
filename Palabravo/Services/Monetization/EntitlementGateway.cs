@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Palabravo.Core.Monetization;
 
@@ -13,7 +12,7 @@ public sealed class EntitlementGateway(PlayFabLeaderboardService account) : IEnt
     private async Task<Entitlement> SendAsync(HttpMethod method, string path, PurchaseProof? proof)
     {
         using var request = new HttpRequestMessage(method, path);
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await account.GetSessionTicketAsync());
+        Core.Services.PlayerApiAuthorization.Set(request, await account.GetSessionTicketAsync());
         if (proof is not null) request.Content = Core.Services.BufferedJsonContent.Create(proof);
         using var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
