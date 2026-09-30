@@ -46,8 +46,9 @@ public sealed class PathRankingService(PlayFabLeaderboardService accounts)
                 : new(remote.IsAvailable, remote.Error, remote.Entries, remote.CurrentPlayer,
                     remote.Percentile, remote.PointsToNext, !synchronized);
         }
-        catch
+        catch (Exception exception)
         {
+            System.Diagnostics.Debug.WriteLine($"Path ranking unavailable: {exception.GetType().Name}: {exception.Message}");
             return new(false, "No pudimos cargar el ranking del camino. Tu puntaje queda guardado para reintentarlo.",
                 [], null, null, null, !synchronized);
         }
@@ -77,7 +78,7 @@ public sealed class PathRankingService(PlayFabLeaderboardService accounts)
             using var request = new HttpRequestMessage(HttpMethod.Post,
                 new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), "path/results"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await accounts.GetSessionTicketAsync());
-            request.Content = JsonContent.Create(pending, options: JsonOptions);
+            request.Content = BufferedJsonContent.Create(pending, JsonOptions);
             using var response = await client.SendAsync(request);
             if (!response.IsSuccessStatusCode) return false;
             // A newer completion may have been queued while this request was in flight.

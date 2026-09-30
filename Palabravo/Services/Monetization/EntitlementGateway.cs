@@ -14,7 +14,7 @@ public sealed class EntitlementGateway(PlayFabLeaderboardService account) : IEnt
     {
         using var request = new HttpRequestMessage(method, path);
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await account.GetSessionTicketAsync());
-        if (proof is not null) request.Content = JsonContent.Create(proof);
+        if (proof is not null) request.Content = Core.Services.BufferedJsonContent.Create(proof);
         using var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<Entitlement>() ?? new(false, false, "unavailable");

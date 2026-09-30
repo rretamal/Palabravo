@@ -141,7 +141,7 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
     {
         var request = new HttpRequestMessage(method, new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), path));
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await accounts.GetSessionTicketAsync());
-        if (body is not null) request.Content = JsonContent.Create(body, options: JsonOptions);
+        if (body is not null) request.Content = BufferedJsonContent.Create(body, JsonOptions);
         return request;
     }
 

@@ -5,6 +5,35 @@ namespace Palabravo.Tests;
 public sealed class MonetizationTests
 {
     [Fact]
+    public async Task Store_outage_still_checks_server_before_requesting_ads()
+    {
+        var f = new Fixture();
+        f.Purchases.Unavailable = true;
+        f.Service = f.NewService();
+        var changes = 0;
+        f.Service.StateChanged += () => changes++;
+        await f.Service.InitializeAsync();
+        Assert.True(f.Store.State.EntitlementResolved);
+        Assert.True(f.Service.CanShowBanner);
+        Assert.True(f.Ads.Requests > 0);
+        Assert.True(changes > 0);
+        Assert.False(await f.Service.RestoreAsync());
+    }
+
+    [Fact]
+    public async Task Store_outage_preserves_a_known_paid_benefit()
+    {
+        var f = new Fixture();
+        f.Purchases.Unavailable = true;
+        f.Store.State.OwnsRemoveAds = true;
+        f.Service = f.NewService();
+        await f.Service.InitializeAsync();
+        Assert.True(f.Service.OwnsRemoveAds);
+        Assert.False(f.Service.CanShowBanner);
+        Assert.Equal(0, f.Ads.Requests);
+    }
+
+    [Fact]
     public async Task Queued_ads_recheck_ownership_before_request_and_show()
     {
         var f = await Fixture.Create();
@@ -256,8 +285,9 @@ public sealed class MonetizationTests
         public FakeConsent Consent = new();
         public FakeConfig Config = new();
         public FakeClock Clock = new();
+        public FakePurchases Purchases = new();
         public MonetizationService Service = null!;
-        public MonetizationService NewService() => new(Store, Ads, Consent, new FakePurchases(), new FakeGateway(), Config, new FakeTelemetry(), Clock);
+        public MonetizationService NewService() => new(Store, Ads, Consent, Purchases, new FakeGateway(), Config, new FakeTelemetry(), Clock);
         public static async Task<Fixture> Create()
         {
             var f = new Fixture(); f.Service = f.NewService(); await f.Service.InitializeAsync(); return f;
@@ -358,10 +388,13 @@ public sealed class MonetizationTests
     }
     private sealed class FakePurchases : IPurchaseAdapter
     {
+        public bool Unavailable;
         public event Action? Changed { add { } remove { } }
         public Task<StoreProduct?> GetProductAsync() => Task.FromResult<StoreProduct?>(null);
         public Task<PurchaseOutcome> PurchaseAsync() => Task.FromResult(new PurchaseOutcome(PurchaseStatus.Cancelled));
-        public Task<IReadOnlyList<PurchaseProof>> RestoreAsync(bool userInitiated = false) => Task.FromResult<IReadOnlyList<PurchaseProof>>([]);
+        public Task<IReadOnlyList<PurchaseProof>> RestoreAsync(bool userInitiated = false) => Unavailable
+            ? Task.FromException<IReadOnlyList<PurchaseProof>>(new IOException("Store unavailable"))
+            : Task.FromResult<IReadOnlyList<PurchaseProof>>([]);
         public Task FinishAsync(PurchaseProof proof) => Task.CompletedTask;
     }
     private sealed class FakeGateway : IEntitlementGateway

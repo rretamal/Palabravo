@@ -24,6 +24,7 @@ public partial class ResultPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        _monetization.StateChanged += RefreshBanner;
         MonetizationBanner.Attach(BannerHost, _monetization);
         _viewModel.Refresh();
         if (_hasAnimated)
@@ -31,6 +32,15 @@ public partial class ResultPage : ContentPage
 
         _hasAnimated = true;
         await AnimateEntranceAsync();
+    }
+
+    private void RefreshBanner() => MainThread.BeginInvokeOnMainThread(() =>
+        MonetizationBanner.Attach(BannerHost, _monetization));
+
+    protected override void OnDisappearing()
+    {
+        _monetization.StateChanged -= RefreshBanner;
+        base.OnDisappearing();
     }
 
     private async Task AnimateEntranceAsync()

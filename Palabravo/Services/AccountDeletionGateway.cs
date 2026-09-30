@@ -31,7 +31,7 @@ public sealed class AccountDeletionGateway : IAccountDeletionGateway
 #endif
         using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint)
         {
-            Content = JsonContent.Create(new { analyticsInstanceIds })
+            Content = Core.Services.BufferedJsonContent.Create(new { analyticsInstanceIds })
         };
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", sessionTicket);
 

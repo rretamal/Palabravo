@@ -2,6 +2,7 @@ namespace Palabravo.Core.Monetization;
 
 public sealed class MonetizationService : IMonetizationService
 {
+    public event Action? StateChanged;
     private readonly IMonetizationStore store;
     private readonly IAdAdapter ads;
     private readonly IConsentAdapter consent;
@@ -88,7 +89,7 @@ public sealed class MonetizationService : IMonetizationService
             Preload();
         }
         catch { /* Provider outages must never prevent play. */ }
-        finally { operation.Release(); }
+        finally { operation.Release(); StateChanged?.Invoke(); }
     }
 
     public void BeginAttempt(string attemptId, string puzzleId, bool referred = false)
@@ -371,6 +372,7 @@ public sealed class MonetizationService : IMonetizationService
 
     private async Task<bool> ReconcileAsync(bool userInitiated = false)
     {
+        var storeAvailable = true;
         try
         {
             foreach (var proof in await purchases.RestoreAsync(userInitiated))
@@ -380,9 +382,16 @@ public sealed class MonetizationService : IMonetizationService
                 ApplyEntitlement(restored);
                 if (restored.Owned) await purchases.FinishAsync(proof);
             }
+        }
+        catch { storeAvailable = false; }
+        try
+        {
+            // A disconnected Play Store must not prevent checking an existing
+            // server entitlement. Keep a known paid benefit if restore failed.
             var entitlement = await gateway.GetAsync();
-            ApplyEntitlement(entitlement);
-            return entitlement.Verified;
+            if (storeAvailable || entitlement.Owned || !OwnsRemoveAds)
+                ApplyEntitlement(entitlement);
+            return entitlement.Verified && (!userInitiated || storeAvailable);
         }
         catch { return false; }
     }
@@ -400,6 +409,7 @@ public sealed class MonetizationService : IMonetizationService
         store.Update(s => { s.OwnsRemoveAds = entitlement.Owned; s.EntitlementResolved = true; return true; });
         if (entitlement.Owned) ads.Discard();
         Track("entitlement_changed", ("status", entitlement.Owned ? "verified" : "not_owned"), ("source", entitlement.Source));
+        StateChanged?.Invoke();
     }
 
     public async Task ShowPrivacyOptionsAsync()

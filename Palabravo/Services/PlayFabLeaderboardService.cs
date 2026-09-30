@@ -229,9 +229,10 @@ public sealed class PlayFabLeaderboardService(
         using var request = new HttpRequestMessage(HttpMethod.Post,
             new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), "player/session"))
         {
-            Content = JsonContent.Create(new { CustomId = customId }, options: JsonOptions)
+            Content = BufferedJsonContent.Create(new { CustomId = customId }, JsonOptions)
         };
         using var response = await _client.SendAsync(request);
+        response.EnsureSuccessStatusCode();
         var login = await response.Content.ReadFromJsonAsync<LoginData>(JsonOptions);
         if (!response.IsSuccessStatusCode || login?.SessionTicket is null)
             throw new PlayFabException(null, "No se pudo crear la sesión de juego.");

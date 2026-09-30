@@ -19,27 +19,48 @@ function setup() {
   return { deps, records, current, calls }
 }
 describe('purchase verification', () => {
-  it('authenticates PlayFab session tickets with the server endpoint', async () => {
+  it('authenticates the ticket owner with an empty PlayFab account lookup', async () => {
     const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(new Response(JSON.stringify({
-      data: { IsSessionTicketExpired: false, UserInfo: { PlayFabId: 'PF-123' } },
+      data: { AccountInfo: { PlayFabId: 'PF-123' } },
     }), { status: 200 }))
 
     expect(await authenticatePlayer('Bearer session-ticket', {
       PLAYFAB_TITLE_ID: '153ECF', PLAYFAB_SECRET_KEY: 'secret',
     }, fetchMock)).toBe('PF-123')
-    expect(fetchMock.mock.calls[0][0]).toBe('https://153ECF.playfabapi.com/Server/AuthenticateSessionTicket')
-    expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify({ SessionTicket: 'session-ticket' }))
+    expect(fetchMock.mock.calls[0][0]).toBe('https://153ECF.playfabapi.com/Client/GetAccountInfo')
+    expect(fetchMock.mock.calls[0][1]?.body).toBe('{}')
+    expect(fetchMock.mock.calls[0][1]?.headers).toMatchObject({ 'X-Authorization': 'session-ticket' })
   })
 
   it('rejects expired PlayFab session tickets', async () => {
     const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(new Response(JSON.stringify({
-      data: { IsSessionTicketExpired: true, UserInfo: { PlayFabId: 'PF-123' } },
-    }), { status: 200 }))
+      error: 'InvalidSessionTicket',
+    }), { status: 400 }))
 
     expect(await authenticatePlayer('Bearer expired', {
       PLAYFAB_TITLE_ID: '153ECF', PLAYFAB_SECRET_KEY: 'secret',
     }, fetchMock)).toBeNull()
   })
+
+  it('trims title configuration and does not require a secret for ticket validation', async () => {
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(new Response(JSON.stringify({
+      data: { AccountInfo: { PlayFabId: 'PF-123' } },
+    }), { status: 200 }))
+    expect(await authenticatePlayer('Bearer valid', {
+      PLAYFAB_TITLE_ID: ' 153ECF\n',
+    }, fetchMock)).toBe('PF-123')
+    expect(fetchMock.mock.calls[0][0]).toBe('https://153ECF.playfabapi.com/Client/GetAccountInfo')
+    expect(fetchMock.mock.calls[0][1]?.headers).not.toHaveProperty('X-SecretKey')
+  })
+
+  it.each([{}, { data: {} }, { data: { AccountInfo: { PlayFabId: '' } } },
+    { data: { UserInfo: { PlayFabId: 'PF-123' } } }])(
+    'rejects incomplete or malformed authentication responses: %j', async response => {
+      const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(new Response(JSON.stringify(response), { status: 200 }))
+      expect(await authenticatePlayer('Bearer valid', {
+        PLAYFAB_TITLE_ID: '153ECF', PLAYFAB_SECRET_KEY: 'secret',
+      }, fetchMock)).toBeNull()
+    })
 
   it('rejects unauthenticated purchases before contacting a store', async () => {
     const { deps } = setup()

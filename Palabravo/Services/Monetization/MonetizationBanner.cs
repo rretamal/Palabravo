@@ -24,14 +24,22 @@ public static class MonetizationBanner
         var banner = new BannerAd
         {
             AdSize = AdSize.Banner,
+            Opacity = 0,
             HorizontalOptions = LayoutOptions.Center
         };
-        banner.OnAdLoaded += (_, _) => host.IsVisible = monetization.CanShowBanner;
+        banner.OnAdLoaded += (_, _) =>
+        {
+            banner.Opacity = 1;
+            host.IsVisible = monetization.CanShowBanner;
+        };
         banner.OnAdFailedToLoad += (_, _) =>
         {
             host.IsVisible = false;
             host.Content = null;
         };
+        // MAUI must attach the native handler for AdMob to request the banner.
+        // An invisible host prevents that attachment, so it can never load.
+        host.IsVisible = true;
         host.Content = banner;
 #endif
     }

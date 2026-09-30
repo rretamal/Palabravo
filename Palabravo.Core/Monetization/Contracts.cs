@@ -61,6 +61,7 @@ public interface IMonetizationTelemetry
 
 public interface IMonetizationService
 {
+    event Action? StateChanged;
     bool IsEnabled { get; }
     bool OwnsRemoveAds { get; }
     bool CanShowBanner { get; }

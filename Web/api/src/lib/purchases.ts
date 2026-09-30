@@ -71,18 +71,18 @@ export async function authenticatePlayer(authorization: string | null,
   environment: NodeJS.ProcessEnv = process.env, fetchImpl: typeof fetch = fetch): Promise<string | null> {
   const ticket = bearerToken(authorization)
   if (!ticket) return null
-  const title = environment.PLAYFAB_TITLE_ID
-  const secret = environment.PLAYFAB_SECRET_KEY
-  if (!title || !/^[A-Za-z0-9]+$/.test(title) || !secret) throw new Error('PlayFab not configured')
-  const response = await fetchImpl(`https://${title}.playfabapi.com/Server/AuthenticateSessionTicket`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-SecretKey': secret },
-    body: JSON.stringify({ SessionTicket: ticket }), signal: AbortSignal.timeout(10_000),
+  const title = environment.PLAYFAB_TITLE_ID?.trim()
+  if (!title || !/^[A-Za-z0-9]+$/.test(title)) throw new Error('PlayFab not configured')
+  // An empty lookup returns only the ticket's authenticated account. Never
+  // accept a player ID supplied by the caller as the authentication identity.
+  const response = await fetchImpl(`https://${title}.playfabapi.com/Client/GetAccountInfo`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Authorization': ticket },
+    body: '{}', signal: AbortSignal.timeout(10_000),
   })
   if (!response.ok) return null
   const envelope = await response.json() as {
-    data?: { IsSessionTicketExpired?: boolean; UserInfo?: { PlayFabId?: string } }
+    data?: { AccountInfo?: { PlayFabId?: string } }
   }
-  return envelope.data?.IsSessionTicketExpired === false
-    ? envelope.data.UserInfo?.PlayFabId ?? null
-    : null
+  const playerId = envelope.data?.AccountInfo?.PlayFabId
+  return typeof playerId === 'string' && playerId.trim() ? playerId : null
 }
