@@ -77,7 +77,7 @@ public sealed class PathRankingService(PlayFabLeaderboardService accounts)
             using var request = new HttpRequestMessage(HttpMethod.Post,
                 new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), "path/results"));
             PlayerApiAuthorization.Set(request, await accounts.GetSessionTicketAsync());
-            request.Content = BufferedJsonContent.Create(pending, JsonOptions);
+            request.Content = BufferedJsonContent.Create(pending with { Name = accounts.GetSnapshot().DisplayName }, JsonOptions);
             using var response = await client.SendAsync(request);
             if (!response.IsSuccessStatusCode) return false;
             // A newer completion may have been queued while this request was in flight.

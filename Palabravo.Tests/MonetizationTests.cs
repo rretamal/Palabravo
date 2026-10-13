@@ -69,6 +69,41 @@ public sealed class MonetizationTests
         Assert.Equal(2, f.Store.State.DailyHintsUsed);
     }
     [Fact]
+    public async Task Daily_completion_shows_from_first_attempt_and_only_once_per_utc_day()
+    {
+        var f = await Fixture.Create();
+        f.Service.BeginAttempt("daily1", "p", daily: true);
+        await f.Service.CompleteAttemptAsync("daily1", true);
+        Assert.Equal(1, f.Ads.Shown);
+        f.Advance(181);
+        f.Service.BeginAttempt("daily2", "p", daily: true);
+        await f.Service.CompleteAttemptAsync("daily2", true);
+        Assert.Equal(1, f.Ads.Shown);
+        f.Advance(86400);
+        f.Service = f.NewService();
+        f.Service.BeginAttempt("daily3", "p", daily: true);
+        await f.Service.CompleteAttemptAsync("daily3", true);
+        Assert.Equal(2, f.Ads.Shown);
+    }
+
+    [Fact]
+    public async Task Daily_exemption_and_missing_inventory_do_not_consume_daily_limit()
+    {
+        var f = await Fixture.Create();
+        f.Service.BeginAttempt("referred", "p", referred: true, daily: true);
+        await f.Service.CompleteAttemptAsync("referred", true);
+        Assert.Equal(0, f.Ads.Shown);
+        f.Ads.Ready = false;
+        f.Service.BeginAttempt("unavailable", "p", daily: true);
+        await f.Service.CompleteAttemptAsync("unavailable", true);
+        Assert.Equal(default, f.Store.State.LastDailyInterstitialDate);
+        f.Ads.Ready = true;
+        f.Service.BeginAttempt("available", "p", daily: true);
+        await f.Service.CompleteAttemptAsync("available", true);
+        Assert.Equal(1, f.Ads.Shown);
+    }
+
+    [Fact]
     public async Task Interstitials_start_at_three_and_are_limited_to_two_per_session()
     {
         var f = await Fixture.Create();
@@ -253,7 +288,7 @@ public sealed class MonetizationTests
     }
 
     [Fact]
-    public async Task Banner_respects_consent_ownership_kill_switch_and_full_screen_cooldown()
+    public async Task Banner_respects_consent_ownership_and_kill_switch_without_full_screen_cooldown()
     {
         var f = await Fixture.Create();
         Assert.True(f.Service.CanShowBanner);
@@ -267,7 +302,7 @@ public sealed class MonetizationTests
         Assert.False(f.Service.CanShowBanner);
         f.Store.State.BannerKilled = false;
         f.Ads.Emit(new("ad_impression", AdFormat.Interstitial, "full-screen"));
-        Assert.False(f.Service.CanShowBanner);
+        Assert.True(f.Service.CanShowBanner);
         f.Advance(180);
         Assert.True(f.Service.CanShowBanner);
     }

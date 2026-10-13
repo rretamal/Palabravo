@@ -7,7 +7,7 @@ using Palabravo.Services;
 namespace Palabravo.ViewModels;
 
 public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService progress, IClock clock,
-    WeeklyChallengeService weeklyChallenges, Palabravo.Core.Monetization.IMonetizationTelemetry telemetry) : ObservableObject
+    WeeklyChallengeService weeklyChallenges, Palabravo.Core.Monetization.IMonetizationTelemetry telemetry, IPlayerAccountService accountService) : ObservableObject
 {
     private string _nextPuzzleId = "puzzle-01";
     private string? _weeklyId;
@@ -28,8 +28,39 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
     [ObservableProperty] private string weeklySubtitle = string.Empty;
     [ObservableProperty] private string weeklyEndsText = string.Empty;
 
+    [ObservableProperty] private bool showGoogleSignIn;
+    [ObservableProperty] private bool isAccountBusy;
+
+    public void RefreshAccount()
+    {
+        var account = accountService.GetSnapshot();
+        ShowGoogleSignIn = account.CanUseGooglePlayGames && !account.IsGoogleLinked;
+        ContinueWithGoogleCommand.NotifyCanExecuteChanged();
+    }
+
+    private bool CanContinueWithGoogle() => ShowGoogleSignIn && !IsAccountBusy;
+
+    [RelayCommand(CanExecute = nameof(CanContinueWithGoogle))]
+    private async Task ContinueWithGoogleAsync()
+    {
+        IsAccountBusy = true;
+        ContinueWithGoogleCommand.NotifyCanExecuteChanged();
+        try
+        {
+            var result = await accountService.ContinueWithGoogleAsync();
+            await AccountFeedback.ShowAsync(result.Message);
+            RefreshAccount();
+        }
+        finally
+        {
+            IsAccountBusy = false;
+            ContinueWithGoogleCommand.NotifyCanExecuteChanged();
+        }
+    }
+
     public async Task RefreshAsync()
     {
+        RefreshAccount();
         var state = await progress.LoadAsync();
         var all = await puzzles.GetAllAsync();
         var daily = await puzzles.GetDailyAsync(clock.UtcToday);

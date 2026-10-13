@@ -20,6 +20,19 @@
         <RefreshView Grid.Row="1" Command="{Binding LoadCommand}" IsRefreshing="{Binding IsLoading}">
             <ScrollView>
                 <VerticalStackLayout Spacing="12" Padding="0,0,0,18">
+                    <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource SageSoft}"
+                            Stroke="#A7D5CA" IsVisible="{Binding ShowGoogleSignIn}">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Estás participando como invitado" FontFamily="OpenSansSemibold" FontSize="16" />
+                            <Label Text="Vincula Google Play Games para conservar tu identidad en el ranking. Puedes seguir participando como invitado."
+                                   FontSize="12" TextColor="{StaticResource Muted}" />
+                            <Button Text="Continuar con Google Play Games"
+                                    Command="{Binding ContinueWithGoogleCommand}" MinimumHeightRequest="48" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <ActivityIndicator IsRunning="{Binding IsAccountBusy}" IsVisible="{Binding IsAccountBusy}"
+                                       Color="{StaticResource Sage}" />
+
                     <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource CoralSoft}" Padding="16"
                             IsVisible="{Binding ShowMyPosition}">
                         <Grid ColumnDefinitions="54,*,Auto" ColumnSpacing="12">

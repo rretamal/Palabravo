@@ -3,8 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Palabravo.Views.HomePage"
              Title="Inicio">
+    <Grid RowDefinitions="*,Auto">
     <ScrollView>
         <VerticalStackLayout Padding="20,18,20,28" Spacing="14" MaximumWidthRequest="520">
+            <VerticalStackLayout Spacing="6">
+                <VerticalStackLayout IsVisible="{Binding ShowGoogleSignIn}" Spacing="6">
+                    <Button Text="Continuar con Google Play Games"
+                            Command="{Binding ContinueWithGoogleCommand}" MinimumHeightRequest="48" />
+                    <Label Text="Vincula tu cuenta para conservar tu identidad en el ranking. También puedes jugar como invitado."
+                           FontSize="12" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+                <ActivityIndicator IsRunning="{Binding IsAccountBusy}" IsVisible="{Binding IsAccountBusy}" />
+            </VerticalStackLayout>
             <Grid HeightRequest="340">
                 <BoxView Color="#F8DDBA" CornerRadius="50" HeightRequest="120" WidthRequest="150"
                          HorizontalOptions="End" VerticalOptions="Start" TranslationX="45" TranslationY="-45" />
@@ -111,4 +121,6 @@
             <Button Text="Tengo un código de reto" Command="{Binding OpenChallengeCodeCommand}" />
         </VerticalStackLayout>
     </ScrollView>
+    <ContentView x:Name="BannerHost" Grid.Row="1" IsVisible="False" HorizontalOptions="Center" Margin="0,8" />
+    </Grid>
 </ContentPage>

@@ -37,6 +37,9 @@ public sealed class PlayFabLeaderboardService(
     private const string GuestIdKey = "playfab_guest_id_v1";
     private const string GuestAliasKey = "playfab_guest_alias_v1";
     private const string AliasConfiguredKey = "playfab_alias_configured_v1";
+    private const string CustomNameKey = "player_custom_name_v1";
+    public const string CountryKey = "player_country_v1";
+    private const string GoogleNameKey = "player_google_name_v1";
     private const string GoogleLinkedKey = "playfab_google_linked_v1";
     private const string PendingScoreKey = "playfab_pending_daily_score_v2";
     private const string PendingDateKey = "playfab_pending_daily_date_v2";
@@ -54,9 +57,16 @@ public sealed class PlayFabLeaderboardService(
     private PlayFabSession? _session;
 
     public PlayerAccountSnapshot GetSnapshot() => new(
-        GetOrCreateAlias(),
+        PublicName(),
         Preferences.Default.Get(GoogleLinkedKey, false),
         googlePlayGames.IsSupported);
+
+    public async Task RefreshProfileAsync()
+    {
+        if (!Preferences.Default.Get(GoogleLinkedKey, false)) return;
+        await ImportGoogleNameAsync();
+        try { await EnsureAliasAsync(await GetSessionAsync()); } catch { }
+    }
 
     public async Task<PlayerAccountActionResult> ContinueWithGoogleAsync(
         CancellationToken cancellationToken = default)
@@ -94,7 +104,16 @@ public sealed class PlayFabLeaderboardService(
             }
 
             Preferences.Default.Set(GoogleLinkedKey, true);
+            await ImportGoogleNameAsync();
+            Preferences.Default.Set(AliasConfiguredKey, false);
+            await EnsureAliasAsync(_session ?? guestSession);
             return new PlayerAccountActionResult(true, "Tu cuenta quedó vinculada con Google Play Games.");
+        }
+        catch (GooglePlayGamesSignInException exception)
+        {
+            return new PlayerAccountActionResult(false, exception.StatusCode == 10
+                ? "Esta versión no está autorizada para Google Play Games (código 10). Revisa la configuración del canal beta."
+                : $"Google Play Games no pudo iniciar sesión (código {exception.StatusCode}). Verifica tu conexión y vuelve a intentarlo.");
         }
         catch (OperationCanceledException)
         {
@@ -199,7 +218,51 @@ public sealed class PlayFabLeaderboardService(
         }
     }
 
-    public async Task<string> GetSessionTicketAsync() => (await GetSessionAsync()).SessionTicket;
+    public async Task<string> GetSessionTicketAsync()
+    {
+        var session = await GetSessionAsync();
+        if (Preferences.Default.Get(GoogleLinkedKey, false)) await ImportGoogleNameAsync();
+        await EnsureAliasAsync(session);
+        return session.SessionTicket;
+    }
+
+    private async Task ImportGoogleNameAsync()
+    {
+        if (Preferences.Default.Get(CustomNameKey, false) || Preferences.Default.Get(GoogleNameKey, false)) return;
+        try
+        {
+            var name = await googlePlayGames.GetPlayerNameAsync();
+            if (string.IsNullOrWhiteSpace(name)) return;
+            name = new string(name.Where(c => !char.IsControl(c)).ToArray()).Trim();
+            if (name.Length > 24) name = name[..(char.IsHighSurrogate(name[23]) ? 23 : 24)];
+            if (name.Length == 0) return;
+            Preferences.Default.Set(GuestAliasKey, name);
+            Preferences.Default.Set(GoogleNameKey, true);
+            Preferences.Default.Set(AliasConfiguredKey, false);
+        }
+        catch { /* Keep the existing name when Play Games is unavailable. */ }
+    }
+
+    private static string PublicName()
+    {
+        var country = Preferences.Default.Get(CountryKey, string.Empty);
+        return CountryOption.Flag(country) is { Length: > 0 } flag ? $"{flag} {GetOrCreateAlias()}" : GetOrCreateAlias();
+    }
+
+    public async Task<PlayerAccountActionResult> UpdateProfileAsync(string name, string? countryCode)
+    {
+        name = name.Trim();
+        if (name.Length is < 1 or > 24 || name.Any(char.IsControl))
+            return new(false, "El nombre debe tener entre 1 y 24 caracteres, sin caracteres de control.");
+        if (!CountryOption.All.Any(c => c.Code == (countryCode ?? "")))
+            return new(false, "Selecciona un país de la lista.");
+        if (name != GetOrCreateAlias()) Preferences.Default.Set(CustomNameKey, true);
+        Preferences.Default.Set(GuestAliasKey, name);
+        Preferences.Default.Set(CountryKey, countryCode ?? "");
+        Preferences.Default.Set(AliasConfiguredKey, false);
+        try { await EnsureAliasAsync(await GetSessionAsync()); } catch { }
+        return new(true, "Perfil guardado. Se actualizará en los rankings al abrirlos.");
+    }
 
     private async Task<PlayFabSession> GetSessionAsync()
     {
@@ -267,7 +330,7 @@ public sealed class PlayFabLeaderboardService(
         {
             await PostAsync<SetDisplayNameData>(
                 "Profile/SetDisplayName",
-                new { DisplayName = GetOrCreateAlias(), Entity = session.Entity },
+                new { DisplayName = PublicName(), Entity = session.Entity },
                 "X-EntityToken",
                 session.EntityToken);
             Preferences.Default.Set(AliasConfiguredKey, true);
@@ -412,6 +475,9 @@ public sealed class PlayFabLeaderboardService(
     {
         Preferences.Default.Remove(GuestIdKey);
         Preferences.Default.Remove(GuestAliasKey);
+        Preferences.Default.Remove(CustomNameKey);
+        Preferences.Default.Remove(CountryKey);
+        Preferences.Default.Remove(GoogleNameKey);
         Preferences.Default.Remove(AliasConfiguredKey);
         Preferences.Default.Remove(GoogleLinkedKey);
         ClearPendingScore();

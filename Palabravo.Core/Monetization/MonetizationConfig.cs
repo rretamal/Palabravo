@@ -49,6 +49,8 @@ public sealed class MonetizationState
     public string? AttemptId { get; set; }
     public string? PuzzleId { get; set; }
     public bool ReferredExemptionUsed { get; set; }
+    public bool DailyAttempt { get; set; }
+    public DateOnly LastDailyInterstitialDate { get; set; }
     public bool AttemptAdFree { get; set; }
     public int WelcomeHints { get; set; } = 1;
     public DateOnly RetryDate { get; set; }

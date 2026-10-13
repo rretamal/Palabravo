@@ -11,6 +11,12 @@ namespace Palabravo
         {
         }
 
+        public override void OnCreate()
+        {
+            base.OnCreate();
+            Android.Gms.Games.PlayGamesSdk.Initialize(this);
+        }
+
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
 }

@@ -140,6 +140,7 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
     {
         var request = new HttpRequestMessage(method, new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), path));
         PlayerApiAuthorization.Set(request, await accounts.GetSessionTicketAsync());
+        if (body is PendingWeeklyResult pending) body = pending with { Name = accounts.GetSnapshot().DisplayName };
         if (body is not null) request.Content = BufferedJsonContent.Create(body, JsonOptions);
         return request;
     }
@@ -149,7 +150,7 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
         var saved = ParsePendingResult(Preferences.Default.Get(PendingResultKey, string.Empty));
         if (saved is not null && string.Equals(saved.WeeklyId, pending.WeeklyId, StringComparison.OrdinalIgnoreCase)
             && saved.Score >= pending.Score)
-            return;
+            pending = saved with { Name = pending.Name };
 
         Preferences.Default.Set(PendingResultKey, JsonSerializer.Serialize(pending, JsonOptions));
     }

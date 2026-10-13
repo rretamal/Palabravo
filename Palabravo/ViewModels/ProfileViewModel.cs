@@ -17,13 +17,29 @@ public partial class ProfileViewModel(
     IMonetizationService monetization,
     MonetizationOfferPresenter offers) : ObservableObject
 {
+    public IReadOnlyList<CountryOption> Countries => CountryOption.All;
+    [ObservableProperty] private string editableName = "";
+    [ObservableProperty] private CountryOption? selectedCountry;
+
+    [RelayCommand(CanExecute = nameof(IsAccountIdle))]
+    private async Task SaveProfileAsync()
+    {
+        IsAccountBusy = true;
+        try
+        {
+            var result = await accountService.UpdateProfileAsync(EditableName, SelectedCountry?.Code);
+            await AccountFeedback.ShowAsync(result.Message);
+            if (result.IsSuccess) ApplyAccount(accountService.GetSnapshot());
+        }
+        finally { IsAccountBusy = false; }
+    }
+
     public ObservableCollection<SpecialBadgeViewModel> SpecialBadges { get; } = [];
     [ObservableProperty] private string accountName = "Invitado";
     [ObservableProperty] private string accountCaption = "Protege tu progreso y conserva tu lugar en el ranking.";
     [ObservableProperty] private bool canUseGooglePlayGames;
     [ObservableProperty] private bool isGoogleLinked;
     [ObservableProperty] private bool isAccountBusy;
-    [ObservableProperty] private string? accountMessage;
     [ObservableProperty] private string googleButtonText = "Continuar con Google Play Games";
     [ObservableProperty] private string rank = "Novato";
     [ObservableProperty] private string rankCaption = "5 retos para subir";
@@ -76,6 +92,7 @@ public partial class ProfileViewModel(
         ProgressRemindersEnabled = notifications.ProgressRemindersEnabled;
         NewChallengesNotificationsEnabled = notifications.NewChallengesEnabled;
         loadingNotificationPreferences = false;
+        await accountService.RefreshProfileAsync();
         ApplyAccount(accountService.GetSnapshot());
         var player = await progress.LoadAsync();
         var rankProgress = player.RankProgress;
@@ -111,12 +128,11 @@ public partial class ProfileViewModel(
     private async Task ContinueWithGoogleAsync()
     {
         IsAccountBusy = true;
-        AccountMessage = null;
         ContinueWithGoogleCommand.NotifyCanExecuteChanged();
         try
         {
             var result = await accountService.ContinueWithGoogleAsync();
-            AccountMessage = result.Message;
+            await AccountFeedback.ShowAsync(result.Message);
             ApplyAccount(accountService.GetSnapshot());
         }
         finally
@@ -132,11 +148,9 @@ public partial class ProfileViewModel(
     public async Task<PlayerAccountDeletionResult> DeleteAccountAsync()
     {
         IsAccountBusy = true;
-        AccountMessage = null;
         try
         {
             var result = await accountService.DeleteAccountAsync();
-            AccountMessage = result.Message;
             if (!result.IsSuccess)
                 return result;
 
@@ -166,6 +180,11 @@ public partial class ProfileViewModel(
     private void ApplyAccount(PlayerAccountSnapshot account)
     {
         AccountName = account.DisplayName;
+        var country = Preferences.Default.Get(PlayFabLeaderboardService.CountryKey, "");
+        SelectedCountry = Countries.FirstOrDefault(c => c.Code == country) ?? Countries[0];
+        var flag = CountryOption.Flag(country);
+        EditableName = flag.Length > 0 && account.DisplayName.StartsWith(flag + " ", StringComparison.Ordinal)
+            ? account.DisplayName[(flag.Length + 1)..] : account.DisplayName;
         IsGoogleLinked = account.IsGoogleLinked;
         CanUseGooglePlayGames = account.CanUseGooglePlayGames;
         AccountCaption = account.IsGoogleLinked
@@ -215,6 +234,7 @@ public partial class ProfileViewModel(
     {
         OnPropertyChanged(nameof(IsAccountIdle));
         ContinueWithGoogleCommand.NotifyCanExecuteChanged();
+        SaveProfileCommand.NotifyCanExecuteChanged();
         RemoveAdsCommand.NotifyCanExecuteChanged();
         PrivacyOptionsCommand.NotifyCanExecuteChanged();
         RestorePurchasesCommand.NotifyCanExecuteChanged();

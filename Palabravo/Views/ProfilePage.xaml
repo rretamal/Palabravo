@@ -6,6 +6,33 @@
     <ScrollView>
         <VerticalStackLayout Padding="20,22,20,30" Spacing="14" MaximumWidthRequest="520">
             <Label Text="Perfil" Style="{StaticResource PageTitle}" />
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Tu nombre en los rankings" FontFamily="OpenSansSemibold" />
+                    <Entry Text="{Binding EditableName}" MaxLength="24" Placeholder="Nombre del jugador" IsEnabled="{Binding IsAccountIdle}" />
+                    <Label Text="País (opcional)" />
+                    <Picker Title="Sin bandera" ItemsSource="{Binding Countries}" ItemDisplayBinding="{Binding Label}" SelectedItem="{Binding SelectedCountry}" IsEnabled="{Binding IsAccountIdle}" />
+                    <Button Text="Guardar perfil" Command="{Binding SaveProfileCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource SageSoft}" Stroke="#A7D5CA">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Text="♢" FontSize="32" TextColor="{StaticResource Sage}" VerticalTextAlignment="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="8">
+                        <Label Text="Protege tu cuenta" FontFamily="OpenSansSemibold" />
+                        <Label Text="{Binding AccountCaption}" FontSize="12" TextColor="{StaticResource Muted}" />
+                        <Button Text="{Binding GoogleButtonText}"
+                                Command="{Binding ContinueWithGoogleCommand}"
+                                IsVisible="{Binding CanUseGooglePlayGames}"
+                                MinimumHeightRequest="48"
+                                FontSize="13" />
+                        <ActivityIndicator IsRunning="{Binding IsAccountBusy}"
+                                           IsVisible="{Binding IsAccountBusy}"
+                                           Color="{StaticResource Sage}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
 
             <Border Stroke="Transparent" Padding="20" HeightRequest="150">
                 <Border.StrokeShape><RoundRectangle CornerRadius="22" /></Border.StrokeShape>
@@ -122,26 +149,7 @@
                 </VerticalStackLayout>
             </Border>
 
-            <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource SageSoft}" Stroke="#A7D5CA">
-                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                    <Label Text="♢" FontSize="32" TextColor="{StaticResource Sage}" VerticalTextAlignment="Start" />
-                    <VerticalStackLayout Grid.Column="1" Spacing="8">
-                        <Label Text="Protege tu cuenta" FontFamily="OpenSansSemibold" />
-                        <Label Text="{Binding AccountCaption}" FontSize="12" TextColor="{StaticResource Muted}" />
-                        <Button Text="{Binding GoogleButtonText}"
-                                Command="{Binding ContinueWithGoogleCommand}"
-                                IsVisible="{Binding CanUseGooglePlayGames}"
-                                MinimumHeightRequest="48"
-                                FontSize="13" />
-                        <ActivityIndicator IsRunning="{Binding IsAccountBusy}"
-                                           IsVisible="{Binding IsAccountBusy}"
-                                           Color="{StaticResource Sage}" />
-                        <Label Text="{Binding AccountMessage}"
-                               FontSize="12"
-                               TextColor="{StaticResource Muted}" />
-                    </VerticalStackLayout>
-                </Grid>
-            </Border>
+
 
             <Border Style="{StaticResource Card}" IsVisible="{Binding MonetizationEnabled}">
                 <VerticalStackLayout Spacing="10">

@@ -13,8 +13,13 @@ export class AzurePathRankingRepository implements PathRankingRepository {
       score: result.score, payload: JSON.stringify(result) }
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
-        const existing = await this.table.getEntity<{ score: number }>(entity.partitionKey, entity.rowKey)
-        if (existing.score >= result.score) return
+        const existing = await this.table.getEntity<{ score: number; payload: string }>(entity.partitionKey, entity.rowKey)
+        if (existing.score >= result.score) {
+          const best = JSON.parse(existing.payload) as PathResult
+          if (best.name === result.name) return
+          entity.score = existing.score
+          entity.payload = JSON.stringify({ ...best, name: result.name })
+        }
         await this.table.updateEntity(entity, 'Replace', { etag: existing.etag }); return
       } catch (error) {
         const status = (error as { statusCode?: number }).statusCode

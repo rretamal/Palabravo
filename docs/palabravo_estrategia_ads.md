@@ -4,6 +4,15 @@ Fecha: 6 de septiembre de 2026. Estado: plan previo al lanzamiento; no hay datos
 
 Actualización de alcance, 9 de septiembre: BigQuery y Looker Studio quedan para una etapa posterior. El lanzamiento utiliza los reportes de AdMob, Firebase Analytics, Google Play y App Store; no requiere un tablero externo ni exportación a BigQuery.
 
+## Política implementada el 12 de octubre de 2026
+
+Esta actualización sustituye las reglas anteriores sobre banners y frecuencia del diario:
+
+- Banners fijos en Inicio, Camino, resultados y ranking. No esperan el cooldown de anuncios de pantalla completa; respetan consentimiento, compra y apagado remoto.
+- Al completar con éxito el reto diario, se evalúa un intersticial desde la primera finalización. Máximo una impresión del diario por día UTC, persistida entre reinicios. Si falta inventario, no se bloquea el resultado.
+- Camino y semanal conservan la frecuencia de tres retos y la gracia inicial. Todos los intersticiales mantienen 180 segundos activos desde el último anuncio de pantalla completa, máximo dos por sesión y la exención del primer intento referido.
+- Las pistas y los reintentos siguen las reglas de `pistas_reintentos.md`. Sin anuncios elimina banners e intersticiales y mantiene sus beneficios.
+
 ## 1. Decisión de negocio
 
 Lanzar gratis con los 30 retos actuales, pistas mediante anuncios voluntarios, intersticiales moderados y una compra única «Palabravo sin anuncios» con precio de referencia US$2,99, localizado por la tienda. No incorporar suscripción, monedas, battle pass ni skins al lanzamiento.

@@ -73,7 +73,7 @@ public sealed class MonetizationService : IMonetizationService
     public bool IsEnabled { get; }
     public bool OwnsRemoveAds => store.Update(s => s.OwnsRemoveAds);
     public bool CanShowBanner => store.Update(s => CanRequestAds(s) &&
-        (s.AttemptConfig ?? s.EffectiveConfig).BannerEnabled && !s.BannerKilled && CooldownPassed(s));
+        (s.AttemptConfig ?? s.EffectiveConfig).BannerEnabled && !s.BannerKilled);
 
     public async Task InitializeAsync()
     {
@@ -92,12 +92,12 @@ public sealed class MonetizationService : IMonetizationService
         finally { operation.Release(); StateChanged?.Invoke(); }
     }
 
-    public void BeginAttempt(string attemptId, string puzzleId, bool referred = false)
+    public void BeginAttempt(string attemptId, string puzzleId, bool referred = false, bool daily = false)
     {
         Activity(false);
         store.Update(s =>
         {
-            s.AttemptId = attemptId; s.PuzzleId = puzzleId;
+            s.AttemptId = attemptId; s.PuzzleId = puzzleId; s.DailyAttempt = daily;
             s.AttemptConfig = s.EffectiveConfig;
             if (s.UnconfirmedHintReward is { } reward)
             {
@@ -269,7 +269,11 @@ public sealed class MonetizationService : IMonetizationService
             if (s.PuzzleId is { } completed) s.FailedPuzzles.Remove(completed);
             s.CompletedAttempts++;
             var c = s.AttemptConfig ?? s.EffectiveConfig;
-            if (s.CompletedAttempts <= c.GraceCompleted ||
+            if (s.DailyAttempt)
+            {
+                if (DateOnly.FromDateTime(time.GetUtcNow().UtcDateTime) <= s.LastDailyInterstitialDate) return "daily_limit";
+            }
+            else if (s.CompletedAttempts <= c.GraceCompleted ||
                 s.CompletedAttempts - (s.CompletedAttemptsAtLastInterstitial ?? 0) < c.EveryCompleted) return "frequency";
             if (s.AttemptAdFree) return "referred";
             if (!CanAdvertise(s, AdFormat.Interstitial)) return "disabled";
@@ -314,6 +318,7 @@ public sealed class MonetizationService : IMonetizationService
                 if (signal.Format == AdFormat.Interstitial)
                 {
                     s.SessionInterstitials++;
+                    if (s.DailyAttempt) s.LastDailyInterstitialDate = DateOnly.FromDateTime(time.GetUtcNow().UtcDateTime);
                     s.CompletedAttemptsAtLastInterstitial = s.CompletedAttempts;
                 }
                 return true;

@@ -4,7 +4,7 @@
              xmlns:views="clr-namespace:Palabravo.Views"
              x:Class="Palabravo.Views.ChallengesPage"
              Title="Retos">
-    <Grid RowDefinitions="*,Auto" MaximumWidthRequest="560">
+    <Grid RowDefinitions="*,Auto,Auto" MaximumWidthRequest="560">
         <ScrollView x:Name="CaminoScroll">
             <VerticalStackLayout Padding="20,18,20,14" Spacing="16">
                 <Grid ColumnDefinitions="48,*,48">
@@ -120,5 +120,6 @@
         <Border Grid.Row="1" BackgroundColor="{StaticResource Cream}" Stroke="Transparent" Padding="20,10,20,12">
             <Button Text="{Binding ContinueText}" Command="{Binding ContinueCommand}" />
         </Border>
+        <ContentView x:Name="BannerHost" Grid.Row="2" IsVisible="False" HorizontalOptions="Center" Margin="0,8" />
     </Grid>
 </ContentPage>

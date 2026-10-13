@@ -10,7 +10,8 @@ namespace Palabravo.ViewModels;
 public partial class RankingViewModel(
     WeeklyChallengeService weeklyChallenges,
     PathRankingService pathRanking,
-    ProgressService progress) : ObservableObject
+    ProgressService progress,
+    IPlayerAccountService accountService) : ObservableObject
 {
     public ObservableCollection<RankingEntryViewModel> Entries { get; } = [];
     private bool showingWeekly;
@@ -36,9 +37,41 @@ public partial class RankingViewModel(
     [ObservableProperty] private string weeklyTabColor = "#FFFDFC";
     [ObservableProperty] private string weeklyTabTextColor = "#6D6964";
 
+    [ObservableProperty] private bool showGoogleSignIn;
+    [ObservableProperty] private bool isAccountBusy;
+
+    private void RefreshAccount()
+    {
+        var account = accountService.GetSnapshot();
+        ShowGoogleSignIn = account.CanUseGooglePlayGames && !account.IsGoogleLinked;
+        ContinueWithGoogleCommand.NotifyCanExecuteChanged();
+    }
+
+    private bool CanContinueWithGoogle() => ShowGoogleSignIn && !IsAccountBusy;
+
+    [RelayCommand(CanExecute = nameof(CanContinueWithGoogle))]
+    private async Task ContinueWithGoogleAsync()
+    {
+        IsAccountBusy = true;
+        ContinueWithGoogleCommand.NotifyCanExecuteChanged();
+        try
+        {
+            var result = await accountService.ContinueWithGoogleAsync();
+            await AccountFeedback.ShowAsync(result.Message);
+            RefreshAccount();
+            if (result.IsSuccess) await LoadAsync();
+        }
+        finally
+        {
+            IsAccountBusy = false;
+            ContinueWithGoogleCommand.NotifyCanExecuteChanged();
+        }
+    }
+
     [RelayCommand]
     public async Task LoadAsync()
     {
+        RefreshAccount();
         if (IsLoading) return;
         IsLoading = true;
         ShowError = false;

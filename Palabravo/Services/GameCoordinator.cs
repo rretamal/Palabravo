@@ -28,7 +28,7 @@ public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMo
         if (!await AllowRetryAsync(puzzle.Id)) return false;
         Engine = new PuzzleEngine();
         Engine.Start(puzzle, mode, playedOn);
-        monetization.BeginAttempt(Engine.State!.AttemptId, puzzle.Id, referred);
+        monetization.BeginAttempt(Engine.State!.AttemptId, puzzle.Id, referred, daily: mode == PuzzleMode.Daily);
         activity.Attach(Engine);
         LastResult = null;
         LastProgressUpdate = null;
@@ -64,7 +64,7 @@ public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMo
         if (!await AllowRetryAsync(state.Puzzle.Id)) return false;
         Engine = new PuzzleEngine();
         Engine.Start(state.Puzzle, state.Mode, state.PlayedOn);
-        monetization.BeginAttempt(Engine.State!.AttemptId, state.Puzzle.Id);
+        monetization.BeginAttempt(Engine.State!.AttemptId, state.Puzzle.Id, daily: state.Mode == PuzzleMode.Daily);
         activity.Attach(Engine);
         LastResult = null;
         LastProgressUpdate = null;
