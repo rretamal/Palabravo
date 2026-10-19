@@ -13,7 +13,9 @@ public sealed class WeeklyChallengeTests
         var weekly = Load();
         WeeklyChallengeValidator.Validate(weekly);
 
-        Assert.True(weekly.IsActive(DateTimeOffset.Parse("2026-09-09T12:00:00Z")));
+        Assert.False(weekly.IsActive(weekly.StartsAt.AddTicks(-1)));
+        Assert.True(weekly.IsActive(weekly.StartsAt));
+        Assert.True(weekly.IsActive(weekly.StartsAt.Add((weekly.EndsAt - weekly.StartsAt) / 2)));
         Assert.False(weekly.IsActive(weekly.EndsAt));
         Assert.Equal(16, weekly.Puzzle.Groups.SelectMany(group => group.Words).Count());
         Assert.Equal(4, weekly.FinalQuestions.Count);

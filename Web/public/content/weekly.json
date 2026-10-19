@@ -2,15 +2,15 @@
   "version": 1,
   "challenges": [
     {
-      "id": "chile-conexiones-2026",
+      "id": "chile-conexiones-2026-10-19",
       "title": "Especial Chile",
       "subtitle": "Combina palabras y descubre conexiones chilenas",
       "country": "CL",
       "flag": "🇨🇱",
-      "startsAt": "2026-09-07T00:00:00Z",
-      "endsAt": "2026-10-19T03:00:00Z",
+      "startsAt": "2026-10-19T03:00:00Z",
+      "endsAt": "2026-10-26T03:00:00Z",
       "puzzle": {
-        "id": "weekly-cl-002",
+        "id": "weekly-cl-2026-10-19",
         "order": 0,
         "contentVersion": 1,
         "rank": "novato",
@@ -112,7 +112,7 @@
         }
       ],
       "badge": {
-        "id": "chile-2026",
+        "id": "chile-2026-10-19",
         "name": "Chile 2026",
         "icon": "🇨🇱",
         "imageUrl": "https://palabravo.app/badges/chile_2026.png"

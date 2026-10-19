@@ -9,10 +9,11 @@ const weekly = { id: 'chile-18-2026', title: 'Especial Chile', subtitle: '¿Cuá
   startsAt: '2026-09-07T00:00:00Z', endsAt: '2026-09-21T00:00:00Z',
   badge: { name: 'Chile 2026', imageUrl: '/badges/chile-2026.svg' } }
 const catalog = { version: 1, challenges: [weekly] }
-afterEach(() => vi.unstubAllGlobals())
+afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers() })
 
 describe('weekly pages', () => {
   it('renders the remotely supplied weekly event', async () => {
+    vi.setSystemTime(new Date('2026-09-14T12:00:00Z'))
     vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => catalog })))
     const wrapper = mount(WeeklyPage)
     await flushPromises()
