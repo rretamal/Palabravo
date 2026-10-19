@@ -1,5 +1,6 @@
 import { TableClient, odata } from '@azure/data-tables'
-import { keyFor, type Platform, type PurchaseRepository, type VerifiedPurchase } from './purchases.js'
+import { keyFor, type Platform, type PurchaseRepository, type VerifiedPurchase, type PurchaseFailure } from './purchases.js'
+import { randomUUID } from 'node:crypto'
 
 export class AzurePurchaseRepository implements PurchaseRepository {
   private readonly table: TableClient
@@ -7,6 +8,12 @@ export class AzurePurchaseRepository implements PurchaseRepository {
     const connection = process.env.PURCHASE_STORAGE_CONNECTION
     if (!connection) throw new Error('Purchase storage not configured')
     this.table = TableClient.fromConnectionString(connection, 'PalabravoPurchases')
+  }
+  async saveDiagnostic(failure: PurchaseFailure): Promise<void> {
+    const now = new Date()
+    await this.table.createEntity({ partitionKey: 'diagnostics', rowKey: `${now.toISOString()}_${randomUUID()}`,
+      operation: failure.operation, phase: failure.phase, reason: failure.reason,
+      ...(failure.status ? { status: failure.status } : {}) })
   }
   async save(purchase: VerifiedPurchase): Promise<void> {
     // The canonical transaction is shared by all restores. ETags prevent a delayed

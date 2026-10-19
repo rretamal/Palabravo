@@ -19,6 +19,34 @@ function setup() {
   return { deps, records, current, calls }
 }
 describe('purchase verification', () => {
+  it('records only safe stage and status without provider tokens or messages', async () => {
+    const { deps } = setup()
+    deps.reportFailure = vi.fn(async () => {})
+    const failure = Object.assign(new Error('private-token in provider URL'), {
+      response: { status: 403, data: { error: { message: 'private-secret' } } },
+      config: { url: 'https://provider/tokens/private-token', headers: { Authorization: 'private-auth' } },
+    })
+    vi.mocked(deps.verifier.verify).mockRejectedValue(failure)
+    expect((await verifyPurchase('Bearer valid', proof, deps)).status).toBe(503)
+    expect(deps.reportFailure).toHaveBeenCalledWith({ operation: 'verify', phase: 'store_verify', reason: 'access_denied', status: 403 })
+    expect(JSON.stringify(vi.mocked(deps.reportFailure).mock.calls)).not.toContain('private-')
+  })
+
+  it('distinguishes acknowledgement failure and tolerates diagnostic outages', async () => {
+    const { deps } = setup()
+    deps.reportFailure = vi.fn(async () => { throw new Error('diagnostics offline') })
+    vi.mocked(deps.verifier.acknowledge).mockRejectedValue(Object.assign(new Error('unavailable'), { response: { status: 500 } }))
+    expect((await verifyPurchase('Bearer valid', proof, deps)).status).toBe(503)
+    expect(deps.reportFailure).toHaveBeenCalledWith({ operation: 'verify', phase: 'acknowledge', reason: 'provider_or_storage_error', status: 500 })
+  })
+
+  it('identifies missing Google configuration without exposing values', async () => {
+    const { deps } = setup()
+    deps.reportFailure = vi.fn(async () => {})
+    vi.mocked(deps.verifier.verify).mockRejectedValue(new Error('GOOGLE_SERVICE_ACCOUNT_JSON not configured'))
+    await verifyPurchase('Bearer valid', proof, deps)
+    expect(deps.reportFailure).toHaveBeenCalledWith({ operation: 'verify', phase: 'store_verify', reason: 'google_credentials_missing' })
+  })
   it('authenticates the ticket owner with an empty PlayFab account lookup', async () => {
     const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(new Response(JSON.stringify({
       data: { AccountInfo: { PlayFabId: 'PF-123' } },

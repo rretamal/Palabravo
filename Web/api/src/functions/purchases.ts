@@ -4,7 +4,11 @@ import { AzurePurchaseRepository } from '../lib/purchaseRepository.js'
 import { OfficialStoreVerifier, appleServices, verifyGoogleNotificationIdentity } from '../lib/storeVerifier.js'
 import { errorResult, safeJsonResponse, playerAuthorization } from '../lib/http.js'
 
-const dependencies = (): PurchaseDependencies => ({ authenticate: authenticatePlayer, repository: new AzurePurchaseRepository(), verifier: new OfficialStoreVerifier() })
+const dependencies = (): PurchaseDependencies => {
+  const repository = new AzurePurchaseRepository()
+  return { authenticate: authenticatePlayer, repository, verifier: new OfficialStoreVerifier(),
+    reportFailure: failure => repository.saveDiagnostic(failure) }
+}
 async function json(request: HttpRequest): Promise<unknown> {
   const text = await request.text()
   if (text.length > 40_000) throw new Error('Body too large')
