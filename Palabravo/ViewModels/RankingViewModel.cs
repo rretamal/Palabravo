@@ -16,6 +16,12 @@ public partial class RankingViewModel(
     public ObservableCollection<RankingEntryViewModel> Entries { get; } = [];
     private bool showingWeekly;
 
+    public void SetMode(bool weekly)
+    {
+        showingWeekly = weekly;
+        UpdateTabs();
+    }
+
     [ObservableProperty] private bool isLoading;
     [ObservableProperty] private bool hasEntries;
     [ObservableProperty] private bool showEmpty;

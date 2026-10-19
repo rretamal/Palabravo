@@ -41,6 +41,7 @@ public sealed class PlayFabLeaderboardService(
     public const string CountryKey = "player_country_v1";
     private const string GoogleNameKey = "player_google_name_v1";
     private const string GoogleLinkedKey = "playfab_google_linked_v1";
+    private const string PendingRankingMergeKey = "pending_ranking_merge_v1";
     private const string PendingScoreKey = "playfab_pending_daily_score_v2";
     private const string PendingDateKey = "playfab_pending_daily_date_v2";
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
@@ -95,12 +96,15 @@ public sealed class PlayFabLeaderboardService(
                     "Client/LoginWithGooglePlayGamesServices",
                     new { TitleId, ServerAuthCode = authCode, CreateAccount = false });
                 var googleSession = await CreateSessionAsync(login);
+                if (guestSession.Entity.Id != googleSession.Entity.Id)
+                    await SecureStorage.Default.SetAsync(PendingRankingMergeKey, guestSession.SessionTicket);
                 await PostAsync<EmptyData>(
                     "Client/LinkCustomID",
                     new { CustomId = GetOrCreateGuestId(), ForceLink = true },
                     "X-Authorization",
                     googleSession.SessionTicket);
                 _session = googleSession;
+                await TryMergePendingRankingAsync(googleSession);
             }
 
             Preferences.Default.Set(GoogleLinkedKey, true);
@@ -267,7 +271,10 @@ public sealed class PlayFabLeaderboardService(
     private async Task<PlayFabSession> GetSessionAsync()
     {
         if (_session is { } cached && cached.ExpiresAt > DateTimeOffset.UtcNow.AddMinutes(1))
+        {
+            await TryMergePendingRankingAsync(cached);
             return cached;
+        }
 
         await _sessionLock.WaitAsync();
         try
@@ -279,12 +286,30 @@ public sealed class PlayFabLeaderboardService(
             var login = await BootstrapSessionAsync(guestId);
             _session = await CreateSessionAsync(login);
             await EnsureAliasAsync(_session);
+            await TryMergePendingRankingAsync(_session);
             return _session;
         }
         finally
         {
             _sessionLock.Release();
         }
+    }
+
+    private async Task TryMergePendingRankingAsync(PlayFabSession session)
+    {
+        try
+        {
+            var previous = await SecureStorage.Default.GetAsync(PendingRankingMergeKey);
+            if (string.IsNullOrEmpty(previous) || previous == session.SessionTicket) return;
+            using var request = new HttpRequestMessage(HttpMethod.Post,
+                new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), "path/merge"));
+            PlayerApiAuthorization.Set(request, session.SessionTicket);
+            request.Content = BufferedJsonContent.Create(new { PreviousSessionTicket = previous }, JsonOptions);
+            using var response = await _client.SendAsync(request);
+            if (response.IsSuccessStatusCode || response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                SecureStorage.Default.Remove(PendingRankingMergeKey);
+        }
+        catch { /* Keep the encrypted migration request for the next authenticated interaction. */ }
     }
 
     private async Task<LoginData> BootstrapSessionAsync(string customId)
@@ -473,6 +498,7 @@ public sealed class PlayFabLeaderboardService(
 
     private static void ClearLocalAccountData()
     {
+        SecureStorage.Default.Remove(PendingRankingMergeKey);
         Preferences.Default.Remove(GuestIdKey);
         Preferences.Default.Remove(GuestAliasKey);
         Preferences.Default.Remove(CustomNameKey);

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { getPathRanking, submitPathResult, type PathRankingDependencies,
+import { getPathRanking, submitPathResult, mergePathRanking, type PathRankingDependencies,
   type PathResult } from '../src/lib/pathRanking.js'
 
 const body = { name: 'Puma Ágil', score: 370, completed: 3, gold: 2, silver: 0, bronze: 1 }
@@ -10,12 +10,24 @@ function setup() {
     repository: {
       save: vi.fn(async result => { results.set(result.playerId, result) }),
       list: vi.fn(async () => [...results.values()]),
+      merge: vi.fn(async () => {}),
     },
   }
   return { deps, results }
 }
 
 describe('path ranking', () => {
+  it('requires both authenticated accounts before merging ranking identities', async () => {
+    const { deps } = setup()
+    expect((await mergePathRanking('Bearer valid', { previousSessionTicket: 'invalid' }, deps)).status).toBe(401)
+    expect((await mergePathRanking(null, { previousSessionTicket: 'other' }, deps)).status).toBe(401)
+    expect(deps.repository.merge).not.toHaveBeenCalled()
+    expect((await mergePathRanking('Bearer valid', { previousSessionTicket: 'other' }, deps)).status).toBe(200)
+    expect(deps.repository.merge).toHaveBeenCalledOnce()
+    vi.mocked(deps.repository.merge).mockClear()
+    expect((await mergePathRanking('Bearer valid', { previousSessionTicket: 'valid' }, deps)).status).toBe(200)
+    expect(deps.repository.merge).not.toHaveBeenCalled()
+  })
   it('validates totals and requires a player session', async () => {
     const { deps } = setup()
     expect((await submitPathResult(null, body, deps)).status).toBe(401)

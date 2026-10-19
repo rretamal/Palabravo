@@ -10,6 +10,20 @@ export interface PathResult {
 export interface PathRankingRepository {
   save(result: PathResult): Promise<void>
   list(): Promise<PathResult[]>
+  merge(source: string, target: string): Promise<void>
+}
+
+export async function mergePathRanking(auth: string | null, body: unknown,
+  deps: PathRankingDependencies): Promise<ApiResult> {
+  const previous = body && typeof body === 'object'
+    ? (body as Record<string, unknown>).previousSessionTicket : null
+  if (typeof previous !== 'string' || !/^[^\s]{1,3000}$/.test(previous))
+    return errorResult(400, 'invalid_previous_session')
+  const target = await deps.authenticate(auth)
+  const source = await deps.authenticate(`Bearer ${previous}`)
+  if (!target || !source) return errorResult(401, 'invalid_session')
+  if (source !== target) await deps.repository.merge(playerKey(source), playerKey(target))
+  return { status: 200, body: { merged: true } }
 }
 export interface PathRankingDependencies {
   authenticate(auth: string | null): Promise<string | null>

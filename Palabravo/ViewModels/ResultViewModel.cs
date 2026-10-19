@@ -125,7 +125,8 @@ public partial class ResultViewModel(GameCoordinator coordinator, WeeklyChalleng
     private Task GoHomeAsync() => LeaveResultAsync("//home");
 
     [RelayCommand]
-    private Task GoRankingAsync() => LeaveResultAsync("//ranking");
+    private Task GoRankingAsync() => LeaveResultAsync(
+        resultMode == PuzzleMode.Weekly ? "//ranking?mode=weekly" : "//ranking?mode=path");
 
     private static async Task LeaveResultAsync(string route)
     {

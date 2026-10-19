@@ -4,7 +4,7 @@ using Palabravo.Core.Monetization;
 
 namespace Palabravo.Views;
 
-public partial class RankingPage : ContentPage
+public partial class RankingPage : ContentPage, IQueryAttributable
 {
     private readonly RankingViewModel _viewModel;
     private readonly IMonetizationService _monetization;
@@ -14,6 +14,12 @@ public partial class RankingPage : ContentPage
         InitializeComponent();
         BindingContext = _viewModel = viewModel;
         _monetization = monetization;
+    }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue("mode", out var mode))
+            _viewModel.SetMode(string.Equals(mode?.ToString(), "weekly", StringComparison.Ordinal));
     }
 
     protected override async void OnAppearing()
