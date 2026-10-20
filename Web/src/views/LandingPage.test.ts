@@ -15,7 +15,7 @@ async function render(path: string) {
 describe('landing page', () => {
   it('renders the Spanish experience by default', async () => {
     const wrapper = await render('/')
-    expect(wrapper.text()).toContain('Descubre conexiones.')
+    expect(wrapper.text()).toContain('Conecta palabras.')
     expect(wrapper.text()).toContain('Gran Maestro')
     expect(wrapper.findAll(`a[href="${playStoreUrl}"]`).length).toBeGreaterThan(2)
     expect(wrapper.find('a[href="/#diario"]').exists()).toBe(true)

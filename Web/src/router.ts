@@ -30,11 +30,11 @@ export const routes: RouteRecordRaw[] = [
     meta: meta('es', 'Un reto para ti — Palabravo', 'Resuelve el mismo reto que tu amigo.', '/', '/en') },
   {
     path: '/', component: LandingPage,
-    meta: meta('es', 'Palabravo — Conecta palabras en español', 'Encuentra conexiones entre palabras en español, completa retos diarios y avanza por seis rangos.', '/', '/en'),
+    meta: meta('es', 'Palabravo — Juegos de palabras y preguntas en español', 'Juega con palabras, expresiones y preguntas en español. Retos de vocabulario y cultura para hispanohablantes y quienes quieren practicar español.', '/', '/en'),
   },
   {
     path: '/en', component: LandingPage,
-    meta: meta('en', 'Palabravo — Practice Spanish through word connections', 'Practice Spanish vocabulary by finding word connections, completing daily challenges, and advancing through six ranks.', '/', '/en'),
+    meta: meta('en', 'Palabravo — Spanish word games and trivia', 'Practice Spanish with word connections, expressions, and trivia. Word and culture challenges for Spanish speakers and learners who already understand Spanish.', '/', '/en'),
   },
   {
     path: '/privacidad', component: LegalPage, props: { kind: 'privacy' },

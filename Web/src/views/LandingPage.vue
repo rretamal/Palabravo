@@ -39,6 +39,13 @@ const rankColors = ['coral', 'silver', 'mustard', 'sage', 'blue', 'purple']
         <a class="button" :href="playStoreUrl">{{ text.daily.cta }} <span aria-hidden="true">→</span></a>
       </section>
 
+      <section class="section benefits-section page-width">
+        <div class="section-intro centered"><p class="eyebrow coral-text">{{ text.formats.eyebrow }}</p><h2>{{ text.formats.title }}</h2><p>{{ text.formats.intro }}</p></div>
+        <div class="benefit-grid">
+          <article v-for="(card, index) in text.formats.cards" :key="card[0]" class="benefit-card reveal"><span aria-hidden="true">0{{ index + 1 }}</span><h3>{{ card[0] }}</h3><p>{{ card[1] }}</p></article>
+        </div>
+      </section>
+
       <section id="como-jugar" class="section page-width how-section">
         <div class="section-intro"><p class="eyebrow coral-text">{{ text.how.eyebrow }}</p><h2>{{ text.how.title }}</h2><p>{{ text.how.text }}</p></div>
         <ol class="steps">
