@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { contactEmail, copy, localizedPaths, type Locale } from '../content'
 
 const props = defineProps<{ locale: Locale }>()
-const text = copy[props.locale]
-const paths = localizedPaths(props.locale)
+const text = computed(() => copy[props.locale])
+const paths = computed(() => localizedPaths(props.locale))
+function analyticsSettings() { window.dispatchEvent(new Event('palabravo-analytics-settings')) }
 </script>
 
 <template>
@@ -14,6 +16,7 @@ const paths = localizedPaths(props.locale)
         <RouterLink :to="paths.privacy">{{ text.footer.privacy }}</RouterLink>
         <RouterLink :to="paths.deletion">{{ text.footer.deletion }}</RouterLink>
         <RouterLink :to="paths.terms">{{ text.footer.terms }}</RouterLink>
+        <button class="language-link" @click="analyticsSettings">{{ props.locale === 'es' ? 'Preferencias de analítica' : 'Analytics preferences' }}</button>
         <a :href="`mailto:${contactEmail}`">{{ text.footer.contact }}</a>
       </nav>
       <p>© {{ new Date().getFullYear() }} Palabravo. {{ text.footer.rights }}</p>

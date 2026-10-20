@@ -19,7 +19,7 @@ export interface LegalDocument {
 export const legalDocuments: Record<Locale, Record<LegalKind, LegalDocument>> = {
   es: {
     privacy: {
-      eyebrow: 'Información legal', title: 'Política de privacidad', updated: 'Última actualización: 13 de septiembre de 2026',
+      eyebrow: 'Información legal', title: 'Política de privacidad', updated: 'Última actualización: 20 de octubre de 2026',
       intro: 'Esta política explica qué información trata Palabravo, para qué se utiliza y cómo puedes solicitar su eliminación.',
       sections: [
         { title: 'Responsable y contacto', paragraphs: ['Palabravo es ofrecido por R. Retamal, Santiago, Chile. Para consultas de privacidad puedes escribir a hello@palabravo.app.'] },
@@ -33,6 +33,7 @@ export const legalDocuments: Record<Locale, Record<LegalKind, LegalDocument>> = 
         ] },
         { title: 'Cómo usamos los datos', paragraphs: ['Usamos estos datos para ejecutar el juego, guardar el progreso local, operar el ranking, vincular opcionalmente Google Play Games, prevenir abuso y atender solicitudes de soporte o eliminación. Palabravo no vende datos personales.'] },
         { title: 'Anuncios, compras y estadísticas', paragraphs: ['En las versiones con monetización habilitada, Google AdMob y su plataforma de consentimiento gestionan anuncios y opciones de privacidad. Puedes revisar estas opciones desde Perfil. Las pistas con anuncio requieren tu aceptación; jugar, avanzar y reintentar no dependen de ver publicidad.', 'Las estadísticas de uso y los informes de errores de Firebase son opcionales y se controlan por separado desde Perfil. Pueden incluir identificadores seudónimos, sesiones, retos, versión de la app e interacciones. No enviamos correos, nombres ni comprobantes de compra a estos eventos.', 'Google Play o App Store procesan el pago. Nuestro servidor verifica los comprobantes y conserva el registro técnico necesario para restauraciones y devoluciones en Azure Table Storage. No recibimos los datos de tu tarjeta. Los registros de transacción necesarios para acreditar una compra pueden conservarse para restauración y obligaciones aplicables; la eliminación de la cuenta no cancela una compra en la tienda.'] },
+        { title: 'Analítica de este sitio web', paragraphs: ['Google Analytics solo se carga si aceptas la analítica en la web. Mide páginas visitadas y clics hacia Google Play mediante cookies e identificadores seudónimos. No enviamos el contenido de formularios, códigos de retos ni parámetros de las direcciones. No activamos funciones publicitarias de Analytics. Puedes rechazar o retirar tu consentimiento desde Preferencias de analítica en el pie de página; esta elección es independiente de la app. Google procesa estos datos conforme a su política de privacidad y puede tratarlos fuera de tu país.'] },
         { title: 'Notificaciones', paragraphs: ['Los recordatorios de progreso se programan localmente en tu dispositivo. Si activas avisos de nuevos retos, Firebase Cloud Messaging gestiona el identificador técnico y la entrega del mensaje mediante Google o Apple. Puedes desactivar cada opción desde Perfil o retirar el permiso en los ajustes del sistema.'] },
         { title: 'Proveedores', items: [
           'Microsoft PlayFab aloja la cuenta invitada, las vinculaciones y los datos del ranking.',
@@ -61,7 +62,7 @@ export const legalDocuments: Record<Locale, Record<LegalKind, LegalDocument>> = 
   },
   en: {
     privacy: {
-      eyebrow: 'Legal information', title: 'Privacy policy', updated: 'Last updated: September 13, 2026',
+      eyebrow: 'Legal information', title: 'Privacy policy', updated: 'Last updated: October 20, 2026',
       intro: 'This policy explains what information Palabravo processes, why it is used, and how you can request its deletion.',
       sections: [
         { title: 'Controller and contact', paragraphs: ['Palabravo is offered by R. Retamal, Santiago, Chile. For privacy questions, contact hello@palabravo.app.'] },
@@ -75,6 +76,7 @@ export const legalDocuments: Record<Locale, Record<LegalKind, LegalDocument>> = 
         ] },
         { title: 'How we use data', paragraphs: ['We use this data to run the game, keep local progress, operate the leaderboard, optionally link Google Play Games, prevent abuse, and answer support or deletion requests. Palabravo does not sell personal data.'] },
         { title: 'Ads, purchases and analytics', paragraphs: ['In versions with monetization enabled, Google AdMob and its consent platform manage ads and privacy choices, available from Profile. Rewarded hints require your acceptance. Playing, continuing and retrying do not depend on watching an ad.', 'Firebase usage analytics and crash reports are optional and controlled separately in Profile. They may include pseudonymous identifiers, sessions, challenges, app version and interactions. We do not send emails, names or purchase proofs in analytics events.', 'Google Play or App Store process payment. Our server verifies purchase proofs and keeps the technical record needed for restoration and refunds in Azure Table Storage. We do not receive your card details. Records needed to establish a purchase may be retained for restoration and applicable obligations; deleting the game account does not cancel a store purchase.'] },
+        { title: 'Website analytics', paragraphs: ['Google Analytics only loads if you accept website analytics. It measures page visits and clicks to Google Play using cookies and pseudonymous identifiers. We do not send form contents, challenge codes, or URL parameters. Analytics advertising features are disabled. You can reject or withdraw consent using Analytics preferences in the footer; this choice is separate from the app. Google processes this data under its privacy policy and may process it outside your country.'] },
         { title: 'Notifications', paragraphs: ['Progress reminders are scheduled locally on your device. If you enable new-challenge alerts, Firebase Cloud Messaging manages the technical identifier and delivery through Google or Apple. You can disable either option in Profile or withdraw permission in system settings.'] },
         { title: 'Service providers', items: [
           'Microsoft PlayFab hosts guest accounts, account links, and leaderboard data.',

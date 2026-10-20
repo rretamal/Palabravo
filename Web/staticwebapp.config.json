@@ -2,19 +2,36 @@
   "routes": [
     {
       "route": "/.well-known/apple-app-site-association",
-      "headers": { "Content-Type": "application/json" }
+      "headers": {
+        "Content-Type": "application/json"
+      }
     },
     {
       "route": "/api/*",
-      "allowedRoles": ["anonymous"]
+      "allowedRoles": [
+        "anonymous"
+      ]
     }
   ],
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/api/*", "/assets/*", "/.well-known/*", "/app-ads.txt", "*.css", "*.js", "*.json", "*.ico", "*.png", "*.webp"]
+    "exclude": [
+      "/api/*",
+      "/assets/*",
+      "/.well-known/*",
+      "/app-ads.txt",
+      "*.css",
+      "*.js",
+      "*.json",
+      "*.ico",
+      "*.png",
+      "*.webp",
+      "/robots.txt",
+      "/sitemap.xml"
+    ]
   },
   "globalHeaders": {
-    "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
     "X-Content-Type-Options": "nosniff",

@@ -2,11 +2,14 @@
 import { computed, onMounted } from 'vue'
 import { useHead } from '@unhead/vue'
 import { useRoute, useRouter } from 'vue-router'
+import AnalyticsConsent from './components/AnalyticsConsent.vue'
+import { setupAnalytics } from './analytics'
 import { languagePreferenceKey, preferredLanguage } from './language'
 
 const route = useRoute()
 const router = useRouter()
 onMounted(() => {
+  setupAnalytics(router)
   // Only the default landing negotiates language; explicit and shared URLs stay intact.
   if (route.path !== '/') return
   let saved: string | null = null
@@ -44,4 +47,5 @@ useHead(computed(() => {
 
 <template>
   <RouterView />
+  <AnalyticsConsent />
 </template>

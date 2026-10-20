@@ -26,3 +26,5 @@ CLAUDE.md
 /Palabravo/Platforms/iOS/GoogleService-Info.plist
 /Web/public/.well-known/
 /Web/public/app-ads.txt
+
+!Web/public/robots.txt
