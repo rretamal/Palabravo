@@ -21,3 +21,14 @@ La integración de iPhone queda preparada en el servicio compartido, pero el pro
 6. Ejecutar el workflow manual **Enviar aviso de nuevo reto** desde GitHub Actions.
 
 La Function valida la clave administrativa y limita los tamaños y el formato de los campos. La credencial de Firebase nunca se entrega al navegador ni a la app.
+
+## Prueba en Android — 20/10/2026
+
+- Dispositivo Xiaomi 2201116SG, compilación 6.
+- Permiso `POST_NOTIFICATIONS` concedido; preferencias de nuevos retos y recordatorios activadas para esta prueba.
+- Al enviar la app a segundo plano, Android registra un único `RTC_WAKEUP` de `ScheduledAlarmReceiver` para aproximadamente 48 horas después, sin repetición. Al volver a la app registra `alarm_cancelled`. No se adelantó el reloj ni se esperó la entrega de 48 horas.
+- Con autorización explícita del usuario se publicó **una** campaña desde Firebase Console al tema `new-challenges-es`: «🇨🇱 Reto semanal disponible» / «Descubre Chile entre líneas. Juega antes del 26 de octubre».
+- Datos: `link=https://palabravo.app/semanal`; canal Android `palabravo_updates`; caducidad 4 días; envío inmediato, sin recurrencia.
+- Firebase mostró campaña Active. Android registró la notificación con título/cuerpo exactos, canal correcto e importancia 3. Recepción real comprobada con la app en segundo plano.
+- El usuario confirmó que tocar el aviso abrió directamente Chile entre líneas.
+- GitHub no tiene `NOTIFICATION_ADMIN_KEY` configurado; la prueba utilizó Firebase Console y no certifica el workflow de envío de Azure/GitHub.
