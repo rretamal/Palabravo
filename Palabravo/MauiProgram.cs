@@ -110,7 +110,8 @@ public static class MauiProgram
             s.GetRequiredService<IConsentAdapter>(), s.GetRequiredService<IPurchaseAdapter>(),
             s.GetRequiredService<IEntitlementGateway>(), s.GetRequiredService<IMonetizationConfiguration>(),
             s.GetRequiredService<IMonetizationTelemetry>(), enabled: monetization.Enabled &&
-                (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS));
+                (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS),
+                purchasesEnabled: monetization.PurchasesEnabled);
             s.GetRequiredService<GameplayActivity>().Changed += monetizationService.Activity;
             return monetizationService;
         });

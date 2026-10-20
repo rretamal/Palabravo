@@ -333,7 +333,7 @@ public partial class GameViewModel(
         try
         {
         var offer = monetization.GetHintOffer(coordinator.Engine.HasUsefulHint);
-        var options = monetization.IsEnabled
+        var options = monetization.CanPurchase
             ? new[] { offer.Label, "Ver solución", "Palabravo sin anuncios" }
             : new[] { offer.Label, "Ver solución" };
         var sheet = Shell.Current.DisplayActionSheetAsync("Ayudas", "Cancelar", null, options);

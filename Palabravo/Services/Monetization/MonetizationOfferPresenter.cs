@@ -11,6 +11,7 @@ public sealed class MonetizationOfferPresenter(IMonetizationService monetization
             await Shell.Current.DisplayAlertAsync("Palabravo sin anuncios", "Tu compra está activa. Incluye tres pistas diarias no acumulables, con un máximo de dos por intento. El cupo se renueva a las 00:00 UTC.", "Cerrar");
             return;
         }
+        if (!monetization.CanPurchase) return;
         var product = await monetization.GetProductAsync();
         if (product is null)
         {

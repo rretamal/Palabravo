@@ -59,6 +59,7 @@ public partial class ProfileViewModel(
 
     public bool IsAccountIdle => !IsAccountBusy;
     public bool MonetizationEnabled => monetization.IsEnabled;
+    public bool PurchasesEnabled => monetization.CanPurchase;
     [ObservableProperty] private bool analyticsEnabled = Preferences.Default.Get("analytics_consent", false);
 
     [RelayCommand(CanExecute = nameof(IsAccountIdle))] private Task RemoveAdsAsync() => RunMonetizationActionAsync(offers.ShowAsync);

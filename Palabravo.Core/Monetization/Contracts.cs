@@ -63,6 +63,7 @@ public interface IMonetizationService
 {
     event Action? StateChanged;
     bool IsEnabled { get; }
+    bool CanPurchase { get; }
     bool OwnsRemoveAds { get; }
     bool CanShowBanner { get; }
     Task InitializeAsync();

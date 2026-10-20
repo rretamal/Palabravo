@@ -1,5 +1,6 @@
 {
   "enabled": true,
+  "purchasesEnabled": false,
   "testAds": false,
   "androidBannerId": "ca-app-pub-6103700775321270/3766727833",
   "androidInterstitialId": "ca-app-pub-6103700775321270/5040198902",

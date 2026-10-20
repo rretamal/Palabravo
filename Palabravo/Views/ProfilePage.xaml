@@ -153,9 +153,11 @@
 
             <Border Style="{StaticResource Card}" IsVisible="{Binding MonetizationEnabled}">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Palabravo sin anuncios" FontFamily="OpenSansSemibold" />
-                    <Label Text="Compra única con tres pistas diarias incluidas. Consulta el precio y los beneficios." FontSize="12" />
-                    <Button Text="Ver beneficios y precio" Command="{Binding RemoveAdsCommand}" />
+                    <Label Text="Anuncios y privacidad" FontFamily="OpenSansSemibold" />
+                    <VerticalStackLayout Spacing="10" IsVisible="{Binding PurchasesEnabled}">
+                        <Label Text="Compra única sin anuncios y con tres pistas diarias incluidas. Consulta el precio y los beneficios." FontSize="12" />
+                        <Button Text="Ver beneficios y precio" Command="{Binding RemoveAdsCommand}" />
+                    </VerticalStackLayout>
                     <Button Text="Restaurar compra" Command="{Binding RestorePurchasesCommand}" />
                     <Button Text="Opciones de privacidad de anuncios" Command="{Binding PrivacyOptionsCommand}" />
                     <Label Text="Compartir estadísticas de uso para mejorar Palabravo (opcional)" FontSize="12" />

@@ -5,6 +5,25 @@ namespace Palabravo.Tests;
 public sealed class MonetizationTests
 {
     [Fact]
+    public async Task Pausing_new_purchases_keeps_ads_and_restoration_available()
+    {
+        var f = new Fixture();
+        f.Service = f.NewService(purchasesEnabled: false);
+        await f.Service.InitializeAsync();
+        Assert.False(f.Service.CanPurchase);
+        Assert.Null(await f.Service.GetProductAsync());
+        Assert.Equal(PurchaseStatus.Failed, await f.Service.PurchaseAsync());
+        Assert.Equal(0, f.Purchases.ProductQueries);
+        Assert.Equal(0, f.Purchases.PurchaseCalls);
+        Assert.True(f.Service.CanShowBanner);
+        Assert.True(f.Ads.Requests > 0);
+        Assert.True(await f.Service.RestoreAsync());
+        f.Service.BeginAttempt("a", "p");
+        Assert.True(f.Service.ConsumeHint("a", () => true));
+        f.Service.ConfirmHintDisplayed();
+        Assert.Equal(HintSource.Advertisement, f.Service.GetHintOffer(true).Source);
+    }
+    [Fact]
     public async Task Store_outage_still_checks_server_before_requesting_ads()
     {
         var f = new Fixture();
@@ -322,7 +341,7 @@ public sealed class MonetizationTests
         public FakeClock Clock = new();
         public FakePurchases Purchases = new();
         public MonetizationService Service = null!;
-        public MonetizationService NewService() => new(Store, Ads, Consent, Purchases, new FakeGateway(), Config, new FakeTelemetry(), Clock);
+        public MonetizationService NewService(bool purchasesEnabled = true) => new(Store, Ads, Consent, Purchases, new FakeGateway(), Config, new FakeTelemetry(), Clock, purchasesEnabled: purchasesEnabled);
         public static async Task<Fixture> Create()
         {
             var f = new Fixture(); f.Service = f.NewService(); await f.Service.InitializeAsync(); return f;
@@ -423,10 +442,12 @@ public sealed class MonetizationTests
     }
     private sealed class FakePurchases : IPurchaseAdapter
     {
+        public int ProductQueries;
+        public int PurchaseCalls;
         public bool Unavailable;
         public event Action? Changed { add { } remove { } }
-        public Task<StoreProduct?> GetProductAsync() => Task.FromResult<StoreProduct?>(null);
-        public Task<PurchaseOutcome> PurchaseAsync() => Task.FromResult(new PurchaseOutcome(PurchaseStatus.Cancelled));
+        public Task<StoreProduct?> GetProductAsync() { ProductQueries++; return Task.FromResult<StoreProduct?>(null); }
+        public Task<PurchaseOutcome> PurchaseAsync() { PurchaseCalls++; return Task.FromResult(new PurchaseOutcome(PurchaseStatus.Cancelled)); }
         public Task<IReadOnlyList<PurchaseProof>> RestoreAsync(bool userInitiated = false) => Unavailable
             ? Task.FromException<IReadOnlyList<PurchaseProof>>(new IOException("Store unavailable"))
             : Task.FromResult<IReadOnlyList<PurchaseProof>>([]);

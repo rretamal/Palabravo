@@ -61,16 +61,18 @@ public sealed class MonetizationService : IMonetizationService
 
     public MonetizationService(IMonetizationStore store, IAdAdapter ads, IConsentAdapter consent,
         IPurchaseAdapter purchases, IEntitlementGateway gateway, IMonetizationConfiguration configuration,
-        IMonetizationTelemetry telemetry, TimeProvider? time = null, bool enabled = true)
+        IMonetizationTelemetry telemetry, TimeProvider? time = null, bool enabled = true, bool purchasesEnabled = true)
     {
         this.store = store; this.ads = ads; this.consent = consent; this.purchases = purchases;
         this.gateway = gateway; this.configuration = configuration; this.telemetry = telemetry;
         this.time = time ?? TimeProvider.System; IsEnabled = enabled;
+        CanPurchase = enabled && purchasesEnabled;
         ads.Signal += OnAdSignal;
         purchases.Changed += () => _ = ReconcileUpdateAsync();
     }
 
     public bool IsEnabled { get; }
+    public bool CanPurchase { get; }
     public bool OwnsRemoveAds => store.Update(s => s.OwnsRemoveAds);
     public bool CanShowBanner => store.Update(s => CanRequestAds(s) &&
         (s.AttemptConfig ?? s.EffectiveConfig).BannerEnabled && !s.BannerKilled);
@@ -342,12 +344,12 @@ public sealed class MonetizationService : IMonetizationService
 
     public async Task<StoreProduct?> GetProductAsync()
     {
-        try { return IsEnabled ? await purchases.GetProductAsync() : null; } catch { return null; }
+        try { return CanPurchase ? await purchases.GetProductAsync() : null; } catch { return null; }
     }
 
     public async Task<PurchaseStatus> PurchaseAsync()
     {
-        if (!IsEnabled || !await operation.WaitAsync(0)) return PurchaseStatus.Failed;
+        if (!CanPurchase || !await operation.WaitAsync(0)) return PurchaseStatus.Failed;
         Suspend();
         try
         {

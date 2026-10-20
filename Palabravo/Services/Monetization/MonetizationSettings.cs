@@ -5,6 +5,7 @@ namespace Palabravo.Services.Monetization;
 public sealed record MonetizationSettings
 {
     public bool Enabled { get; init; }
+    public bool PurchasesEnabled { get; init; }
     public bool TestAds { get; init; } = true;
     public string AndroidBannerId { get; init; } = "";
     public string AndroidInterstitialId { get; init; } = "";
