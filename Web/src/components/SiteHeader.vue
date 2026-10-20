@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { saveLanguage } from '../language'
 import { copy, localizedPaths, playStoreUrl, type Locale } from '../content'
 
 const props = defineProps<{ locale: Locale; compact?: boolean }>()
-const text = copy[props.locale]
-const paths = localizedPaths(props.locale)
+const text = computed(() => copy[props.locale])
+const paths = computed(() => localizedPaths(props.locale))
 const route = useRoute()
 const alternatePath = computed(() => props.locale === 'es'
   ? String(route.meta.enPath ?? '/en')
@@ -25,7 +26,7 @@ const alternatePath = computed(() => props.locale === 'es'
       <RouterLink :to="`${paths.home}#progreso`">{{ text.nav.path }}</RouterLink>
     </nav>
     <div class="header-actions">
-      <RouterLink class="language-link" :to="alternatePath" :aria-label="props.locale === 'es' ? 'View in English' : 'Ver en español'">
+      <RouterLink class="language-link" :to="alternatePath" @click="saveLanguage(props.locale === 'es' ? 'en' : 'es')" :aria-label="props.locale === 'es' ? 'View in English' : 'Ver en español'">
         {{ props.locale === 'es' ? 'EN' : 'ES' }}
       </RouterLink>
       <a v-if="!compact" class="button button-small" :href="playStoreUrl">{{ text.nav.download }}</a>

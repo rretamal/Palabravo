@@ -1,9 +1,20 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useHead } from '@unhead/vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { languagePreferenceKey, preferredLanguage } from './language'
 
 const route = useRoute()
+const router = useRouter()
+onMounted(() => {
+  // Only the default landing negotiates language; explicit and shared URLs stay intact.
+  if (route.path !== '/') return
+  let saved: string | null = null
+  try { saved = localStorage.getItem(languagePreferenceKey) } catch { /* Use browser preferences. */ }
+  if (preferredLanguage(saved, navigator.languages?.length ? navigator.languages : [navigator.language]) === 'en') {
+    void router.replace({ path: '/en', query: route.query, hash: route.hash })
+  }
+})
 const siteOrigin = 'https://palabravo.app'
 useHead(computed(() => {
   const locale = route.meta.locale === 'en' ? 'en' : 'es'
