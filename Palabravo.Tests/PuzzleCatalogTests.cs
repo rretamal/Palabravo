@@ -123,8 +123,8 @@ public sealed class PuzzleCatalogTests
     }
 
     [Theory]
-    [InlineData(8, " COMIBLE ", "BEBESTIBLE", "OI\u0301BLE", "tocable")]
-    [InlineData(22, "observable", "LEIBLE", "comprensible", "CREIBLE")]
+    [InlineData(8, " COMIBLE ", "BEBESTIBLE", "AUDIBLE", "tangible")]
+    [InlineData(22, "visible", "LEGIBLE", "inteligible", "CREIBLE")]
     public void Written_challenges_accept_variants_without_penalty(int order, params string[] answers)
     {
         var puzzle = LoadCatalog().Single(p => p.Order == order);

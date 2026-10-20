@@ -62,7 +62,7 @@
                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleWordCommand}" CommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
                         <Label Text="{Binding Word}" TextColor="{Binding TextColor}" FontFamily="OpenSansSemibold"
-                               FontSize="{Binding FontSize}" FontAutoScalingEnabled="False" MaxLines="1" LineBreakMode="NoWrap"
+                               FontSize="{Binding FontSize}" FontAutoScalingEnabled="False" MaxLines="3" LineBreakMode="WordWrap"
                                HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                                SemanticProperties.Description="{Binding Word}" />
                     </Border>
@@ -87,10 +87,10 @@
                 <Label Text="{Binding HeaderCaption}" Style="{StaticResource Eyebrow}" TextColor="{StaticResource Coral}" HorizontalTextAlignment="Center" />
                 <Label Text="{Binding QuizProgress}" FontSize="12" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center" />
                 <Border IsVisible="{Binding HasQuizImage}" Stroke="{StaticResource Border}" StrokeThickness="1"
-                        HeightRequest="190" Padding="0">
+                        HeightRequest="280" Padding="0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
-                    <Image Source="{Binding QuizImageSource}" Aspect="AspectFill"
-                           SemanticProperties.Description="Imagen para reconocer en la pregunta cultural" />
+                    <Image Source="{Binding QuizImageSource}" Aspect="AspectFit"
+                           SemanticProperties.Description="{Binding QuizImageDescription}" />
                 </Border>
                 <Label Text="{Binding QuizPrompt}" Style="{StaticResource EditorialTitle}" FontSize="25" HorizontalTextAlignment="Center" />
                 <VerticalStackLayout IsVisible="{Binding IsWrittenAnswer}" Spacing="12">

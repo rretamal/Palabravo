@@ -179,7 +179,7 @@ public sealed class PuzzleEngine
         return new GameResult(state.Puzzle.Id, state.Puzzle.Title, state.Mode, state.PlayedOn,
             succeeded, medal, state.Errors, state.HintsUsed, state.SolutionRequested, Elapsed,
             state.SolvedGroups.ToList(), state.Puzzle.Dynamic == "connections" ? state.Puzzle.Groups.ToList()
-                : state.Puzzle.Questions.Select(q => new PuzzleGroup { Category = q.Prompt, Words = [q.Answer], Explanation = q.Explanation }).ToList());
+                : state.Puzzle.Questions.Select(q => new PuzzleGroup { Category = q.Prompt, Words = [q.Answer], Explanation = q.Explanation }).ToList(), state.Puzzle.ContentVersion);
     }
 
     private GameState RequireState() => State ?? throw new InvalidOperationException("No hay una partida activa.");

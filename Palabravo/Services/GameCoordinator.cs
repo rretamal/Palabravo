@@ -5,7 +5,7 @@ using Palabravo.Core.Monetization;
 namespace Palabravo.Services;
 
 public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMonetizationService monetization,
-    GameplayActivity activity, WeeklyChallengeService weeklyChallenges)
+    GameplayActivity activity, WeeklyChallengeService weeklyChallenges, IMonetizationTelemetry telemetry)
 {
     public PuzzleEngine Engine { get; private set; } = new();
     public GameResult? LastResult { get; private set; }
@@ -30,9 +30,20 @@ public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMo
         Engine.Start(puzzle, mode, playedOn);
         monetization.BeginAttempt(Engine.State!.AttemptId, puzzle.Id, referred, daily: mode == PuzzleMode.Daily);
         activity.Attach(Engine);
+        TrackStarted();
         LastResult = null;
         LastProgressUpdate = null;
         return true;
+    }
+
+    private void TrackStarted()
+    {
+        var state = Engine.State!;
+        telemetry.Track("puzzle_started", new Dictionary<string, object>
+        {
+            ["content_version"] = state.Puzzle.ContentVersion, ["puzzle_mode"] = state.Mode.ToString().ToLowerInvariant(),
+            ["puzzle_format"] = state.Puzzle.Dynamic
+        });
     }
 
     private async Task<bool> AllowRetryAsync(string puzzleId)
@@ -53,6 +64,12 @@ public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMo
             ? Medal.Gold
             : errors <= 1 && result.HintsUsed <= 1 ? Medal.Silver : Medal.Bronze;
         LastResult = result with { Errors = errors, Medal = medal, Elapsed = result.Elapsed + additionalElapsed };
+        telemetry.Track("puzzle_finished", new Dictionary<string, object>
+        {
+            ["content_version"] = result.ContentVersion, ["puzzle_mode"] = result.Mode.ToString().ToLowerInvariant(),
+            ["puzzle_format"] = Engine.State!.Puzzle.Dynamic, ["success"] = result.IsSuccess,
+            ["errors"] = errors, ["hints"] = result.HintsUsed, ["elapsed_seconds"] = (long)LastResult.Elapsed.TotalSeconds
+        });
         return LastResult;
     }
 
@@ -66,6 +83,7 @@ public sealed class GameCoordinator(IPuzzleRepository puzzles, IClock clock, IMo
         Engine.Start(state.Puzzle, state.Mode, state.PlayedOn);
         monetization.BeginAttempt(Engine.State!.AttemptId, state.Puzzle.Id, daily: state.Mode == PuzzleMode.Daily);
         activity.Attach(Engine);
+        TrackStarted();
         LastResult = null;
         LastProgressUpdate = null;
         return true;

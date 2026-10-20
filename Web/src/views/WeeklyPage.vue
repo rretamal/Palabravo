@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-type Weekly = { title: string; subtitle: string; flag: string; startsAt: string; endsAt: string; badge: { name: string; imageUrl: string } }
+type Weekly = { title: string; subtitle: string; flag: string; startsAt: string; endsAt: string; badge: { name: string; imageUrl?: string; icon?: string } }
 type WeeklyCatalog = { challenges: Weekly[] }
 const weekly = ref<Weekly | null>(null)
 const unavailable = ref(false)
@@ -29,7 +29,8 @@ onMounted(async () => {
       <h1>{{ weekly.title }}</h1>
       <p class="weekly-lead">{{ weekly.subtitle }}</p>
       <div class="weekly-facts"><span>16 palabras</span><span>4 conexiones</span><span>4 preguntas</span><span>Badge especial</span></div>
-      <img :src="weekly.badge.imageUrl" :alt="`Badge ${weekly.badge.name}`" class="weekly-badge">
+      <img v-if="weekly.badge.imageUrl" :src="weekly.badge.imageUrl" :alt="`Badge ${weekly.badge.name}`" class="weekly-badge">
+      <span v-else class="weekly-flag" role="img" :aria-label="`Insignia ${weekly.badge.name}`">{{ weekly.badge.icon ?? '✦' }}</span>
       <p>Abre Palabravo para jugar el mismo reto que toda la comunidad.</p>
       <a class="button" :href="playUrl">Jugar en Palabravo</a>
       <a class="weekly-store" href="https://play.google.com/store/apps/details?id=com.palabravo.app">Disponible en Google Play</a>

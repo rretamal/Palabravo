@@ -65,7 +65,7 @@ public partial class HomeViewModel(IPuzzleRepository puzzles, ProgressService pr
         var all = await puzzles.GetAllAsync();
         var daily = await puzzles.GetDailyAsync(clock.UtcToday);
         DailyTitle = daily.Title;
-        DailyDifficulty = $"{daily.Difficulty} · mismo reto para todos hoy";
+        DailyDifficulty = $"{daily.Difficulty} · cambia a las 00:00 UTC";
         StreakText = state.CurrentStreak.ToString();
         StreakCaption = state.CurrentStreak == 1 ? "día seguido" : "días seguidos";
         var rankProgress = state.RankProgress;

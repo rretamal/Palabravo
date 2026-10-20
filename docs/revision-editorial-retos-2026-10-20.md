@@ -1,5 +1,9 @@
 # Revisión editorial de retos — 20 de octubre de 2026
 
+## Corrección tras inspeccionar el empaquetado
+
+El archivo antiguo de Resources/Raw no se incluye: Palabravo.csproj lo excluía y empaquetaba el JSON web. La diferencia de archivos detectada abajo no constituía una divergencia activa del binario. En la implementación posterior se elimina el archivo obsoleto y se añade verificación del origen empaquetado.
+
 ## Dictamen y alcance
 
 El catálogo permite un lanzamiento gradual, pero necesita una segunda edición antes de una campaña amplia centrada en aprendizaje de español. Las prioridades son justicia de las respuestas, coherencia de dificultad y renovación del contenido. Esta revisión no modifica ni publica retos.

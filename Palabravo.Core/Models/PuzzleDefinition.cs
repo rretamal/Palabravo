@@ -32,6 +32,7 @@ public sealed class PathQuestion
     public string Explanation { get; set; } = string.Empty;
     public string Hint { get; set; } = string.Empty;
     public string? ImageSource { get; set; }
+    public string? ImageDescription { get; set; }
 }
 
 public sealed class PuzzleGroup

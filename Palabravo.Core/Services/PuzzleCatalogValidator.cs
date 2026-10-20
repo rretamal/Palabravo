@@ -22,39 +22,49 @@ public static class PuzzleCatalogValidator
                 throw new InvalidDataException($"El reto {expectedOrder} debe usar el ID puzzle-{expectedOrder:00}.");
             if (puzzle.Rank != RankCatalog.ForChallenge(expectedOrder).Tier)
                 throw new InvalidDataException($"El reto {puzzle.Id} no pertenece al rango esperado.");
-            if (puzzle.ContentVersion < 1 || string.IsNullOrWhiteSpace(puzzle.Title) || string.IsNullOrWhiteSpace(puzzle.Difficulty))
-                throw new InvalidDataException($"El reto {puzzle.Id} tiene metadatos incompletos.");
-            if (puzzle.Dynamic != "connections")
-            {
-                if (!new[] { "bridge", "trivia", "pieces", "intruder", "visual", "recall" }.Contains(puzzle.Dynamic)
-                    || puzzle.Questions.Count is < 2 or > 5
-                    || puzzle.Questions.Any(q => string.IsNullOrWhiteSpace(q.Prompt)
-                        || (puzzle.Dynamic == "recall" ? q.Options.Count != 0 || string.IsNullOrWhiteSpace(q.Answer)
-                            || q.Answer.Length > 80 || q.AcceptedAnswers.Any(a => string.IsNullOrWhiteSpace(a) || a.Length > 80)
-                            : q.Options.Count != 4 || q.Options.Any(string.IsNullOrWhiteSpace) || q.Options.Distinct().Count() != 4 || !q.Options.Contains(q.Answer))
-                        || string.IsNullOrWhiteSpace(q.Explanation)
-                        || string.IsNullOrWhiteSpace(q.Hint)))
-                    throw new InvalidDataException($"El reto {puzzle.Id} tiene preguntas inválidas.");
-                if (puzzle.Dynamic == "pieces" && puzzle.Questions.Any(q => q.Fragments.Count != 4
-                    || q.Fragments.Distinct().Count() != 4 || q.SolutionParts.Count != 2
-                    || q.SolutionParts.Any(part => !q.Fragments.Contains(part))
-                    || !string.Equals(string.Concat(q.SolutionParts), q.Answer, StringComparison.OrdinalIgnoreCase)))
-                    throw new InvalidDataException($"El reto {puzzle.Id} tiene piezas inválidas.");
-                continue;
-            }
-            if (puzzle.Groups.Count != 4)
-                throw new InvalidDataException($"El reto {puzzle.Id} debe contener cuatro grupos.");
-
-            foreach (var group in puzzle.Groups)
-            {
-                if (string.IsNullOrWhiteSpace(group.Category) || string.IsNullOrWhiteSpace(group.Hint)
-                    || group.Words.Count != 4 || group.Words.Any(string.IsNullOrWhiteSpace))
-                    throw new InvalidDataException($"El reto {puzzle.Id} contiene un grupo inválido.");
-            }
-
-            var words = puzzle.Groups.SelectMany(group => group.Words).ToList();
-            if (words.Distinct(StringComparer.OrdinalIgnoreCase).Count() != 16)
-                throw new InvalidDataException($"El reto {puzzle.Id} debe contener dieciséis palabras únicas.");
+            ValidatePuzzle(puzzle);
         }
+    }
+
+
+    public static void ValidatePuzzle(PuzzleDefinition puzzle)
+    {
+        if (puzzle.ContentVersion < 1 || string.IsNullOrWhiteSpace(puzzle.Title) || string.IsNullOrWhiteSpace(puzzle.Difficulty))
+            throw new InvalidDataException($"El reto {puzzle.Id} tiene metadatos incompletos.");
+        if (puzzle.Dynamic != "connections")
+        {
+            if (!new[] { "bridge", "trivia", "pieces", "intruder", "visual", "recall" }.Contains(puzzle.Dynamic)
+                || puzzle.Questions.Count is < 2 or > 5
+                || puzzle.Questions.Any(q => string.IsNullOrWhiteSpace(q.Prompt)
+                    || (puzzle.Dynamic == "recall" ? q.Options.Count != 0 || string.IsNullOrWhiteSpace(q.Answer)
+                        || q.Answer.Length > 80 || q.AcceptedAnswers.Any(a => string.IsNullOrWhiteSpace(a) || a.Length > 80)
+                        : q.Options.Count != 4 || q.Options.Any(o => string.IsNullOrWhiteSpace(o) || o.Length > 80) || q.Options.Distinct().Count() != 4 || !q.Options.Contains(q.Answer))
+                    || string.IsNullOrWhiteSpace(q.Explanation)
+                    || string.IsNullOrWhiteSpace(q.Hint)))
+                throw new InvalidDataException($"El reto {puzzle.Id} tiene preguntas inválidas.");
+            if (puzzle.Dynamic == "visual" && puzzle.Questions.Any(q => string.IsNullOrWhiteSpace(q.ImageSource)
+                || !(System.Text.RegularExpressions.Regex.IsMatch(q.ImageSource, "^[a-z0-9_]+\\.png$")
+                    || Uri.TryCreate(q.ImageSource, UriKind.Absolute, out var uri) && uri.Scheme == Uri.UriSchemeHttps)))
+                throw new InvalidDataException("El reto visual necesita imágenes válidas.");
+            if (puzzle.Dynamic == "pieces" && puzzle.Questions.Any(q => q.Fragments.Count != 4
+                || q.Fragments.Distinct().Count() != 4 || q.SolutionParts.Count != 2
+                || q.SolutionParts.Any(part => !q.Fragments.Contains(part))
+                || !string.Equals(string.Concat(q.SolutionParts), q.Answer, StringComparison.OrdinalIgnoreCase)))
+                throw new InvalidDataException($"El reto {puzzle.Id} tiene piezas inválidas.");
+            return;
+        }
+        if (puzzle.Groups.Count != 4)
+            throw new InvalidDataException($"El reto {puzzle.Id} debe contener cuatro grupos.");
+
+        foreach (var group in puzzle.Groups)
+        {
+            if (string.IsNullOrWhiteSpace(group.Category) || string.IsNullOrWhiteSpace(group.Hint)
+                || group.Words.Count != 4 || group.Words.Any(string.IsNullOrWhiteSpace))
+                throw new InvalidDataException($"El reto {puzzle.Id} contiene un grupo inválido.");
+        }
+
+        var words = puzzle.Groups.SelectMany(group => group.Words).ToList();
+        if (words.Distinct(StringComparer.OrdinalIgnoreCase).Count() != 16)
+            throw new InvalidDataException($"El reto {puzzle.Id} debe contener dieciséis palabras únicas.");
     }
 }

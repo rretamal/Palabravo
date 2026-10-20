@@ -82,6 +82,8 @@ public sealed class ProgressService(IProgressStore store, IClock clock)
             if (medalImproved)
             {
                 existing.BestMedal = result.Medal;
+                existing.ContentVersion = result.ContentVersion;
+                existing.PuzzleId = result.PuzzleId;
                 existing.Errors = result.Errors;
                 existing.HintsUsed = result.HintsUsed;
                 existing.ElapsedSeconds = result.Elapsed.TotalSeconds;
@@ -92,6 +94,7 @@ public sealed class ProgressService(IProgressStore store, IClock clock)
 
         Current.Completions[key] = new CompletionRecord
         {
+            ContentVersion = result.ContentVersion,
             Key = key,
             PuzzleId = result.PuzzleId,
             Mode = result.Mode,

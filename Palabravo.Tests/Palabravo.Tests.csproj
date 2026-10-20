@@ -18,7 +18,12 @@
     <ProjectReference Include="../Palabravo.Core/Palabravo.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="../Web/public/content/puzzles.json" Link="puzzles.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Web/public/content/v2/puzzles.json" Link="puzzles.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Web/public/content/daily.json" Link="daily.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Web/public/content/puzzles.json" Link="legacy-puzzles.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Palabravo/Palabravo.csproj" Link="app-project.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Web/public/content/*_board.png" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Fixtures/weekly-active-v1.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../Web/public/content/weekly.json" Link="weekly.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

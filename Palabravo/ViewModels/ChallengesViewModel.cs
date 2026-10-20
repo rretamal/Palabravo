@@ -159,6 +159,7 @@ public sealed class ChallengeNodeViewModel
         AccentColor = Color.FromArgb(RankCatalog.ForChallenge(puzzle.Order).AccentColor);
         IsLocked = !isUnlocked;
         IsCompleted = completion is not null;
+        IsEarlierEdition = completion is not null && completion.ContentVersion < puzzle.ContentVersion;
         Medal = completion?.BestMedal ?? Medal.None;
         var x = indexInRank % 2 == 0 ? 0.20 : 0.80;
         LayoutBounds = new Rect(x, VerticalPositions[indexInRank], 132, 122);
@@ -172,6 +173,7 @@ public sealed class ChallengeNodeViewModel
     public Color AccentColor { get; }
     public bool IsLocked { get; }
     public bool IsCompleted { get; }
+    public bool IsEarlierEdition { get; }
     public bool IsCurrent { get; set; }
     public Medal Medal { get; }
     public Rect LayoutBounds { get; }
@@ -184,7 +186,7 @@ public sealed class ChallengeNodeViewModel
         _ => "★"
     };
 
-    public string StateText => IsLocked ? "Bloqueado" : IsCompleted ? Medal switch
+    public string StateText => IsLocked ? "Bloqueado" : IsEarlierEdition ? "Medalla anterior" : IsCompleted ? Medal switch
     {
         Medal.Gold => "Oro",
         Medal.Silver => "Plata",
@@ -194,6 +196,7 @@ public sealed class ChallengeNodeViewModel
 
     public string SemanticDescription => IsLocked
         ? $"Reto {Number}, {Title}, bloqueado"
+        : IsEarlierEdition ? $"Reto {Number}, {Title}, conserva una medalla de una edición anterior; puedes volver a jugar"
         : IsCompleted
             ? $"Reto {Number}, {Title}, completado con medalla {StateText}"
             : $"Reto {Number}, {Title}, {StateText}";

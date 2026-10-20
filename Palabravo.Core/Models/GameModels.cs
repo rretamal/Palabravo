@@ -38,7 +38,8 @@ public sealed record GameResult(
     bool SolutionRequested,
     TimeSpan Elapsed,
     IReadOnlyList<PuzzleGroup> SolvedGroups,
-    IReadOnlyList<PuzzleGroup> SolutionGroups);
+    IReadOnlyList<PuzzleGroup> SolutionGroups,
+    int ContentVersion = 0);
 
 public sealed class GameState
 {

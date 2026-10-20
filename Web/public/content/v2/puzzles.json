@@ -1,0 +1,1528 @@
+[
+  {
+    "id": "puzzle-01",
+    "order": 1,
+    "contentVersion": 3,
+    "rank": "novato",
+    "title": "Primeras conexiones",
+    "difficulty": "Fácil",
+    "groups": [
+      {
+        "category": "Planetas",
+        "hint": "Mira más allá de la Tierra.",
+        "words": [
+          "MARTE",
+          "VENUS",
+          "SATURNO",
+          "NEPTUNO"
+        ],
+        "explanation": "Estos nombres designan planetas del sistema solar."
+      },
+      {
+        "category": "Instrumentos de cuerda",
+        "hint": "Suenan al pulsar o frotar cuerdas.",
+        "words": [
+          "GUITARRA",
+          "VIOLÍN",
+          "ARPA",
+          "VIOLONCHELO"
+        ],
+        "explanation": "El sonido procede de cuerdas que vibran. Pueden pulsarse o frotarse."
+      },
+      {
+        "category": "Cítricos",
+        "hint": "Comparten un sabor fresco y ácido.",
+        "words": [
+          "LIMÓN",
+          "NARANJA",
+          "MANDARINA",
+          "POMELO"
+        ],
+        "explanation": "Limón, naranja, mandarina y pomelo pertenecen al grupo de las frutas cítricas."
+      },
+      {
+        "category": "Capitales sudamericanas",
+        "hint": "Cuatro ciudades que son sede de gobierno.",
+        "words": [
+          "SANTIAGO",
+          "QUITO",
+          "BOGOTÁ",
+          "ASUNCIÓN"
+        ],
+        "explanation": "Santiago, Quito, Bogotá y Asunción son capitales de Chile, Ecuador, Colombia y Paraguay."
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-02",
+    "order": 2,
+    "contentVersion": 3,
+    "rank": "novato",
+    "title": "Una palabra, dos caminos",
+    "difficulty": "Fácil",
+    "groups": [],
+    "dynamic": "bridge",
+    "questions": [
+      {
+        "prompt": "Completa: ___ de un círculo · ___ de una rueda",
+        "options": [
+          "Radio",
+          "Luz",
+          "Rayo",
+          "Cuerda"
+        ],
+        "answer": "Radio",
+        "explanation": "Radio nombra el segmento del centro a la circunferencia y la pieza que une el centro y la llanta de una rueda.",
+        "hint": "Ambos van desde el centro hacia el borde."
+      },
+      {
+        "prompt": "Completa: ___ de agua · ___ de los árboles",
+        "options": [
+          "Copa",
+          "Vaso",
+          "Rama",
+          "Hoja"
+        ],
+        "answer": "Copa",
+        "explanation": "Copa puede ser un recipiente o la parte superior de un árbol.",
+        "hint": "También puedes brindar con ella."
+      }
+    ],
+    "instructions": "Encuentra la palabra que completa ambos contextos."
+  },
+  {
+    "id": "puzzle-03",
+    "order": 3,
+    "contentVersion": 3,
+    "rank": "novato",
+    "title": "Curiosidades cotidianas",
+    "difficulty": "Fácil",
+    "groups": [],
+    "dynamic": "trivia",
+    "questions": [
+      {
+        "prompt": "¿Qué instrumento mide la temperatura?",
+        "options": [
+          "Termómetro",
+          "Barómetro",
+          "Brújula",
+          "Cronómetro"
+        ],
+        "answer": "Termómetro",
+        "explanation": "El termómetro mide temperatura; el barómetro, presión.",
+        "hint": "Su nombre comienza con una raíz relacionada con el calor."
+      },
+      {
+        "prompt": "¿Qué planeta habitamos?",
+        "options": [
+          "Tierra",
+          "Marte",
+          "Venus",
+          "Saturno"
+        ],
+        "answer": "Tierra",
+        "explanation": "Nuestro planeta es la Tierra.",
+        "hint": "Es el tercer planeta desde el Sol."
+      },
+      {
+        "prompt": "¿Cuál de estos animales es un mamífero?",
+        "options": [
+          "Delfín",
+          "Tiburón",
+          "Pulpo",
+          "Sardina"
+        ],
+        "answer": "Delfín",
+        "explanation": "El delfín respira aire y alimenta a sus crías con leche.",
+        "hint": "Vivir en el agua no implica ser un pez."
+      }
+    ],
+    "instructions": "Lee la pregunta en su contexto y elige una respuesta."
+  },
+  {
+    "id": "puzzle-04",
+    "order": 4,
+    "contentVersion": 3,
+    "rank": "novato",
+    "title": "Sonidos y movimiento",
+    "difficulty": "Fácil",
+    "groups": [
+      {
+        "category": "Mamíferos",
+        "hint": "Todos alimentan a sus crías de la misma manera.",
+        "words": [
+          "DELFÍN",
+          "ELEFANTE",
+          "JIRAFA",
+          "BALLENA"
+        ],
+        "explanation": "Estos animales respiran aire y alimentan a sus crías con leche; delfines y ballenas también son mamíferos."
+      },
+      {
+        "category": "Deportes",
+        "hint": "Actividades que pueden ser competitivas.",
+        "words": [
+          "TENIS",
+          "FÚTBOL",
+          "NATACIÓN",
+          "CICLISMO"
+        ],
+        "explanation": "Los cuatro nombres designan prácticas deportivas."
+      },
+      {
+        "category": "Frutas",
+        "hint": "Cuatro opciones para una ensalada dulce.",
+        "words": [
+          "MANZANA",
+          "PERA",
+          "UVA",
+          "MANGO"
+        ],
+        "explanation": "Son nombres habituales de frutas comestibles."
+      },
+      {
+        "category": "Instrumentos musicales",
+        "hint": "Todos producen música, aunque de maneras distintas.",
+        "words": [
+          "TROMPETA",
+          "CLARINETE",
+          "TAMBOR",
+          "FLAUTA"
+        ],
+        "explanation": "Se agrupan por ser instrumentos, aunque usan aire o percusión para producir sonido."
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-05",
+    "order": 5,
+    "contentVersion": 3,
+    "rank": "novato",
+    "title": "Uno no encaja",
+    "difficulty": "Fácil",
+    "groups": [],
+    "dynamic": "intruder",
+    "questions": [
+      {
+        "prompt": "Tres son instrumentos de cuerda. ¿Cuál sobra?",
+        "options": [
+          "Flauta",
+          "Violín",
+          "Guitarra",
+          "Arpa"
+        ],
+        "answer": "Flauta",
+        "explanation": "La flauta produce sonido con una columna de aire.",
+        "hint": "Busca el instrumento de viento."
+      },
+      {
+        "prompt": "Tres tienen cuatro lados. ¿Cuál sobra?",
+        "options": [
+          "Triángulo",
+          "Cuadrado",
+          "Rectángulo",
+          "Rombo"
+        ],
+        "answer": "Triángulo",
+        "explanation": "El triángulo tiene tres lados.",
+        "hint": "Cuenta los lados."
+      }
+    ],
+    "instructions": "Lee la regla y elige la única opción que no la cumple."
+  },
+  {
+    "id": "puzzle-06",
+    "order": 6,
+    "contentVersion": 3,
+    "rank": "agil",
+    "title": "Piezas que forman palabras",
+    "difficulty": "Fácil",
+    "groups": [],
+    "dynamic": "pieces",
+    "questions": [
+      {
+        "prompt": "Une dos segmentos para nombrar lo que protege de la lluvia.",
+        "options": [
+          "Paraguas",
+          "Parasol",
+          "Sacapuntas",
+          "Rompeolas"
+        ],
+        "answer": "Paraguas",
+        "explanation": "PARA y GUAS son segmentos del juego. La palabra paraguas se forma históricamente con parar y aguas.",
+        "hint": "Se abre cuando llueve.",
+        "fragments": [
+          "PARA",
+          "GUAS",
+          "SACA",
+          "SOL"
+        ],
+        "solutionParts": [
+          "PARA",
+          "GUAS"
+        ]
+      },
+      {
+        "prompt": "Construye el nombre del objeto que afila lápices.",
+        "fragments": [
+          "SACA",
+          "PUNTAS",
+          "PARA",
+          "AGUAS"
+        ],
+        "solutionParts": [
+          "SACA",
+          "PUNTAS"
+        ],
+        "options": [
+          "Sacapuntas",
+          "Sacacorchos",
+          "Puntero",
+          "Puntapié"
+        ],
+        "answer": "Sacapuntas",
+        "explanation": "Un sacapuntas afila lápices.",
+        "hint": "Piensa en un útil escolar."
+      }
+    ],
+    "instructions": "Combina dos segmentos en orden. Los segmentos son piezas del juego, no siempre palabras independientes."
+  },
+  {
+    "id": "puzzle-07",
+    "order": 7,
+    "contentVersion": 3,
+    "rank": "agil",
+    "title": "Vuelo y oficio",
+    "difficulty": "Fácil",
+    "groups": [
+      {
+        "category": "Aves",
+        "hint": "Todas tienen alas y pico.",
+        "words": [
+          "ÁGUILA",
+          "HALCÓN",
+          "BÚHO",
+          "CÓNDOR"
+        ],
+        "explanation": "Águila, halcón, búho y cóndor son aves."
+      },
+      {
+        "category": "Países",
+        "hint": "Cuatro naciones de continentes distintos.",
+        "words": [
+          "CANADÁ",
+          "CHILE",
+          "JAPÓN",
+          "BRASIL"
+        ],
+        "explanation": "Los cuatro son nombres de países; las tildes forman parte de su escritura."
+      },
+      {
+        "category": "Herramientas",
+        "hint": "Podrían encontrarse en una caja de trabajo.",
+        "words": [
+          "MARTILLO",
+          "DESTORNILLADOR",
+          "ALICATE",
+          "LLAVE INGLESA"
+        ],
+        "explanation": "Sirven para realizar trabajos manuales. La llave inglesa no es una llave de cerradura."
+      },
+      {
+        "category": "Días de la semana",
+        "hint": "Cuatro posiciones dentro de una semana.",
+        "words": [
+          "DOMINGO",
+          "LUNES",
+          "MIÉRCOLES",
+          "VIERNES"
+        ],
+        "explanation": "Son cuatro de los siete días de la semana."
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-08",
+    "order": 8,
+    "contentVersion": 3,
+    "rank": "agil",
+    "title": "No te confíes: los sentidos",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "recall",
+    "questions": [
+      {
+        "prompt": "Escribe un adjetivo de la familia de comer que signifique que algo puede comerse.",
+        "answer": "comestible",
+        "acceptedAnswers": [
+          "comible"
+        ],
+        "explanation": "Comestible y comible pertenecen a esa familia y son válidos. Se pide una familia concreta para evitar penalizar otros sinónimos.",
+        "hint": "Las dos respuestas aceptadas empiezan por com-."
+      },
+      {
+        "prompt": "Completa beb___ con un adjetivo que indique que un líquido se puede beber.",
+        "answer": "bebible",
+        "acceptedAnswers": [
+          "bebestible",
+          "bebedero"
+        ],
+        "explanation": "Bebible es la forma más habitual de estas opciones. Bebestible y la acepción adjetiva de bebedero también encajan. Potable tiene ese significado, pero no completa beb___.",
+        "hint": "Bebible termina como comible."
+      },
+      {
+        "prompt": "Completa aud___ con un adjetivo que indique que un sonido puede oírse.",
+        "answer": "audible",
+        "acceptedAnswers": [],
+        "explanation": "Audible empieza por aud-. Oíble es un sinónimo válido, pero no completa la forma pedida.",
+        "hint": "Se forma con aud- e -ible."
+      },
+      {
+        "prompt": "Completa tang___ con un adjetivo que indique que algo puede tocarse.",
+        "answer": "tangible",
+        "acceptedAnswers": [],
+        "explanation": "Tangible completa tang___. Palpable y tocable pueden expresar la idea, pero no completan ese inicio.",
+        "hint": "Termina en -ible."
+      }
+    ],
+    "instructions": "Escribe la forma que pide la consigna. Se tolera omitir tildes, pero se muestra la grafía correcta."
+  },
+  {
+    "id": "puzzle-09",
+    "order": 9,
+    "contentVersion": 3,
+    "rank": "agil",
+    "title": "Conexiones escondidas",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "bridge",
+    "questions": [
+      {
+        "prompt": "Completa: un ___ de arena · un ___ para sentarse",
+        "options": [
+          "Banco",
+          "Sillón",
+          "Cauce",
+          "Puente"
+        ],
+        "answer": "Banco",
+        "explanation": "Banco puede nombrar una acumulación de arena o un asiento. El contexto permite distinguir ambos sentidos.",
+        "hint": "También puede ser una entidad donde guardar dinero."
+      },
+      {
+        "prompt": "Completa: ___ de ajedrez · ___ del castillo",
+        "options": [
+          "Torre",
+          "Reina",
+          "Peón",
+          "Muralla"
+        ],
+        "answer": "Torre",
+        "explanation": "La torre es una pieza de ajedrez y una construcción elevada.",
+        "hint": "En ajedrez se mueve en líneas rectas."
+      }
+    ],
+    "instructions": "Encuentra la palabra que completa ambos contextos."
+  },
+  {
+    "id": "puzzle-10",
+    "order": 10,
+    "contentVersion": 3,
+    "rank": "agil",
+    "title": "El engaño de Mercurio",
+    "difficulty": "Media",
+    "groups": [
+      {
+        "category": "Especias",
+        "hint": "Dan aroma y sabor a una receta.",
+        "words": [
+          "CANELA",
+          "COMINO",
+          "ORÉGANO",
+          "PAPRIKA"
+        ],
+        "explanation": "Se usan para condimentar alimentos; paprika también se conoce como pimentón en varios lugares."
+      },
+      {
+        "category": "Planetas",
+        "hint": "No todos los nombres planetarios pertenecen aquí.",
+        "words": [
+          "MARTE",
+          "VENUS",
+          "SATURNO",
+          "JÚPITER"
+        ],
+        "explanation": "Estos nombres designan planetas del sistema solar."
+      },
+      {
+        "category": "Ríos",
+        "hint": "Grandes cursos de agua de distintos continentes.",
+        "words": [
+          "AMAZONAS",
+          "NILO",
+          "DANUBIO",
+          "YANGTSÉ"
+        ],
+        "explanation": "Amazonas, Nilo, Danubio y Yangtsé son ríos."
+      },
+      {
+        "category": "Metales",
+        "hint": "Uno de ellos también mira al cielo.",
+        "words": [
+          "PLATA",
+          "COBRE",
+          "ORO",
+          "MERCURIO"
+        ],
+        "explanation": "Mercurio es aquí el elemento químico, no el planeta: pertenece al grupo de los metales."
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-11",
+    "order": 11,
+    "contentVersion": 3,
+    "rank": "ingenioso",
+    "title": "Lee el mercado",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "visual",
+    "questions": [
+      {
+        "prompt": "En el cartel del mercado, ¿qué producto cuesta menos por kilo?",
+        "options": [
+          "Manzanas",
+          "Peras",
+          "Naranjas",
+          "Uvas"
+        ],
+        "answer": "Naranjas",
+        "explanation": "Naranjas cuesta 2 por kilo: es el menor precio de la tabla.",
+        "hint": "Compara las cifras de la columna Precio.",
+        "imageSource": "market_board.png",
+        "imageDescription": "Cartel: precio por kilo. Manzanas 4; peras 3; naranjas 2; uvas 5. Precios en unidades monetarias."
+      },
+      {
+        "prompt": "¿Cuánto cuestan dos kilos de peras según el cartel?",
+        "options": [
+          "6",
+          "3",
+          "5",
+          "8"
+        ],
+        "answer": "6",
+        "explanation": "Cada kilo de peras cuesta 3; dos kilos cuestan 6.",
+        "hint": "Multiplica el precio por dos.",
+        "imageSource": "market_board.png",
+        "imageDescription": "Cartel: precio por kilo. Manzanas 4; peras 3; naranjas 2; uvas 5. Precios en unidades monetarias."
+      }
+    ],
+    "instructions": "Observa toda la imagen o escucha su descripción y responde usando los datos mostrados."
+  },
+  {
+    "id": "puzzle-12",
+    "order": 12,
+    "contentVersion": 3,
+    "rank": "ingenioso",
+    "title": "Busca la regla",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "intruder",
+    "questions": [
+      {
+        "prompt": "En «El público aplaudió al final», ¿qué palabra es esdrújula?",
+        "options": [
+          "Público",
+          "Aplaudió",
+          "Final",
+          "El"
+        ],
+        "answer": "Público",
+        "explanation": "Público se divide en pú-bli-co: su sílaba tónica es la antepenúltima.",
+        "hint": "Busca una palabra con tres sílabas y fuerza en la primera."
+      },
+      {
+        "prompt": "En «Canto mientras ordeno mi cuarto», ¿qué función tiene canto?",
+        "options": [
+          "Verbo conjugado",
+          "Infinitivo",
+          "Nombre de un objeto",
+          "Adjetivo"
+        ],
+        "answer": "Verbo conjugado",
+        "explanation": "Canto expresa lo que hace quien habla. Fuera de esta frase también puede ser un sustantivo.",
+        "hint": "Sustituye la palabra por cantamos y observa la frase."
+      }
+    ],
+    "instructions": "Lee la regla y elige la única opción que no la cumple."
+  },
+  {
+    "id": "puzzle-13",
+    "order": 13,
+    "contentVersion": 3,
+    "rank": "ingenioso",
+    "title": "Fibras, frutos y cuerdas",
+    "difficulty": "Media",
+    "groups": [
+      {
+        "category": "Árboles",
+        "words": [
+          "SAUCE",
+          "NOGAL",
+          "OLIVO",
+          "PINO"
+        ],
+        "hint": "Tienen tronco y ramas.",
+        "explanation": "El nogal produce nueces y el olivo aceitunas; sauce y pino también son árboles."
+      },
+      {
+        "category": "Frutos del bosque",
+        "words": [
+          "FRESA",
+          "MORA",
+          "FRAMBUESA",
+          "ARÁNDANO"
+        ],
+        "hint": "Piensa en frutas pequeñas.",
+        "explanation": "Estos nombres se agrupan habitualmente como frutos del bosque en alimentación."
+      },
+      {
+        "category": "Materiales textiles",
+        "words": [
+          "LINO",
+          "ALGODÓN",
+          "SEDA",
+          "LANA"
+        ],
+        "hint": "Pueden convertirse en telas.",
+        "explanation": "Se usan como fibras textiles: lino y algodón son vegetales; seda y lana son de origen animal."
+      },
+      {
+        "category": "Cuerda frotada",
+        "words": [
+          "VIOLÍN",
+          "VIOLA",
+          "CHELO",
+          "CONTRABAJO"
+        ],
+        "hint": "Suelen tocarse con arco.",
+        "explanation": "Son instrumentos de cuerda que habitualmente se tocan frotando las cuerdas con un arco."
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-14",
+    "order": 14,
+    "contentVersion": 3,
+    "rank": "ingenioso",
+    "title": "Compuestos en contexto",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "pieces",
+    "questions": [
+      {
+        "prompt": "Forma la palabra que encaja en «La estructura protegía el puerto de las olas».",
+        "options": [
+          "Rompeolas",
+          "Rompecabezas",
+          "Paraguas",
+          "Portavoz"
+        ],
+        "answer": "Rompeolas",
+        "explanation": "Un rompeolas reduce la fuerza del oleaje. Rompecabezas comparte el inicio, pero tiene otro significado.",
+        "hint": "Debe nombrar una construcción del puerto.",
+        "fragments": [
+          "ROMPE",
+          "OLAS",
+          "CABEZAS",
+          "PARA"
+        ],
+        "solutionParts": [
+          "ROMPE",
+          "OLAS"
+        ]
+      },
+      {
+        "prompt": "Forma la palabra para quien habla en nombre de un grupo.",
+        "options": [
+          "Portavoz",
+          "Portafolio",
+          "Altavoz",
+          "Portaequipajes"
+        ],
+        "answer": "Portavoz",
+        "explanation": "Portavoz es una palabra compuesta que nombra a quien representa verbalmente a un grupo. Vocero puede ser sinónimo, pero no se construye con estas piezas.",
+        "hint": "La solución se construye con dos piezas del tablero.",
+        "fragments": [
+          "PORTA",
+          "VOZ",
+          "ALTA",
+          "FOLIO"
+        ],
+        "solutionParts": [
+          "PORTA",
+          "VOZ"
+        ]
+      }
+    ],
+    "instructions": "Combina dos segmentos en orden. Los segmentos son piezas del juego, no siempre palabras independientes."
+  },
+  {
+    "id": "puzzle-15",
+    "order": 15,
+    "contentVersion": 3,
+    "rank": "ingenioso",
+    "title": "Palabras y relatos",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "trivia",
+    "questions": [
+      {
+        "prompt": "«Nadie me vio entrar», cuenta la protagonista. ¿Quién narra esta frase?",
+        "options": [
+          "Un personaje que participa",
+          "Una voz ajena a los hechos",
+          "El editor del libro",
+          "Un lector externo"
+        ],
+        "answer": "Un personaje que participa",
+        "explanation": "Me y la primera persona de cuenta propia indican que quien narra participa en los hechos.",
+        "hint": "Fíjate en el pronombre me."
+      },
+      {
+        "prompt": "En «El agua era escasa, así que la repartieron con cuidado», escasa significa…",
+        "options": [
+          "Insuficiente o poca",
+          "Muy fría",
+          "Difícil de ver",
+          "De sabor intenso"
+        ],
+        "answer": "Insuficiente o poca",
+        "explanation": "El reparto cuidadoso permite inferir que había poca agua.",
+        "hint": "La segunda parte explica por qué había que administrarla."
+      },
+      {
+        "prompt": "¿Qué frase pregunta por la causa de algo?",
+        "options": [
+          "¿Por qué cerraron la puerta?",
+          "Porque hacía frío.",
+          "La puerta quedó cerrada.",
+          "¡Qué puerta tan grande!"
+        ],
+        "answer": "¿Por qué cerraron la puerta?",
+        "explanation": "Por qué, separado y con tilde, introduce la pregunta por una causa. Porque introduce una explicación.",
+        "hint": "Busca una pregunta que pueda responderse con porque."
+      }
+    ],
+    "instructions": "Lee la pregunta en su contexto y elige una respuesta."
+  },
+  {
+    "id": "puzzle-16",
+    "order": 16,
+    "contentVersion": 3,
+    "rank": "experto",
+    "title": "Una palabra cambia todo",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "bridge",
+    "questions": [
+      {
+        "prompt": "Completa: la ___ del problema · la ___ cuadrada de nueve",
+        "options": [
+          "Raíz",
+          "Base",
+          "Clave",
+          "Punta"
+        ],
+        "answer": "Raíz",
+        "explanation": "Raíz puede indicar el origen de un problema o una operación matemática.",
+        "hint": "También nombra la parte de una planta que la fija al suelo."
+      },
+      {
+        "prompt": "Completa: una ___ del diccionario · la ___ del teatro",
+        "options": [
+          "Entrada",
+          "Página",
+          "Escena",
+          "Fila"
+        ],
+        "answer": "Entrada",
+        "explanation": "Entrada puede ser un artículo de diccionario o el acceso a un lugar.",
+        "hint": "También puede ser el billete que permite asistir a un espectáculo."
+      },
+      {
+        "prompt": "Completa: el ___ de una carta · el ___ de la mano",
+        "options": [
+          "Dorso",
+          "Sello",
+          "As",
+          "Pulso"
+        ],
+        "answer": "Dorso",
+        "explanation": "Dorso nombra la parte posterior de una carta y de la mano.",
+        "hint": "Es la cara opuesta al frente o a la palma."
+      }
+    ],
+    "instructions": "Encuentra la palabra que completa ambos contextos."
+  },
+  {
+    "id": "puzzle-17",
+    "order": 17,
+    "contentVersion": 3,
+    "rank": "experto",
+    "title": "Del cuerpo al paisaje",
+    "difficulty": "Media",
+    "groups": [
+      {
+        "category": "Términos del cuerpo usados en geografía u objetos",
+        "hint": "El cuerpo presta estas palabras a otras cosas.",
+        "words": [
+          "BOCA",
+          "BRAZO",
+          "CUELLO",
+          "PIE"
+        ],
+        "explanation": "Una boca puede ser una entrada; un brazo, una división de río; un cuello, un estrechamiento; un pie, una base."
+      },
+      {
+        "category": "Partes de un libro",
+        "hint": "Ayudan a organizar una obra escrita.",
+        "words": [
+          "PORTADA",
+          "ÍNDICE",
+          "CAPÍTULO",
+          "PRÓLOGO"
+        ],
+        "explanation": "Son componentes de un libro. El prólogo introduce la obra; el índice ayuda a localizar su contenido."
+      },
+      {
+        "category": "Acciones de cocina",
+        "hint": "Verbos habituales al seguir una receta.",
+        "words": [
+          "BATIR",
+          "HERVIR",
+          "PICAR",
+          "SOFREÍR"
+        ],
+        "explanation": "Estos infinitivos nombran formas de preparar alimentos."
+      },
+      {
+        "category": "Fenómenos meteorológicos",
+        "hint": "Pueden aparecer durante un cambio de tiempo.",
+        "words": [
+          "GRANIZO",
+          "TRUENO",
+          "RELÁMPAGO",
+          "NIEBLA"
+        ],
+        "explanation": "Son fenómenos del tiempo atmosférico; trueno es el sonido y relámpago el destello."
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-18",
+    "order": 18,
+    "contentVersion": 3,
+    "rank": "experto",
+    "title": "Lee antes de viajar",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "visual",
+    "questions": [
+      {
+        "prompt": "Llegas a las 09:20. Necesitas ir al museo sin transbordo. ¿Qué línea eliges?",
+        "options": [
+          "Línea B",
+          "Línea A",
+          "Línea C",
+          "Ninguna"
+        ],
+        "answer": "Línea B",
+        "explanation": "La B sale a las 09:25 y llega al Museo sin transbordo. La A ya salió; la C va a otro destino.",
+        "hint": "Combina hora, destino y columna de transbordos.",
+        "imageSource": "station_board.png",
+        "imageDescription": "Horario. Línea A: salida 09:10, llegada 09:30, Museo, cero cambios. B: salida 09:25, llegada 09:45, Museo, cero cambios. C: salida 09:30, llegada 10:00, Parque, un cambio."
+      },
+      {
+        "prompt": "Si tomas la línea B, ¿cuánto dura el trayecto?",
+        "options": [
+          "20 minutos",
+          "25 minutos",
+          "15 minutos",
+          "30 minutos"
+        ],
+        "answer": "20 minutos",
+        "explanation": "Sale a las 09:25 y llega a las 09:45: transcurren 20 minutos.",
+        "hint": "Resta la hora de salida a la de llegada.",
+        "imageSource": "station_board.png",
+        "imageDescription": "Horario. Línea A: salida 09:10, llegada 09:30, Museo, cero cambios. B: salida 09:25, llegada 09:45, Museo, cero cambios. C: salida 09:30, llegada 10:00, Parque, un cambio."
+      }
+    ],
+    "instructions": "Observa toda la imagen o escucha su descripción y responde usando los datos mostrados."
+  },
+  {
+    "id": "puzzle-19",
+    "order": 19,
+    "contentVersion": 3,
+    "rank": "experto",
+    "title": "Ciencia en pocas palabras",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "trivia",
+    "questions": [
+      {
+        "prompt": "«Al enfriarse, el vapor formó gotas en el vidrio». ¿Qué cambio se describe?",
+        "options": [
+          "De gas a líquido",
+          "De líquido a gas",
+          "De sólido a gas",
+          "De líquido a sólido"
+        ],
+        "answer": "De gas a líquido",
+        "explanation": "El texto parte de vapor y termina en gotas: describe condensación.",
+        "hint": "Sigue el estado inicial y el final."
+      },
+      {
+        "prompt": "«La planta recibió menos luz, aunque conservó la misma cantidad de agua». ¿Qué factor cambió?",
+        "options": [
+          "La iluminación",
+          "El riego",
+          "La cantidad de tierra",
+          "El tamaño de la maceta"
+        ],
+        "answer": "La iluminación",
+        "explanation": "El contraste menos luz / misma agua identifica el factor modificado.",
+        "hint": "No confundas lo que cambia con lo que permanece."
+      },
+      {
+        "prompt": "«El recipiente era hermético; por eso no entró aire». ¿Qué significa hermético aquí?",
+        "options": [
+          "Cerrado de modo que no deja pasar aire",
+          "Transparente",
+          "Abierto por arriba",
+          "Resistente al calor"
+        ],
+        "answer": "Cerrado de modo que no deja pasar aire",
+        "explanation": "La consecuencia no entró aire permite deducir el significado en esta frase.",
+        "hint": "La explicación está después de por eso."
+      }
+    ],
+    "instructions": "Lee la pregunta en su contexto y elige una respuesta."
+  },
+  {
+    "id": "puzzle-20",
+    "order": 20,
+    "contentVersion": 3,
+    "rank": "experto",
+    "title": "La forma también conecta",
+    "difficulty": "Difícil",
+    "groups": [
+      {
+        "category": "Plural: z cambia a c",
+        "words": [
+          "LÁPIZ",
+          "VOZ",
+          "RAÍZ",
+          "PEZ"
+        ],
+        "hint": "Prueba escribirlos en plural.",
+        "explanation": "Lápices, voces, raíces y peces cambian la z final por c delante de es."
+      },
+      {
+        "category": "Términos acabados en -logía",
+        "words": [
+          "BIOLOGÍA",
+          "GEOLOGÍA",
+          "ZOOLOGÍA",
+          "ECOLOGÍA"
+        ],
+        "hint": "Compara las terminaciones.",
+        "explanation": "Las cuatro terminan en -logía y nombran disciplinas de estudio."
+      },
+      {
+        "category": "Prefijo de negación in-/im-",
+        "words": [
+          "INCAPAZ",
+          "INJUSTO",
+          "IMPOSIBLE",
+          "IMPUNTUAL"
+        ],
+        "hint": "Una parte inicial niega la base.",
+        "explanation": "In- e im- aportan negación: no capaz, no justo, no posible y no puntual."
+      },
+      {
+        "category": "Compuestos de verbo y sustantivo",
+        "words": [
+          "PARARRAYOS",
+          "SACACORCHOS",
+          "LAVAVAJILLAS",
+          "ABRECARTAS"
+        ],
+        "hint": "Se forman uniendo una acción y su objeto.",
+        "explanation": "Parar + rayos, sacar + corchos, lavar + vajillas y abrir + cartas forman estos compuestos."
+      }
+    ],
+    "dynamic": "connections"
+  },
+  {
+    "id": "puzzle-21",
+    "order": 21,
+    "contentVersion": 3,
+    "rank": "maestro",
+    "title": "Compuestos que no se confunden",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "pieces",
+    "questions": [
+      {
+        "prompt": "Construye la palabra correcta para el animal mencionado: «El ___ se escondió bajo una piedra».",
+        "options": [
+          "Ciempiés",
+          "Cienpiés",
+          "Centímetro",
+          "Milímetro"
+        ],
+        "answer": "Ciempiés",
+        "explanation": "Ciempiés se escribe con m ante p. CIEM y PIÉS son segmentos para jugar, no dos palabras independientes.",
+        "hint": "La ortografía exige m antes de p.",
+        "fragments": [
+          "CIEM",
+          "PIÉS",
+          "CIEN",
+          "PUNTAS"
+        ],
+        "solutionParts": [
+          "CIEM",
+          "PIÉS"
+        ]
+      },
+      {
+        "prompt": "Completa con el compuesto adecuado: «El vehículo usó el ___ para avanzar entre hielo y abrir paso a otros barcos».",
+        "options": [
+          "Rompehielos",
+          "Rompeolas",
+          "Quitanieves",
+          "Parabrisas"
+        ],
+        "answer": "Rompehielos",
+        "explanation": "Un rompehielos es un barco capaz de abrir paso en aguas heladas; un rompeolas es una obra que protege del oleaje.",
+        "hint": "La pista importante es otros barcos.",
+        "fragments": [
+          "ROMPE",
+          "HIELOS",
+          "OLAS",
+          "PARA"
+        ],
+        "solutionParts": [
+          "ROMPE",
+          "HIELOS"
+        ]
+      },
+      {
+        "prompt": "Forma el compuesto: «El equipo alzó al ___ tras ganar el torneo».",
+        "options": [
+          "Guardameta",
+          "Guardabosques",
+          "Guardaespaldas",
+          "Metaverso"
+        ],
+        "answer": "Guardameta",
+        "explanation": "Guardameta nombra a quien protege la portería en deportes como el fútbol.",
+        "hint": "La meta es la portería en este contexto.",
+        "fragments": [
+          "GUARDA",
+          "META",
+          "BOSQUES",
+          "ESPALDAS"
+        ],
+        "solutionParts": [
+          "GUARDA",
+          "META"
+        ]
+      }
+    ],
+    "instructions": "Combina dos segmentos en orden. Los segmentos son piezas del juego, no siempre palabras independientes."
+  },
+  {
+    "id": "puzzle-22",
+    "order": 22,
+    "contentVersion": 3,
+    "rank": "maestro",
+    "title": "No te confíes: cambia la raíz",
+    "difficulty": "Media",
+    "groups": [],
+    "dynamic": "recall",
+    "questions": [
+      {
+        "prompt": "Completa vis___ con un adjetivo que indique que algo puede verse.",
+        "answer": "visible",
+        "acceptedAnswers": [],
+        "explanation": "Visible usa la raíz vis-. Observable puede expresar la idea, pero no completa la forma solicitada.",
+        "hint": "Termina en -ible."
+      },
+      {
+        "prompt": "Completa leg___: si las letras se distinguen y permiten leer el texto, es…",
+        "answer": "legible",
+        "acceptedAnswers": [],
+        "explanation": "Legible se refiere aquí a poder distinguir y leer las letras. Leíble es válida en otros enunciados, pero no completa leg___.",
+        "hint": "Se forma con leg- e -ible."
+      },
+      {
+        "prompt": "Completa intel___ con un adjetivo que signifique que una explicación se puede entender.",
+        "answer": "inteligible",
+        "acceptedAnswers": [],
+        "explanation": "Inteligible completa el inicio pedido. Comprensible y entendible también son válidas para la idea, pero no para esta forma.",
+        "hint": "Continúa con -igible."
+      },
+      {
+        "prompt": "Completa cre___ con un adjetivo que indique que un relato merece ser creído.",
+        "answer": "creíble",
+        "acceptedAnswers": [],
+        "explanation": "Creíble lleva tilde en la í. Aceptamos la respuesta sin tilde al escribir, pero mostramos la grafía correcta.",
+        "hint": "Continúa con -íble."
+      }
+    ],
+    "instructions": "Escribe la forma que pide la consigna. Se tolera omitir tildes, pero se muestra la grafía correcta."
+  },
+  {
+    "id": "puzzle-23",
+    "order": 23,
+    "contentVersion": 3,
+    "rank": "maestro",
+    "title": "La excepción está en el contexto",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "intruder",
+    "questions": [
+      {
+        "prompt": "Tres pares cambian de significado por una tilde. ¿Cuál no es uno de esos pares?",
+        "options": [
+          "Casa / casas",
+          "Él / el",
+          "Tú / tu",
+          "Sí / si"
+        ],
+        "answer": "Casa / casas",
+        "explanation": "Casa y casas cambian de número; no se distinguen mediante una tilde diacrítica.",
+        "hint": "Busca el par que no contiene una tilde."
+      },
+      {
+        "prompt": "Tres frases usan banco como asiento. ¿Cuál usa otro sentido?",
+        "options": [
+          "Ingresó dinero en el banco.",
+          "Pintó el banco del parque.",
+          "Se sentaron en el banco.",
+          "El banco tenía tres patas."
+        ],
+        "answer": "Ingresó dinero en el banco.",
+        "explanation": "Ingresar dinero permite identificar la entidad financiera; las otras frases hablan de un asiento.",
+        "hint": "Observa la acción que acompaña a banco."
+      },
+      {
+        "prompt": "Tres frases expresan duda. ¿Cuál expresa certeza?",
+        "options": [
+          "Sin duda, llegará hoy.",
+          "Quizá llegue hoy.",
+          "Tal vez llegue hoy.",
+          "Puede que llegue hoy."
+        ],
+        "answer": "Sin duda, llegará hoy.",
+        "explanation": "Sin duda expresa seguridad; quizá, tal vez y puede que presentan posibilidades.",
+        "hint": "No interpretes la palabra duda sin leer lo que la precede."
+      }
+    ],
+    "instructions": "Lee la regla y elige la única opción que no la cumple."
+  },
+  {
+    "id": "puzzle-24",
+    "order": 24,
+    "contentVersion": 3,
+    "rank": "maestro",
+    "title": "Lo que expresa cada frase",
+    "difficulty": "Difícil",
+    "groups": [
+      {
+        "category": "Expresan inmediatez",
+        "words": [
+          "AL INSTANTE",
+          "ENSEGUIDA",
+          "AL MOMENTO",
+          "DE INMEDIATO"
+        ],
+        "hint": "Hablan de algo que sucede sin demora.",
+        "explanation": "Estas expresiones indican que algo sucede inmediatamente en su uso temporal."
+      },
+      {
+        "category": "Expresan ausencia de intención",
+        "words": [
+          "SIN QUERER",
+          "POR ACCIDENTE",
+          "SIN INTENCIÓN",
+          "INVOLUNTARIAMENTE"
+        ],
+        "hint": "No se hizo a propósito.",
+        "explanation": "Las cuatro pueden describir una acción no intencionada."
+      },
+      {
+        "category": "Expresan secreto",
+        "words": [
+          "A ESCONDIDAS",
+          "EN SECRETO",
+          "FURTIVAMENTE",
+          "CLANDESTINAMENTE"
+        ],
+        "hint": "Se oculta algo a otras personas.",
+        "explanation": "Estas expresiones se refieren a actuar de manera oculta, aunque sus matices no son idénticos."
+      },
+      {
+        "category": "Expresan simultaneidad",
+        "words": [
+          "A LA VEZ",
+          "SIMULTÁNEAMENTE",
+          "AL MISMO TIEMPO",
+          "A UN TIEMPO"
+        ],
+        "hint": "Dos cosas coinciden en el tiempo.",
+        "explanation": "En su sentido temporal, indican que dos acciones ocurren simultáneamente."
+      }
+    ],
+    "dynamic": "connections",
+    "instructions": "Agrupa por el significado de las expresiones, no por la primera palabra que comparten."
+  },
+  {
+    "id": "puzzle-25",
+    "order": 25,
+    "contentVersion": 3,
+    "rank": "maestro",
+    "title": "Puentes de significado",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "bridge",
+    "questions": [
+      {
+        "prompt": "Completa: jugador ___ · ___ de una cuenta",
+        "options": [
+          "Titular",
+          "Suplente",
+          "Portero",
+          "Ahorro"
+        ],
+        "answer": "Titular",
+        "explanation": "Un jugador titular integra habitualmente el equipo; el titular de una cuenta es la persona a cuyo nombre está.",
+        "hint": "En la primera frase se opone a suplente."
+      },
+      {
+        "prompt": "Completa: ___ musical · ___ al pie",
+        "options": [
+          "Nota",
+          "Compás",
+          "Letra",
+          "Clave"
+        ],
+        "answer": "Nota",
+        "explanation": "Nota nombra un sonido musical o una aclaración escrita.",
+        "hint": "También puede ser una calificación."
+      },
+      {
+        "prompt": "En «la cabeza del equipo» y «me duele la cabeza», ¿qué cambia?",
+        "options": [
+          "El sentido figurado y literal",
+          "El número gramatical",
+          "El idioma",
+          "La ortografía de cabeza"
+        ],
+        "answer": "El sentido figurado y literal",
+        "explanation": "Cabeza designa liderazgo en la primera frase y una parte del cuerpo en la segunda.",
+        "hint": "En una frase no se habla de una parte física del cuerpo."
+      }
+    ],
+    "instructions": "Encuentra la palabra que completa ambos contextos."
+  },
+  {
+    "id": "puzzle-26",
+    "order": 26,
+    "contentVersion": 3,
+    "rank": "granMaestro",
+    "title": "Dos condiciones, un recorrido",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "visual",
+    "questions": [
+      {
+        "prompt": "En el plano, la ruta accesible empieza por la Biblioteca y evita la Escalera. ¿Qué recorrido llega al Museo?",
+        "options": [
+          "Inicio → Biblioteca → Parque → Museo",
+          "Inicio → Escalera → Museo",
+          "Inicio → Biblioteca → Inicio",
+          "Museo → Escalera → Inicio"
+        ],
+        "answer": "Inicio → Biblioteca → Parque → Museo",
+        "explanation": "La ruta verde pasa por Biblioteca y Parque; la roja usa una escalera. La consigna exige ambas condiciones.",
+        "hint": "Sigue la línea verde desde Inicio.",
+        "imageSource": "route_board.png",
+        "imageDescription": "Plano con dos rutas. Ruta accesible verde: Inicio, Biblioteca, Parque, Museo. Ruta roja: Inicio, Escalera, Museo. No hay otras conexiones dibujadas."
+      },
+      {
+        "prompt": "La Biblioteca está cerrada y la Escalera no se puede usar. Según el plano, ¿queda una ruta dibujada desde Inicio al Museo?",
+        "options": [
+          "No, ambas rutas quedan interrumpidas",
+          "Sí, por el Parque sin pasar por Biblioteca",
+          "Sí, por la Escalera",
+          "Sí, hay una tercera ruta"
+        ],
+        "answer": "No, ambas rutas quedan interrumpidas",
+        "explanation": "El plano solo muestra dos rutas: una pasa por Biblioteca y la otra por Escalera. No hay un tercer enlace dibujado.",
+        "hint": "No inventes conexiones que el plano no muestra.",
+        "imageSource": "route_board.png",
+        "imageDescription": "Plano con dos rutas. Ruta accesible verde: Inicio, Biblioteca, Parque, Museo. Ruta roja: Inicio, Escalera, Museo. No hay otras conexiones dibujadas."
+      }
+    ],
+    "instructions": "Observa toda la imagen o escucha su descripción y responde usando los datos mostrados."
+  },
+  {
+    "id": "puzzle-27",
+    "order": 27,
+    "contentVersion": 3,
+    "rank": "granMaestro",
+    "title": "Una tilde cambia la lectura",
+    "difficulty": "Difícil",
+    "groups": [
+      {
+        "category": "Pasado: él o ella",
+        "words": [
+          "CANTÓ",
+          "SALTÓ",
+          "GIRÓ",
+          "NADÓ"
+        ],
+        "hint": "La tilde marca una forma del pasado.",
+        "explanation": "Él cantó, saltó, giró y nadó son formas del pretérito en tercera persona."
+      },
+      {
+        "category": "Presente: yo",
+        "words": [
+          "CANTO",
+          "SALTO",
+          "GIRO",
+          "NADO"
+        ],
+        "hint": "Prueba anteponer yo.",
+        "explanation": "Yo canto, salto, giro y nado son formas del presente; algunas también pueden ser sustantivos."
+      },
+      {
+        "category": "Monosílabos con tilde diacrítica",
+        "words": [
+          "TÉ",
+          "SÍ",
+          "DÉ",
+          "SÉ"
+        ],
+        "hint": "La tilde distingue funciones o significados.",
+        "explanation": "Té es la bebida; sí puede afirmar; dé es una forma de dar y sé una forma de saber o ser."
+      },
+      {
+        "category": "Interrogativos o exclamativos tónicos",
+        "words": [
+          "CÓMO",
+          "CUÁNDO",
+          "DÓNDE",
+          "CUÁL"
+        ],
+        "hint": "Pueden introducir preguntas.",
+        "explanation": "Con tilde aparecen en usos interrogativos o exclamativos, también en preguntas indirectas."
+      }
+    ],
+    "dynamic": "connections",
+    "instructions": "Observa las tildes. Agrupa por la función gramatical indicada por cada forma."
+  },
+  {
+    "id": "puzzle-28",
+    "order": 28,
+    "contentVersion": 3,
+    "rank": "granMaestro",
+    "title": "El sentido decide la escritura",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "pieces",
+    "questions": [
+      {
+        "prompt": "Forma la palabra que describe el movimiento alternativo de un péndulo.",
+        "options": [
+          "Vaivén",
+          "Vayvén",
+          "Vendaval",
+          "Vaivienes"
+        ],
+        "answer": "Vaivén",
+        "explanation": "Vaivén expresa un movimiento de ida y vuelta. La grafía une va y ven mediante i.",
+        "hint": "La solución termina en vén.",
+        "fragments": [
+          "VAI",
+          "VÉN",
+          "VEN",
+          "VAL"
+        ],
+        "solutionParts": [
+          "VAI",
+          "VÉN"
+        ]
+      },
+      {
+        "prompt": "Construye el sustantivo de «Salimos al ___», referido a la parte central del día.",
+        "options": [
+          "Mediodía",
+          "Medio día",
+          "Medianoche",
+          "Díamedio"
+        ],
+        "answer": "Mediodía",
+        "explanation": "Mediodía es el momento central del día. Medio día, separado, expresa la mitad de un día.",
+        "hint": "La consigna pregunta por un momento, no por una duración.",
+        "fragments": [
+          "MEDIO",
+          "DÍA",
+          "MEDIA",
+          "NOCHE"
+        ],
+        "solutionParts": [
+          "MEDIO",
+          "DÍA"
+        ]
+      },
+      {
+        "prompt": "Forma el nombre del instrumento que mide intervalos de tiempo con precisión.",
+        "options": [
+          "Cronómetro",
+          "Cronología",
+          "Termómetro",
+          "Barómetro"
+        ],
+        "answer": "Cronómetro",
+        "explanation": "Cronómetro mide intervalos de tiempo; cronología ordena acontecimientos.",
+        "hint": "La segunda parte se relaciona con medir.",
+        "fragments": [
+          "CRONÓ",
+          "METRO",
+          "LOGÍA",
+          "TERMO"
+        ],
+        "solutionParts": [
+          "CRONÓ",
+          "METRO"
+        ]
+      }
+    ],
+    "instructions": "Combina dos segmentos en orden. Los segmentos son piezas del juego, no siempre palabras independientes."
+  },
+  {
+    "id": "puzzle-29",
+    "order": 29,
+    "contentVersion": 3,
+    "rank": "granMaestro",
+    "title": "El desafío del saber",
+    "difficulty": "Difícil",
+    "groups": [],
+    "dynamic": "trivia",
+    "questions": [
+      {
+        "prompt": "¿Qué recurso atribuye cualidades humanas a algo que no es humano?",
+        "options": [
+          "Personificación",
+          "Hipérbole",
+          "Onomatopeya",
+          "Enumeración"
+        ],
+        "answer": "Personificación",
+        "explanation": "La personificación atribuye rasgos humanos a animales, objetos o ideas.",
+        "hint": "Como decir que el viento susurra secretos."
+      },
+      {
+        "prompt": "Todo cuadrado es rectángulo. Una figura es rectángulo. ¿Qué puede concluirse?",
+        "options": [
+          "No se sabe si es cuadrado",
+          "Es necesariamente cuadrado",
+          "No puede ser cuadrado",
+          "Tiene cinco lados"
+        ],
+        "answer": "No se sabe si es cuadrado",
+        "explanation": "La pertenencia al conjunto de rectángulos no basta para saber si sus cuatro lados son iguales.",
+        "hint": "Una condición necesaria no siempre es suficiente."
+      },
+      {
+        "prompt": "¿En qué par la tilde distingue una palabra interrogativa de una relativa?",
+        "options": [
+          "Cómo / como",
+          "Té / te",
+          "Él / el",
+          "Dé / de"
+        ],
+        "answer": "Cómo / como",
+        "explanation": "Cómo puede ser interrogativo; como puede ser relativo o comparativo. Los otros pares distinguen funciones diferentes.",
+        "hint": "Piensa en «No sé cómo hacerlo» frente a «Hazlo como quieras»."
+      }
+    ],
+    "instructions": "Lee la pregunta en su contexto y elige una respuesta."
+  },
+  {
+    "id": "puzzle-30",
+    "order": 30,
+    "contentVersion": 3,
+    "rank": "granMaestro",
+    "title": "La conexión final: letras en juego",
+    "difficulty": "Difícil",
+    "groups": [
+      {
+        "category": "Anagramas: A M O R",
+        "words": [
+          "AMOR",
+          "ROMA",
+          "RAMO",
+          "MORA"
+        ],
+        "hint": "Usa las mismas cuatro letras una sola vez.",
+        "explanation": "Amor, Roma, ramo y mora reordenan A, M, O y R sin añadir letras."
+      },
+      {
+        "category": "Anagramas: A C O S",
+        "words": [
+          "SACO",
+          "COSA",
+          "CASO",
+          "CAOS"
+        ],
+        "hint": "Compara la cantidad exacta de cada letra.",
+        "explanation": "Saco, cosa, caso y caos contienen las mismas cuatro letras."
+      },
+      {
+        "category": "Anagramas: A O P S",
+        "words": [
+          "SOPA",
+          "PASO",
+          "POSA",
+          "SAPO"
+        ],
+        "hint": "El orden cambia; las letras se conservan.",
+        "explanation": "Sopa y sapo nombran cosas distintas; paso y posa también usan esas mismas letras."
+      },
+      {
+        "category": "Anagramas: A C O S T",
+        "words": [
+          "COSTA",
+          "ACTOS",
+          "TACOS",
+          "TOCAS"
+        ],
+        "hint": "Hay un grupo de cinco letras.",
+        "explanation": "Costa, actos, tacos y tocas reordenan las mismas cinco letras sin añadir ni quitar ninguna."
+      }
+    ],
+    "dynamic": "connections",
+    "instructions": "Forma cuatro grupos de anagramas: cada grupo debe usar exactamente las mismas letras, con la misma cantidad de cada una."
+  }
+]

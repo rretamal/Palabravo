@@ -65,7 +65,7 @@ public sealed class WeeklyChallengeTests
         var path = Path.Combine(AppContext.BaseDirectory, "weekly.json");
         var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
         options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-        return JsonSerializer.Deserialize<WeeklyChallengeCatalog>(File.ReadAllText(path), options)!.Challenges.Single();
+        return JsonSerializer.Deserialize<WeeklyChallengeCatalog>(File.ReadAllText(path), options)!.Challenges.Single(w => w.Id == "chile-conexiones-2026-10-19");
     }
 
     private sealed class MemoryStore : IProgressStore

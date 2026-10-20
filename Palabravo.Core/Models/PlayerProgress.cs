@@ -33,6 +33,8 @@ public sealed class SpecialBadgeRecord
 
 public sealed class CompletionRecord
 {
+    // Zero means a completion recorded before edition provenance was stored.
+    public int ContentVersion { get; set; }
     public string Key { get; set; } = string.Empty;
     public string PuzzleId { get; set; } = string.Empty;
     public PuzzleMode Mode { get; set; }

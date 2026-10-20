@@ -50,6 +50,28 @@ public sealed class WeeklyShareDefinition
 
 public static partial class WeeklyChallengeValidator
 {
+    public static bool CanExtend(IReadOnlyList<WeeklyChallengeDefinition> previous, IReadOnlyList<WeeklyChallengeDefinition> next)
+    {
+        ValidateCatalog(new WeeklyChallengeCatalog { Challenges = next.ToList() });
+        return previous.All(old => next.Any(item => item.Id == old.Id
+            && System.Text.Json.JsonSerializer.Serialize(item) == System.Text.Json.JsonSerializer.Serialize(old)));
+    }
+
+    public static void ValidateCatalog(WeeklyChallengeCatalog catalog)
+    {
+        if (catalog.Version < 1 || catalog.Challenges.Count == 0)
+            throw new InvalidDataException("El catálogo semanal está vacío.");
+        foreach (var item in catalog.Challenges) Validate(item);
+        if (catalog.Challenges.Select(w => w.Id).Distinct(StringComparer.OrdinalIgnoreCase).Count() != catalog.Challenges.Count
+            || catalog.Challenges.Select(w => w.Puzzle.Id).Distinct(StringComparer.OrdinalIgnoreCase).Count() != catalog.Challenges.Count
+            || catalog.Challenges.Select(w => w.Badge.Id).Distinct(StringComparer.OrdinalIgnoreCase).Count() != catalog.Challenges.Count)
+            throw new InvalidDataException("Los eventos, puzzles e insignias deben tener identidades únicas.");
+        var ordered = catalog.Challenges.OrderBy(w => w.StartsAt).ToList();
+        for (var i = 1; i < ordered.Count; i++)
+            if (ordered[i].StartsAt < ordered[i - 1].EndsAt)
+                throw new InvalidDataException("Las ventanas semanales no pueden solaparse.");
+    }
+
     public static void Validate(WeeklyChallengeDefinition weekly)
     {
         if (!SafeId().IsMatch(weekly.Id) || string.IsNullOrWhiteSpace(weekly.Title)

@@ -1,0 +1,604 @@
+{
+  "version": 1,
+  "timeZone": "UTC",
+  "entries": [
+    {
+      "date": "2026-10-21",
+      "puzzle": {
+        "id": "daily-2026-10-21",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Dos sentidos en una palabra",
+        "difficulty": "Media",
+        "dynamic": "bridge",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "Completa: la ___ del pie · una ___ del jardín",
+            "options": [
+              "Planta",
+              "Rama",
+              "Tierra",
+              "Hoja"
+            ],
+            "answer": "Planta",
+            "explanation": "Planta designa una parte del pie o un ser vegetal.",
+            "hint": "Una misma palabra aparece en contextos muy distintos."
+          },
+          {
+            "prompt": "Completa: encendió una ___ · desplegó la ___ del barco",
+            "options": [
+              "Vela",
+              "Luz",
+              "Lona",
+              "Llama"
+            ],
+            "answer": "Vela",
+            "explanation": "Vela puede ser una pieza de cera con mecha o una lona que aprovecha el viento.",
+            "hint": "La primera se consume al arder."
+          }
+        ],
+        "instructions": "Encuentra la palabra que completa ambos contextos."
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "puzzle": {
+        "id": "daily-2026-10-22",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "El sentido no siempre es literal",
+        "difficulty": "Media",
+        "dynamic": "trivia",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "«Ana echó una mano con las cajas». ¿Qué hizo?",
+            "options": [
+              "Ayudó",
+              "Contó las cajas",
+              "Las señaló",
+              "Se despidió"
+            ],
+            "answer": "Ayudó",
+            "explanation": "Echar una mano significa ayudar; no describe lanzar una mano literalmente.",
+            "hint": "Se trata de colaboración."
+          },
+          {
+            "prompt": "«Luis estaba en las nubes durante la reunión». ¿Qué le ocurría?",
+            "options": [
+              "Estaba distraído",
+              "Estaba en un avión",
+              "Miraba el tiempo",
+              "Hablaba de astronomía"
+            ],
+            "answer": "Estaba distraído",
+            "explanation": "Estar en las nubes puede expresar distracción o falta de atención.",
+            "hint": "La reunión aporta el contexto."
+          }
+        ],
+        "instructions": "Lee la pregunta en su contexto y elige una respuesta."
+      }
+    },
+    {
+      "date": "2026-10-23",
+      "puzzle": {
+        "id": "daily-2026-10-23",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Una palabra fuera de contexto",
+        "difficulty": "Media",
+        "dynamic": "intruder",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "Tres opciones completan «un camino muy ___». ¿Cuál no concuerda con camino?",
+            "options": [
+              "Estrecha",
+              "Largo",
+              "Empinado",
+              "Pedregoso"
+            ],
+            "answer": "Estrecha",
+            "explanation": "Camino es masculino: estrecha no concuerda; estrecho sí lo haría.",
+            "hint": "Revisa el género de la terminación."
+          },
+          {
+            "prompt": "Tres frases usan estrella en sentido astronómico. ¿Cuál no?",
+            "options": [
+              "La actriz es una estrella.",
+              "Esa estrella brilla de noche.",
+              "El Sol es una estrella.",
+              "La estrella emite luz."
+            ],
+            "answer": "La actriz es una estrella.",
+            "explanation": "Estrella se usa figuradamente para una persona destacada.",
+            "hint": "Busca una frase sobre una persona."
+          }
+        ],
+        "instructions": "Lee la regla y elige la única opción que no la cumple."
+      }
+    },
+    {
+      "date": "2026-10-24",
+      "puzzle": {
+        "id": "daily-2026-10-24",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "El cartel y la compra",
+        "difficulty": "Media",
+        "dynamic": "visual",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "Tienes 4 unidades. ¿Qué compra exacta puedes pagar según el cartel?",
+            "options": [
+              "Un kilo de manzanas",
+              "Dos kilos de peras",
+              "Un kilo de uvas",
+              "Dos kilos de manzanas"
+            ],
+            "answer": "Un kilo de manzanas",
+            "explanation": "El kilo de manzanas cuesta 4; las otras compras cuestan 6, 5 y 8.",
+            "hint": "Compara el total de cada compra.",
+            "imageSource": "market_board.png",
+            "imageDescription": "Cartel: precio por kilo. Manzanas 4; peras 3; naranjas 2; uvas 5. Precios en unidades monetarias."
+          },
+          {
+            "prompt": "¿Qué productos tienen una diferencia de precio de 1 por kilo?",
+            "options": [
+              "Manzanas y peras",
+              "Uvas y naranjas",
+              "Manzanas y naranjas",
+              "Uvas y peras"
+            ],
+            "answer": "Manzanas y peras",
+            "explanation": "Manzanas cuesta 4 y peras 3: la diferencia es 1.",
+            "hint": "Resta los dos precios de cada opción.",
+            "imageSource": "market_board.png",
+            "imageDescription": "Cartel: precio por kilo. Manzanas 4; peras 3; naranjas 2; uvas 5. Precios en unidades monetarias."
+          }
+        ],
+        "instructions": "Observa toda la imagen o escucha su descripción y responde usando los datos mostrados."
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "puzzle": {
+        "id": "daily-2026-10-25",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Une para decir algo nuevo",
+        "difficulty": "Media",
+        "dynamic": "pieces",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "Construye el objeto que se usa para sujetar hojas de papel.",
+            "options": [
+              "Sujetapapeles",
+              "Sacapuntas",
+              "Rompeolas",
+              "Parabrisas"
+            ],
+            "answer": "Sujetapapeles",
+            "explanation": "Sujetapapeles combina una acción con aquello que sujeta.",
+            "hint": "El segundo segmento debe nombrar las hojas.",
+            "fragments": [
+              "SUJETA",
+              "PAPELES",
+              "SACA",
+              "PUNTAS"
+            ],
+            "solutionParts": [
+              "SUJETA",
+              "PAPELES"
+            ]
+          },
+          {
+            "prompt": "Construye el objeto que protege del sol.",
+            "options": [
+              "Parasol",
+              "Paraguas",
+              "Portavoz",
+              "Girasol"
+            ],
+            "answer": "Parasol",
+            "explanation": "Parasol nombra una protección contra el sol.",
+            "hint": "La función es proteger, no girar.",
+            "fragments": [
+              "PARA",
+              "SOL",
+              "GIRA",
+              "VOZ"
+            ],
+            "solutionParts": [
+              "PARA",
+              "SOL"
+            ]
+          }
+        ],
+        "instructions": "Combina dos segmentos en orden. Los segmentos son piezas del juego, no siempre palabras independientes."
+      }
+    },
+    {
+      "date": "2026-10-26",
+      "puzzle": {
+        "id": "daily-2026-10-26",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "No leas solo una palabra",
+        "difficulty": "Media",
+        "dynamic": "trivia",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "«No está nada mal» expresa aquí una valoración…",
+            "options": [
+              "Positiva",
+              "Siempre negativa",
+              "Sin relación con la calidad",
+              "Necesariamente irónica"
+            ],
+            "answer": "Positiva",
+            "explanation": "En su uso habitual, no está nada mal comunica una valoración favorable. Sin más contexto no hay motivo para imponer ironía.",
+            "hint": "Lee la negación junto a mal."
+          },
+          {
+            "prompt": "«Apenas llegó, llamó a su hermana». ¿Cuándo llamó?",
+            "options": [
+              "Justo después de llegar",
+              "Antes de salir",
+              "Mucho antes de llegar",
+              "Nunca llamó"
+            ],
+            "answer": "Justo después de llegar",
+            "explanation": "Apenas funciona aquí como enlace temporal equivalente a en cuanto.",
+            "hint": "El orden de las acciones es la clave."
+          }
+        ],
+        "instructions": "Lee la pregunta en su contexto y elige una respuesta."
+      }
+    },
+    {
+      "date": "2026-10-27",
+      "puzzle": {
+        "id": "daily-2026-10-27",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Puertas del significado",
+        "difficulty": "Media",
+        "dynamic": "bridge",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "Completa: ___ de una montaña · ___ de una copa",
+            "options": [
+              "Pie",
+              "Cumbre",
+              "Borde",
+              "Asa"
+            ],
+            "answer": "Pie",
+            "explanation": "Pie nombra la base de una montaña o el soporte inferior de una copa.",
+            "hint": "La relación está en la parte inferior."
+          },
+          {
+            "prompt": "Completa: ___ de un libro · ___ de una puerta",
+            "options": [
+              "Lomo",
+              "Hoja",
+              "Tapa",
+              "Capítulo"
+            ],
+            "answer": "Hoja",
+            "explanation": "Hoja puede nombrar una lámina del libro o una pieza móvil de una puerta.",
+            "hint": "Piensa en una puerta de dos hojas."
+          }
+        ],
+        "instructions": "Encuentra la palabra que completa ambos contextos."
+      }
+    },
+    {
+      "date": "2026-10-28",
+      "puzzle": {
+        "id": "daily-2026-10-28",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Del sustantivo al verbo",
+        "difficulty": "Media",
+        "dynamic": "trivia",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "En «El sobre está sobre la mesa», ¿qué cambia entre los dos usos de sobre?",
+            "options": [
+              "Su función y significado",
+              "Su escritura",
+              "Su número",
+              "Su pronunciación obligatoriamente"
+            ],
+            "answer": "Su función y significado",
+            "explanation": "El primer sobre es un sustantivo: un envoltorio. El segundo es una preposición de posición.",
+            "hint": "Comprueba qué uso permite anteponer el artículo el."
+          },
+          {
+            "prompt": "En «El vino llegó ayer» y «Ella vino ayer», vino es respectivamente…",
+            "options": [
+              "Sustantivo y verbo",
+              "Verbo y sustantivo",
+              "Adjetivo y verbo",
+              "Preposición y sustantivo"
+            ],
+            "answer": "Sustantivo y verbo",
+            "explanation": "El vino nombra una bebida; ella vino usa el pretérito de venir.",
+            "hint": "Fíjate en quién o qué realiza la acción."
+          }
+        ],
+        "instructions": "Lee la pregunta en su contexto y elige una respuesta."
+      }
+    },
+    {
+      "date": "2026-10-29",
+      "puzzle": {
+        "id": "daily-2026-10-29",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Lo que dicen los conectores",
+        "difficulty": "Difícil",
+        "dynamic": "connections",
+        "groups": [
+          {
+            "category": "Expresan causa",
+            "words": [
+              "PORQUE",
+              "YA QUE",
+              "PUESTO QUE",
+              "DADO QUE"
+            ],
+            "hint": "Introducen un motivo.",
+            "explanation": "En uso causal, permiten presentar la razón de un hecho."
+          },
+          {
+            "category": "Expresan consecuencia",
+            "words": [
+              "POR ESO",
+              "POR TANTO",
+              "ASÍ QUE",
+              "EN CONSECUENCIA"
+            ],
+            "hint": "Introducen un resultado.",
+            "explanation": "Estas expresiones pueden enlazar un hecho con su consecuencia."
+          },
+          {
+            "category": "Expresan adición",
+            "words": [
+              "ADEMÁS",
+              "TAMBIÉN",
+              "ASIMISMO",
+              "IGUALMENTE"
+            ],
+            "hint": "Añaden información.",
+            "explanation": "En uso aditivo, permiten sumar información a lo dicho."
+          },
+          {
+            "category": "Expresan concesión",
+            "words": [
+              "AUNQUE",
+              "PESE A QUE",
+              "A PESAR DE QUE",
+              "SI BIEN"
+            ],
+            "hint": "Presentan un obstáculo que no impide algo.",
+            "explanation": "Introducen una dificultad o contraste que no invalida la afirmación principal."
+          }
+        ],
+        "questions": [],
+        "instructions": "Agrupa estos enlaces por la relación que expresan entre ideas."
+      }
+    },
+    {
+      "date": "2026-10-30",
+      "puzzle": {
+        "id": "daily-2026-10-30",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "El horario decide",
+        "difficulty": "Media",
+        "dynamic": "visual",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "Son las 09:26. Según la tabla, ¿qué línea todavía no ha salido?",
+            "options": [
+              "C",
+              "A",
+              "B",
+              "A y B"
+            ],
+            "answer": "C",
+            "explanation": "A salió a las 09:10 y B a las 09:25; C sale a las 09:30.",
+            "hint": "Compara cada salida con 09:26.",
+            "imageSource": "station_board.png",
+            "imageDescription": "Horario. Línea A: salida 09:10, llegada 09:30, Museo, cero cambios. B: salida 09:25, llegada 09:45, Museo, cero cambios. C: salida 09:30, llegada 10:00, Parque, un cambio."
+          },
+          {
+            "prompt": "¿Qué dato distingue a la C de las otras dos líneas?",
+            "options": [
+              "Requiere un cambio",
+              "Sale antes de las 09:00",
+              "Llega al Museo",
+              "No tiene hora de llegada"
+            ],
+            "answer": "Requiere un cambio",
+            "explanation": "La columna Cambios indica 1 para C y 0 para A y B.",
+            "hint": "Consulta la última columna.",
+            "imageSource": "station_board.png",
+            "imageDescription": "Horario. Línea A: salida 09:10, llegada 09:30, Museo, cero cambios. B: salida 09:25, llegada 09:45, Museo, cero cambios. C: salida 09:30, llegada 10:00, Parque, un cambio."
+          }
+        ],
+        "instructions": "Observa toda la imagen o escucha su descripción y responde usando los datos mostrados."
+      }
+    },
+    {
+      "date": "2026-10-31",
+      "puzzle": {
+        "id": "daily-2026-10-31",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "El registro importa",
+        "difficulty": "Media",
+        "dynamic": "intruder",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "En un correo formal, tres cierres mantienen el registro. ¿Cuál cambia a uno muy informal?",
+            "options": [
+              "¡Nos pillamos luego!",
+              "Atentamente,",
+              "Saludos cordiales,",
+              "Reciba un cordial saludo."
+            ],
+            "answer": "¡Nos pillamos luego!",
+            "explanation": "Nos pillamos luego es coloquial; las otras fórmulas son compatibles con correspondencia formal.",
+            "hint": "No se pregunta si la frase es correcta, sino por su registro."
+          },
+          {
+            "prompt": "Tres expresiones presentan una opinión con cautela. ¿Cuál la presenta como certeza?",
+            "options": [
+              "Es indudable que funciona.",
+              "Parece que funciona.",
+              "Podría funcionar.",
+              "Tal vez funcione."
+            ],
+            "answer": "Es indudable que funciona.",
+            "explanation": "Indudable expresa seguridad; las otras opciones mantienen incertidumbre.",
+            "hint": "Compara el grado de certeza."
+          }
+        ],
+        "instructions": "Lee la regla y elige la única opción que no la cumple."
+      }
+    },
+    {
+      "date": "2026-11-01",
+      "puzzle": {
+        "id": "daily-2026-11-01",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Una expresión, un lugar",
+        "difficulty": "Media",
+        "dynamic": "trivia",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "En Chile, «vuelvo al tiro» suele significar…",
+            "options": [
+              "Vuelvo de inmediato",
+              "Vuelvo después de disparar",
+              "No volveré",
+              "Vuelvo dentro de un año"
+            ],
+            "answer": "Vuelvo de inmediato",
+            "explanation": "Al tiro expresa inmediatez en el habla coloquial chilena. No debe entenderse literalmente como un disparo.",
+            "hint": "Piensa en una promesa de volver pronto."
+          },
+          {
+            "prompt": "En una conversación chilena, hacer algo «al lote» se refiere a hacerlo…",
+            "options": [
+              "Sin orden ni cuidado",
+              "De forma secreta",
+              "Con mucha precisión",
+              "Por turnos"
+            ],
+            "answer": "Sin orden ni cuidado",
+            "explanation": "Al lote describe una forma descuidada o desordenada de hacer algo.",
+            "hint": "El contexto trata de cómo se hace el trabajo."
+          }
+        ],
+        "instructions": "Lee la pregunta en su contexto y elige una respuesta."
+      }
+    },
+    {
+      "date": "2026-11-02",
+      "puzzle": {
+        "id": "daily-2026-11-02",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Una respuesta bien delimitada",
+        "difficulty": "Media",
+        "dynamic": "recall",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "Completa con una palabra de la familia de posible: algo que no es posible es…",
+            "answer": "imposible",
+            "acceptedAnswers": [],
+            "explanation": "Imposible añade el prefijo negativo im- a posible. La familia pedida delimita la respuesta.",
+            "hint": "Ante p, el prefijo toma la forma im-."
+          },
+          {
+            "prompt": "Escribe el plural de lápiz.",
+            "answer": "lápices",
+            "acceptedAnswers": [],
+            "explanation": "La z cambia a c delante de es: lápices. Se tolera omitir la tilde al responder, pero se muestra la grafía correcta.",
+            "hint": "Cambia la consonante final antes de añadir es."
+          }
+        ],
+        "instructions": "Escribe la forma que pide la consigna. Se tolera omitir tildes, pero se muestra la grafía correcta."
+      }
+    },
+    {
+      "date": "2026-11-03",
+      "puzzle": {
+        "id": "daily-2026-11-03",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Lee todas las condiciones",
+        "difficulty": "Difícil",
+        "dynamic": "trivia",
+        "groups": [],
+        "questions": [
+          {
+            "prompt": "«Puedes entrar si tienes reserva y documento». Marta tiene reserva, pero no documento. ¿Cumple la condición?",
+            "options": [
+              "No, le falta un requisito",
+              "Sí, basta la reserva",
+              "Sí, si llega temprano",
+              "No se pide documento"
+            ],
+            "answer": "No, le falta un requisito",
+            "explanation": "Y une dos requisitos que deben cumplirse a la vez.",
+            "hint": "No sustituyas y por o."
+          },
+          {
+            "prompt": "«El museo abre todos los días excepto el lunes». ¿Qué día no abre?",
+            "options": [
+              "Lunes",
+              "Martes",
+              "Domingo",
+              "Sábado"
+            ],
+            "answer": "Lunes",
+            "explanation": "Excepto introduce la única exclusión indicada en la frase.",
+            "hint": "Busca la excepción explícita."
+          }
+        ],
+        "instructions": "Lee la pregunta en su contexto y elige una respuesta."
+      }
+    }
+  ]
+}

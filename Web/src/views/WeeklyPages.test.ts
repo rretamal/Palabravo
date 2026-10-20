@@ -21,6 +21,18 @@ describe('weekly pages', () => {
     expect(wrapper.text()).toContain('16 palabras')
   })
 
+  it('shows the next dated event and supports a badge without a remote image', async () => {
+    vi.setSystemTime(new Date('2026-10-26T12:00:00Z'))
+    const future = { ...weekly, id: 'espanol-2026-10-26', title: 'Sentidos de cada día',
+      startsAt: '2026-10-26T03:00:00Z', endsAt: '2026-11-02T03:00:00Z', badge: { name: 'Sentidos', icon: '✦' } }
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => ({ challenges: [weekly, future] }) })))
+    const wrapper = mount(WeeklyPage)
+    await flushPromises()
+    expect(wrapper.text()).toContain('Sentidos de cada día')
+    expect(wrapper.find('img.weekly-badge').exists()).toBe(false)
+    expect(wrapper.find('[aria-label="Insignia Sentidos"]').exists()).toBe(true)
+  })
+
   it('renders a valid challenge without exposing puzzle answers', async () => {
     const invite = { token: 'A7K29F', weeklyId: weekly.id, challenger: 'Puma Ágil', score: 34299841,
       timeSeconds: 158, mistakes: 0, medal: 'gold' }

@@ -39,19 +39,17 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
         if (!loaded)
         {
             loaded = true;
-            catalog = ParseCatalog(Preferences.Default.Get(CacheKey, string.Empty));
-            current = SelectCurrent(catalog);
-            if (catalog.Count == 0)
+            var cached = ParseCatalog(Preferences.Default.Get(CacheKey, string.Empty));
+            try
             {
-                try
-                {
-                    await using var stream = await FileSystem.OpenAppPackageFileAsync("weekly.json");
-                    using var reader = new StreamReader(stream);
-                    catalog = ParseCatalog(await reader.ReadToEndAsync());
-                    current = SelectCurrent(catalog);
-                }
-                catch { catalog = []; current = null; }
+                await using var stream = await FileSystem.OpenAppPackageFileAsync("weekly.json");
+                using var reader = new StreamReader(stream);
+                catalog = ParseCatalog(await reader.ReadToEndAsync());
             }
+            catch { catalog = []; }
+            // An older cache must not hide future events already bundled with an update.
+            if (cached.Count > 0 && WeeklyChallengeValidator.CanExtend(catalog, cached)) catalog = cached;
+            current = SelectCurrent(catalog);
             if (current?.IsActive(DateTimeOffset.UtcNow) == true)
             {
                 _ = RefreshRemoteAsync();
@@ -196,11 +194,7 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
             var parsed = JsonSerializer.Deserialize<WeeklyChallengeCatalog>(json, JsonOptions);
             if (parsed is null || parsed.Version < 1 || parsed.Challenges.Count == 0)
                 return [];
-            foreach (var weekly in parsed.Challenges)
-                WeeklyChallengeValidator.Validate(weekly);
-            if (parsed.Challenges.Select(item => item.Id).Distinct(StringComparer.OrdinalIgnoreCase).Count()
-                != parsed.Challenges.Count)
-                return [];
+            WeeklyChallengeValidator.ValidateCatalog(parsed);
             return parsed.Challenges;
         }
         catch { return []; }
@@ -218,7 +212,7 @@ public sealed class WeeklyChallengeService(PlayFabLeaderboardService accounts)
             var contentUri = new Uri(new Uri(MonetizationSettings.Current.ApiBaseUrl), "../content/weekly.json");
             var json = await client.GetStringAsync(contentUri);
             var downloaded = ParseCatalog(json);
-            if (downloaded.Count == 0) return;
+            if (downloaded.Count == 0 || !WeeklyChallengeValidator.CanExtend(catalog, downloaded)) return;
             catalog = downloaded;
             current = SelectCurrent(catalog);
             Preferences.Default.Set(CacheKey, json);

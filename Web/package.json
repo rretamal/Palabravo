@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "node scripts/generate-associations.mjs && vue-tsc -b && vite-ssg build",
+    "build": "node scripts/validate-content.mjs && node scripts/generate-associations.mjs && vue-tsc -b && vite-ssg build",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "vitest run"
+    "test": "vitest run",
+    "validate:content": "node scripts/validate-content.mjs"
   },
   "dependencies": {
     "@unhead/vue": "^2.0.0",

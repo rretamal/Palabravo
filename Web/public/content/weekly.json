@@ -121,6 +121,486 @@
         "title": "Especial Chile 🇨🇱",
         "message": "Completé el reto de Chile en Palabravo. ¿Puedes superarme?"
       }
+    },
+    {
+      "id": "espanol-2026-10-26",
+      "title": "Sentidos de cada día",
+      "subtitle": "Palabras que cambian con el contexto",
+      "country": "ES",
+      "flag": "🌐",
+      "startsAt": "2026-10-26T03:00:00Z",
+      "endsAt": "2026-11-02T03:00:00Z",
+      "puzzle": {
+        "id": "weekly-espanol-2026-10-26",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Sentidos de cada día",
+        "difficulty": "Especial",
+        "dynamic": "connections",
+        "instructions": "Forma cuatro grupos con una relación precisa. Después interpreta las palabras en contexto.",
+        "groups": [
+          {
+            "category": "Figuras geométricas",
+            "words": [
+              "CÍRCULO",
+              "TRIÁNGULO",
+              "ROMBO",
+              "TRAPECIO"
+            ],
+            "hint": "Piensa en figuras planas.",
+            "explanation": "Las cuatro palabras designan figuras geométricas."
+          },
+          {
+            "category": "Elementos de una interfaz informática",
+            "words": [
+              "VENTANA",
+              "PESTAÑA",
+              "CARPETA",
+              "ARCHIVO"
+            ],
+            "hint": "En esta conexión no se habla de una casa ni del cuerpo.",
+            "explanation": "Ventana, pestaña, carpeta y archivo se usan en interfaces informáticas, además de tener otros sentidos."
+          },
+          {
+            "category": "Elementos de cierre de puertas",
+            "words": [
+              "LLAVE",
+              "CERROJO",
+              "PESTILLO",
+              "BOMBÍN"
+            ],
+            "hint": "Piensa en abrir, cerrar y asegurar una puerta.",
+            "explanation": "Estas piezas intervienen en mecanismos de cierre; bombín es aquí el cilindro de una cerradura."
+          },
+          {
+            "category": "Articulaciones del cuerpo",
+            "words": [
+              "CODO",
+              "HOMBRO",
+              "RODILLA",
+              "TOBILLO"
+            ],
+            "hint": "Permiten distintos movimientos corporales.",
+            "explanation": "Son zonas articulares; codo también se usa para una curva de tubería, pero aquí se agrupa por el cuerpo."
+          }
+        ]
+      },
+      "finalQuestions": [
+        {
+          "prompt": "«Cierra la ventana para que no entre frío». ¿Qué sentido tiene ventana?",
+          "options": [
+            "Abertura de una construcción",
+            "Panel de una aplicación",
+            "Oportunidad breve",
+            "Grupo de archivos"
+          ],
+          "answer": "Abertura de una construcción",
+          "explanation": "El frío y la acción de cerrar sitúan la palabra en una construcción física."
+        },
+        {
+          "prompt": "«Abre otra pestaña para consultar el mapa». ¿A qué se refiere?",
+          "options": [
+            "Un panel del navegador",
+            "Un pelo del párpado",
+            "Una cerradura",
+            "Un pliegue de papel"
+          ],
+          "answer": "Un panel del navegador",
+          "explanation": "Consultar un mapa en otra pestaña sitúa la palabra en el uso informático."
+        },
+        {
+          "prompt": "«La tubería tiene un codo». ¿Qué nombra codo aquí?",
+          "options": [
+            "Una pieza que cambia la dirección",
+            "Una articulación humana",
+            "Un archivo",
+            "Una superficie plana"
+          ],
+          "answer": "Una pieza que cambia la dirección",
+          "explanation": "En una tubería, codo nombra una curva o pieza angular; el contexto cambia el significado."
+        },
+        {
+          "prompt": "¿Qué permite decidir entre los sentidos de llave?",
+          "options": [
+            "La frase y la situación",
+            "Solo su número de letras",
+            "Siempre la primera acepción",
+            "El orden alfabético"
+          ],
+          "answer": "La frase y la situación",
+          "explanation": "Llave puede pertenecer a distintos ámbitos. La frase y la situación permiten interpretar el sentido."
+        }
+      ],
+      "badge": {
+        "id": "badge-espanol-2026-10-26",
+        "name": "Sentidos de cada día",
+        "icon": "✦"
+      },
+      "share": {
+        "title": "Sentidos de cada día",
+        "message": "Completé Sentidos de cada día en Palabravo. ¿Te animas al reto semanal?"
+      }
+    },
+    {
+      "id": "espanol-2026-11-02",
+      "title": "Más allá de lo literal",
+      "subtitle": "Expresiones cotidianas con significado propio",
+      "country": "ES",
+      "flag": "🌐",
+      "startsAt": "2026-11-02T03:00:00Z",
+      "endsAt": "2026-11-09T03:00:00Z",
+      "puzzle": {
+        "id": "weekly-espanol-2026-11-02",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Más allá de lo literal",
+        "difficulty": "Especial",
+        "dynamic": "connections",
+        "instructions": "Forma cuatro grupos con una relación precisa. Después interpreta las palabras en contexto.",
+        "groups": [
+          {
+            "category": "Animales presentes en expresiones",
+            "words": [
+              "GATO",
+              "LIEBRE",
+              "PERRO",
+              "MOSCA"
+            ],
+            "hint": "Son animales, aunque algunas frases no hablan de ellos literalmente.",
+            "explanation": "Dar gato por liebre y estar con la mosca detrás de la oreja usan animales en expresiones figuradas."
+          },
+          {
+            "category": "Objetos presentes en expresiones",
+            "words": [
+              "TOALLA",
+              "CUERDA",
+              "CLAVO",
+              "HIELO"
+            ],
+            "hint": "Piensa en tirar, dar y romper.",
+            "explanation": "Tirar la toalla, dar cuerda, dar en el clavo y romper el hielo no siempre se interpretan literalmente."
+          },
+          {
+            "category": "Partes del cuerpo",
+            "words": [
+              "LENGUA",
+              "OJO",
+              "MANO",
+              "NARIZ"
+            ],
+            "hint": "También aparecen en expresiones figuradas.",
+            "explanation": "Pueden nombrar partes físicas del cuerpo o participar en frases como echar una mano."
+          },
+          {
+            "category": "Referencias temporales",
+            "words": [
+              "AYER",
+              "HOY",
+              "MAÑANA",
+              "ANOCHE"
+            ],
+            "hint": "Sitúan algo en el tiempo.",
+            "explanation": "En su uso temporal, sitúan los hechos respecto del día de quien habla."
+          }
+        ]
+      },
+      "finalQuestions": [
+        {
+          "prompt": "«Tras varios intentos, tiró la toalla». ¿Qué hizo?",
+          "options": [
+            "Se rindió",
+            "Empezó a limpiar",
+            "Pidió otra toalla",
+            "Ganó sin esfuerzo"
+          ],
+          "answer": "Se rindió",
+          "explanation": "Tirar la toalla expresa rendirse o abandonar un intento."
+        },
+        {
+          "prompt": "«Tu comentario dio en el clavo». ¿Qué se quiere decir?",
+          "options": [
+            "Fue acertado",
+            "Fue una agresión física",
+            "Habló de carpintería necesariamente",
+            "Se oyó muy bajo"
+          ],
+          "answer": "Fue acertado",
+          "explanation": "Dar en el clavo puede significar acertar con precisión."
+        },
+        {
+          "prompt": "«Una pregunta sencilla rompió el hielo». ¿Qué ocurrió?",
+          "options": [
+            "Se redujo la tensión inicial",
+            "Bajó la temperatura",
+            "Se cayó una bebida",
+            "Terminó la conversación"
+          ],
+          "answer": "Se redujo la tensión inicial",
+          "explanation": "Romper el hielo puede facilitar el comienzo de una interacción."
+        },
+        {
+          "prompt": "«Le dieron gato por liebre». ¿Qué expresa la frase?",
+          "options": [
+            "Lo engañaron en un cambio o una venta",
+            "Recibió dos mascotas",
+            "Aprendió a cocinar",
+            "Rescató un animal"
+          ],
+          "answer": "Lo engañaron en un cambio o una venta",
+          "explanation": "La expresión indica que se entrega algo de peor calidad o distinto de lo ofrecido, mediante engaño."
+        }
+      ],
+      "badge": {
+        "id": "badge-espanol-2026-11-02",
+        "name": "Más allá de lo literal",
+        "icon": "✦"
+      },
+      "share": {
+        "title": "Más allá de lo literal",
+        "message": "Completé Más allá de lo literal en Palabravo. ¿Te animas al reto semanal?"
+      }
+    },
+    {
+      "id": "espanol-2026-11-09",
+      "title": "Un idioma, muchas voces",
+      "subtitle": "Variantes regionales y significados compartidos",
+      "country": "ES",
+      "flag": "🌐",
+      "startsAt": "2026-11-09T03:00:00Z",
+      "endsAt": "2026-11-16T03:00:00Z",
+      "puzzle": {
+        "id": "weekly-espanol-2026-11-09",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "Un idioma, muchas voces",
+        "difficulty": "Especial",
+        "dynamic": "connections",
+        "instructions": "Forma cuatro grupos con una relación precisa. Después interpreta las palabras en contexto.",
+        "groups": [
+          {
+            "category": "Nombres de autobús según el lugar",
+            "words": [
+              "GUAGUA",
+              "COLECTIVO",
+              "CAMIÓN",
+              "ÓMNIBUS"
+            ],
+            "hint": "Piensa en transporte de pasajeros, no en una única variedad del español.",
+            "explanation": "En diferentes regiones pueden nombrar un autobús. Guagua también significa bebé en Chile; camión puede ser un vehículo de carga."
+          },
+          {
+            "category": "Niño o joven en distintos usos",
+            "words": [
+              "CHAMACO",
+              "CHAVAL",
+              "PIBE",
+              "GURÍ"
+            ],
+            "hint": "Designan personas jóvenes.",
+            "explanation": "Chamaco, chaval, pibe y gurí tienen usos regionales para niño o joven. No son exclusivos de un único país."
+          },
+          {
+            "category": "Palomitas de maíz: nombres regionales",
+            "words": [
+              "CABRITAS",
+              "POCHOCLO",
+              "COTUFAS",
+              "PALOMITAS"
+            ],
+            "hint": "Piensa en maíz reventado.",
+            "explanation": "Son nombres para el maíz reventado en distintos usos del español: cabritas en Chile, pochoclo en Argentina y cotufas en Venezuela. Palomitas se usa en varias zonas; no se exige que sean los nombres habituales en tu país."
+          },
+          {
+            "category": "Dinero en usos coloquiales",
+            "words": [
+              "GUITA",
+              "LANA",
+              "PLATA",
+              "PASTA"
+            ],
+            "hint": "Aquí no se trata de fibras, comida ni metales.",
+            "explanation": "En determinados usos coloquiales estas palabras pueden referirse al dinero. El contexto selecciona ese sentido."
+          }
+        ]
+      },
+      "finalQuestions": [
+        {
+          "prompt": "En Chile, «la guagua está durmiendo» normalmente se refiere a…",
+          "options": [
+            "Un bebé",
+            "Un autobús estacionado",
+            "Una moneda",
+            "Una comida"
+          ],
+          "answer": "Un bebé",
+          "explanation": "En Chile, guagua puede nombrar a un bebé; en otras variedades puede nombrar un autobús."
+        },
+        {
+          "prompt": "En un uso coloquial español, «no tengo pasta para el billete» significa…",
+          "options": [
+            "No tengo dinero",
+            "No tengo comida italiana",
+            "No tengo papel",
+            "No tengo pegamento"
+          ],
+          "answer": "No tengo dinero",
+          "explanation": "Para el billete aporta un contexto económico y selecciona el sentido coloquial de dinero."
+        },
+        {
+          "prompt": "Si una palabra tiene varios sentidos regionales, ¿cómo conviene interpretarla?",
+          "options": [
+            "Atendiendo al lugar y al contexto",
+            "Declarando incorrectos los otros usos",
+            "Eligiendo siempre el sentido de mi país",
+            "Ignorando la situación"
+          ],
+          "answer": "Atendiendo al lugar y al contexto",
+          "explanation": "La variación regional no convierte automáticamente otras acepciones en errores."
+        },
+        {
+          "prompt": "En un cine de Chile, pedir cabritas suele ser pedir…",
+          "options": [
+            "Palomitas de maíz",
+            "Carne de cabra",
+            "Un billete de autobús",
+            "Una bebida de leche"
+          ],
+          "answer": "Palomitas de maíz",
+          "explanation": "En ese contexto chileno, cabritas es el nombre del maíz reventado."
+        }
+      ],
+      "badge": {
+        "id": "badge-espanol-2026-11-09",
+        "name": "Un idioma, muchas voces",
+        "icon": "✦"
+      },
+      "share": {
+        "title": "Un idioma, muchas voces",
+        "message": "Completé Un idioma, muchas voces en Palabravo. ¿Te animas al reto semanal?"
+      }
+    },
+    {
+      "id": "espanol-2026-11-16",
+      "title": "La forma da pistas",
+      "subtitle": "Número, género y estructura de las palabras",
+      "country": "ES",
+      "flag": "🌐",
+      "startsAt": "2026-11-16T03:00:00Z",
+      "endsAt": "2026-11-23T03:00:00Z",
+      "puzzle": {
+        "id": "weekly-espanol-2026-11-16",
+        "order": 0,
+        "contentVersion": 1,
+        "rank": "novato",
+        "title": "La forma da pistas",
+        "difficulty": "Especial",
+        "dynamic": "connections",
+        "instructions": "Forma cuatro grupos con una relación precisa. Después interpreta las palabras en contexto.",
+        "groups": [
+          {
+            "category": "Plural sin cambiar la forma",
+            "words": [
+              "CRISIS",
+              "ANÁLISIS",
+              "SÍNTESIS",
+              "TESIS"
+            ],
+            "hint": "Prueba anteponer las o los.",
+            "explanation": "La crisis / las crisis; el análisis / los análisis; la síntesis / las síntesis; la tesis / las tesis."
+          },
+          {
+            "category": "Plural añadiendo -es",
+            "words": [
+              "RELOJ",
+              "PAPEL",
+              "COLOR",
+              "ANIMAL"
+            ],
+            "hint": "No basta con añadir solo s.",
+            "explanation": "Relojes, papeles, colores y animales añaden es al singular."
+          },
+          {
+            "category": "Femeninos terminados en -o",
+            "words": [
+              "MANO",
+              "FOTO",
+              "MOTO",
+              "RADIO"
+            ],
+            "hint": "Piensa en la mano y en abreviaciones habituales.",
+            "explanation": "La mano, la foto y la moto son femeninos. Radio se usa aquí como aparato receptor en su uso femenino, también existente junto al masculino en algunas zonas."
+          },
+          {
+            "category": "Masculinos terminados en -a",
+            "words": [
+              "MAPA",
+              "POEMA",
+              "TEMA",
+              "SISTEMA"
+            ],
+            "hint": "La terminación no determina siempre el género.",
+            "explanation": "El mapa, el poema, el tema y el sistema son masculinos."
+          }
+        ]
+      },
+      "finalQuestions": [
+        {
+          "prompt": "¿Qué forma completa «Los ___ fueron revisados»?",
+          "options": [
+            "Análisis",
+            "Analísises",
+            "Análisises",
+            "Analises"
+          ],
+          "answer": "Análisis",
+          "explanation": "Análisis conserva su forma en plural; el artículo indica el número."
+        },
+        {
+          "prompt": "¿Qué frase concuerda correctamente?",
+          "options": [
+            "El mapa está actualizado.",
+            "La mapa está actualizada.",
+            "El mapa están actualizado.",
+            "Los mapa está actualizada."
+          ],
+          "answer": "El mapa está actualizado.",
+          "explanation": "Mapa es masculino singular: el y actualizado concuerdan con él."
+        },
+        {
+          "prompt": "¿Qué contraste es correcto?",
+          "options": [
+            "Una foto / unas fotos",
+            "Una foto / unos fotos",
+            "Un foto / unas fotos",
+            "Un foto / un fotos"
+          ],
+          "answer": "Una foto / unas fotos",
+          "explanation": "Foto es femenino y su plural habitual añade s."
+        },
+        {
+          "prompt": "«El tema parece complejo». ¿Qué muestra esta frase?",
+          "options": [
+            "La terminación -a no obliga a género femenino",
+            "Todos los nombres con -a son femeninos",
+            "Tema solo se usa en plural",
+            "Complejo es un sustantivo"
+          ],
+          "answer": "La terminación -a no obliga a género femenino",
+          "explanation": "El tema es masculino pese a terminar en a. El artículo y el adjetivo muestran la concordancia."
+        }
+      ],
+      "badge": {
+        "id": "badge-espanol-2026-11-16",
+        "name": "La forma da pistas",
+        "icon": "✦"
+      },
+      "share": {
+        "title": "La forma da pistas",
+        "message": "Completé La forma da pistas en Palabravo. ¿Te animas al reto semanal?"
+      }
     }
   ]
 }

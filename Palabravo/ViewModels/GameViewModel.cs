@@ -49,6 +49,7 @@ public partial class GameViewModel(
     [ObservableProperty] private string quizPrompt = string.Empty;
     [ObservableProperty] private string quizFeedback = string.Empty;
     [ObservableProperty] private string? quizImageSource;
+    [ObservableProperty] private string quizImageDescription = "Imagen para resolver la pregunta";
     [ObservableProperty] private bool hasQuizImage;
     [ObservableProperty] private bool isPieces;
     [ObservableProperty] private bool isWrittenAnswer;
@@ -206,6 +207,7 @@ public partial class GameViewModel(
         QuizProgress = $"PREGUNTA {weeklyQuestionIndex + 1} DE {questions.Count}";
         QuizPrompt = question.Prompt;
         QuizImageSource = question.ImageSource;
+        QuizImageDescription = "Imagen del reto cultural";
         HasQuizImage = !string.IsNullOrWhiteSpace(question.ImageSource);
         QuizFeedback = "Elige una respuesta";
         QuizOptions.Clear();
@@ -291,6 +293,7 @@ public partial class GameViewModel(
         QuizPrompt = question.Prompt;
         QuizFeedback = state.Puzzle.Instructions;
         QuizImageSource = question.ImageSource;
+        QuizImageDescription = question.ImageDescription ?? "Imagen para resolver la pregunta";
         HasQuizImage = !string.IsNullOrWhiteSpace(question.ImageSource);
         QuizOptions.Clear();
         foreach (var option in (IsPieces ? question.Fragments : question.Options).OrderBy(_ => Random.Shared.Next())) QuizOptions.Add(new(option));
@@ -451,10 +454,9 @@ public partial class WordTileViewModel(string word, bool isSelected) : Observabl
     public string Word { get; } = word;
     public double FontSize => Word.Length switch
     {
-        >= 12 => 8,
-        >= 10 => 9,
-        >= 8 => 10,
-        _ => 11
+        >= 16 => 10,
+        >= 10 => 11,
+        _ => 12
     };
     [ObservableProperty] private bool isSelected = isSelected;
     public string BackgroundColor => IsSelected ? "#EB5B43" : "#FFFDFC";

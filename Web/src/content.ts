@@ -21,7 +21,7 @@ export const copy = {
       note: 'Pequeños desafíos.\nGrandes mentes.',
       stats: [['30', 'retos para pensar'], ['6', 'rangos por conquistar'], ['1', 'reto nuevo cada día']],
     },
-    daily: { eyebrow: 'Reto diario', title: 'Una nueva forma de jugar con el español.', text: 'La fecha elige el mismo reto para todos. Juega, compara tu resultado y vuelve mañana.', cta: 'Jugar el reto de hoy' },
+    daily: { eyebrow: 'Reto diario', title: 'Una nueva forma de jugar con el español.', text: 'Practica palabras, expresiones y comprensión con el reto de cada fecha. Juega a tu ritmo y vuelve mañana.', cta: 'Jugar el reto de hoy' },
     how: {
       eyebrow: 'Cómo funciona', title: 'Así se juegan las conexiones.', text: 'Observa las palabras, detecta patrones y forma cuatro grupos relacionados.',
       steps: [
@@ -67,7 +67,7 @@ export const copy = {
       note: 'Small challenges.\nBigger vocabulary.',
       stats: [['30', 'challenges to solve'], ['6', 'ranks to master'], ['1', 'new daily challenge']],
     },
-    daily: { eyebrow: 'Daily challenge', title: 'A fresh way to play with Spanish.', text: 'The date picks the same puzzle for everyone. Play, compare your result, and come back tomorrow.', cta: 'Play today’s challenge' },
+    daily: { eyebrow: 'Daily challenge', title: 'A fresh way to play with Spanish.', text: 'Practice vocabulary, expressions, and comprehension with a dated challenge. Play at your own pace and come back tomorrow.', cta: 'Play today’s challenge' },
     how: {
       eyebrow: 'How it works', title: 'How word connections work.', text: 'Read the Spanish words, notice patterns, and build four related groups.',
       steps: [
