@@ -15,6 +15,9 @@ public partial class RankingViewModel(
 {
     public ObservableCollection<RankingEntryViewModel> Entries { get; } = [];
     private bool showingWeekly;
+    private string? activeWeeklyId;
+    public bool CanSelectMode => !IsLoading;
+    partial void OnIsLoadingChanged(bool value) => OnPropertyChanged(nameof(CanSelectMode));
 
     public void SetMode(bool weekly)
     {
@@ -22,6 +25,10 @@ public partial class RankingViewModel(
         UpdateTabs();
     }
 
+    [ObservableProperty] private bool showParticipationGate;
+    [ObservableProperty] private string participationTitle = string.Empty;
+    [ObservableProperty] private string participationText = string.Empty;
+    [ObservableProperty] private string playButtonText = "Jugar un reto";
     [ObservableProperty] private bool isLoading;
     [ObservableProperty] private bool hasEntries;
     [ObservableProperty] private bool showEmpty;
@@ -80,6 +87,8 @@ public partial class RankingViewModel(
         RefreshAccount();
         if (IsLoading) return;
         IsLoading = true;
+        ClearRanking();
+        ShowParticipationGate = false;
         ShowError = false;
         ShowEmpty = false;
         ShowSyncWarning = false;
@@ -94,7 +103,7 @@ public partial class RankingViewModel(
     [RelayCommand]
     private async Task SelectPathAsync()
     {
-        if (!showingWeekly) return;
+        if (IsLoading || !showingWeekly) return;
         showingWeekly = false;
         UpdateTabs();
         await LoadAsync();
@@ -103,7 +112,7 @@ public partial class RankingViewModel(
     [RelayCommand]
     private async Task SelectWeeklyAsync()
     {
-        if (showingWeekly) return;
+        if (IsLoading || showingWeekly) return;
         showingWeekly = true;
         UpdateTabs();
         await LoadAsync();
@@ -117,6 +126,12 @@ public partial class RankingViewModel(
         EmptyTitle = "Sé el primero en el camino";
         EmptyText = "Completa un reto del mapa y tu puntaje aparecerá aquí.";
         var savedProgress = await progress.LoadAsync();
+        if (!RankingParticipation.CanViewPath(savedProgress))
+        {
+            ShowGate("Juega para descubrir el ranking",
+                "Completa tu primer reto del camino, diario o semanal para ver la clasificación completa.", "Jugar un reto");
+            return;
+        }
         var snapshot = await pathRanking.GetRankingAsync(savedProgress);
         Entries.Clear();
         foreach (var entry in snapshot.Entries) Entries.Add(ToPathViewModel(entry));
@@ -141,6 +156,7 @@ public partial class RankingViewModel(
     private async Task LoadWeeklyAsync()
     {
         var weekly = await weeklyChallenges.GetCurrentAsync();
+        activeWeeklyId = weekly?.Id;
         if (weekly is null)
         {
             Entries.Clear(); HasEntries = false; ShowMyPosition = false; ShowEmpty = false; ShowError = true;
@@ -157,6 +173,13 @@ public partial class RankingViewModel(
         EmptyText = "Completa el reto semanal y tu mejor resultado aparecerá aquí.";
         NextResetText = $"Termina {FormatReset(weekly.EndsAt.ToLocalTime())}";
         var savedProgress = await progress.LoadAsync();
+        if (!RankingParticipation.CanViewWeekly(savedProgress, weekly.Puzzle.Id))
+        {
+            ShowGate("Entra al ranking de esta semana",
+                "Completa el reto semanal para descubrir tu posición y ver la clasificación completa. Cada semana empieza una nueva competencia.",
+                "Jugar el reto semanal");
+            return;
+        }
         if (savedProgress.Completions.TryGetValue($"weekly:{weekly.Puzzle.Id}", out var completion))
             weeklyChallenges.QueueStoredResult(weekly, completion);
         var snapshot = await weeklyChallenges.GetRankingAsync(weekly.Id);
@@ -178,6 +201,38 @@ public partial class RankingViewModel(
             MyRank = "—"; MyName = "Aún no participas";
             MyResult = "Completa el reto semanal para aparecer";
         }
+    }
+
+    private void ClearRanking()
+    {
+        Entries.Clear();
+        HasEntries = false;
+        ShowMyPosition = false;
+        ShowEmpty = false;
+        ShowError = false;
+        ShowSyncWarning = false;
+    }
+
+    private void ShowGate(string title, string text, string button)
+    {
+        ClearRanking();
+        ParticipationTitle = title;
+        ParticipationText = text;
+        PlayButtonText = button;
+        ShowParticipationGate = true;
+    }
+
+    [RelayCommand]
+    private Task PlayToParticipateAsync()
+    {
+        if (IsLoading || !ShowParticipationGate) return Task.CompletedTask;
+        if (!showingWeekly) return Shell.Current.GoToAsync("//main/challenges");
+        return activeWeeklyId is null ? Task.CompletedTask :
+            Shell.Current.GoToAsync(nameof(Views.GamePage), new Dictionary<string, object>
+            {
+                ["puzzleId"] = activeWeeklyId,
+                ["mode"] = PuzzleMode.Weekly.ToString()
+            });
     }
 
     private void ApplyState(bool available, string? error)

@@ -10,9 +10,9 @@
             <Label Text="{Binding Description}"
                    TextColor="{StaticResource Muted}" FontSize="11" />
             <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,8,0,0">
-                <Button Text="Camino" Command="{Binding SelectPathCommand}"
+                <Button Text="Camino" Command="{Binding SelectPathCommand}" IsEnabled="{Binding CanSelectMode}"
                         BackgroundColor="{Binding PathTabColor}" TextColor="{Binding PathTabTextColor}" />
-                <Button Grid.Column="1" Text="Semanal" Command="{Binding SelectWeeklyCommand}"
+                <Button Grid.Column="1" Text="Semanal" Command="{Binding SelectWeeklyCommand}" IsEnabled="{Binding CanSelectMode}"
                         BackgroundColor="{Binding WeeklyTabColor}" TextColor="{Binding WeeklyTabTextColor}" />
             </Grid>
         </VerticalStackLayout>
@@ -20,6 +20,17 @@
         <RefreshView Grid.Row="1" Command="{Binding LoadCommand}" IsRefreshing="{Binding IsLoading}">
             <ScrollView>
                 <VerticalStackLayout Spacing="12" Padding="0,0,0,18">
+                    <Border Style="{StaticResource Card}" IsVisible="{Binding ShowParticipationGate}" Padding="22,28">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="♛" FontSize="45" TextColor="{StaticResource Mustard}" HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding ParticipationTitle}" FontFamily="LoraSemibold" FontSize="23"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding ParticipationText}" TextColor="{StaticResource Muted}"
+                                   HorizontalTextAlignment="Center" />
+                            <Button Text="{Binding PlayButtonText}" Command="{Binding PlayToParticipateCommand}"
+                                    MinimumHeightRequest="48" />
+                        </VerticalStackLayout>
+                    </Border>
                     <Border Style="{StaticResource Card}" BackgroundColor="{StaticResource SageSoft}"
                             Stroke="#A7D5CA" IsVisible="{Binding ShowGoogleSignIn}">
                         <VerticalStackLayout Spacing="8">
